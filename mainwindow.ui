@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>636</width>
+    <height>448</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>521</width>
+      <height>381</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>81</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>636</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Գործողություն</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Տեղեկատվություն</string>
+    </property>
+    <addaction name="department"/>
+    <addaction name="position"/>
+    <addaction name="schedule"/>
+    <addaction name="schedule_type"/>
+    <addaction name="tourniquet"/>
+    <addaction name="employeer_ids"/>
+    <addaction name="employer"/>
+    <addaction name="address"/>
+    <addaction name="phone_number"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="department">
+   <property name="text">
+    <string>Բաժին</string>
+   </property>
+  </action>
+  <action name="position">
+   <property name="text">
+    <string>Պաշտոն</string>
+   </property>
+  </action>
+  <action name="schedule">
+   <property name="text">
+    <string>Գրաֆիկ</string>
+   </property>
+  </action>
+  <action name="schedule_type">
+   <property name="text">
+    <string>Ռեժիմ</string>
+   </property>
+  </action>
+  <action name="tourniquet">
+   <property name="text">
+    <string>Տուրնիկետ</string>
+   </property>
+  </action>
+  <action name="employeer_ids">
+   <property name="text">
+    <string>ID</string>
+   </property>
+  </action>
+  <action name="employer">
+   <property name="text">
+    <string>Աշխատակից</string>
+   </property>
+  </action>
+  <action name="address">
+   <property name="text">
+    <string>Հասցե</string>
+   </property>
+  </action>
+  <action name="phone_number">
+   <property name="text">
+    <string>Հեռախոս</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
