@@ -15,10 +15,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    adddepartment.cpp
+    adddepartment.cpp \
+    addposition.cpp
 
 HEADERS  += mainwindow.h \
-    adddepartment.h
+    adddepartment.h \
+    addposition.h
 
 FORMS    += mainwindow.ui \
-    adddepartment.ui
+    adddepartment.ui \
+    addposition.ui

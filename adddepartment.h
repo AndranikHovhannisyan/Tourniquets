@@ -2,6 +2,7 @@
 #define ADDDEPARTMENT_H
 
 #include <QDialog>
+#include <QSqlDatabase>
 
 namespace Ui {
 class addDepartment;
@@ -12,7 +13,7 @@ class addDepartment : public QDialog
     Q_OBJECT
 
 public:
-    explicit addDepartment(QWidget *parent = 0);
+    explicit addDepartment(QSqlDatabase db, QWidget *parent = 0);
     ~addDepartment();
 
 private:
