@@ -16,12 +16,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     adddepartment.cpp \
-    addposition.cpp
+    addposition.cpp \
+    addscheduletype.cpp
 
 HEADERS  += mainwindow.h \
     adddepartment.h \
-    addposition.h
+    addposition.h \
+    addscheduletype.h
 
 FORMS    += mainwindow.ui \
     adddepartment.ui \
-    addposition.ui
+    addposition.ui \
+    addscheduletype.ui
