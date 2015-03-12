@@ -18,16 +18,19 @@ SOURCES += main.cpp\
     adddepartment.cpp \
     addposition.cpp \
     addscheduletype.cpp \
-    addschedule.cpp
+    addschedule.cpp \
+    addtourniquet.cpp
 
 HEADERS  += mainwindow.h \
     adddepartment.h \
     addposition.h \
     addscheduletype.h \
-    addschedule.h
+    addschedule.h \
+    addtourniquet.h
 
 FORMS    += mainwindow.ui \
     adddepartment.ui \
     addposition.ui \
     addscheduletype.ui \
-    addschedule.ui
+    addschedule.ui \
+    addtourniquet.ui
