@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addItemDialog["department"] = new addDepartment(db, this);
     addItemDialog["position"]   = new addPosition(db, this);
+    addItemDialog["schedule"]   = new addSchedule(db, this);
     addItemDialog["schedule_type"]   = new addScheduleType(db, this);
 }
 

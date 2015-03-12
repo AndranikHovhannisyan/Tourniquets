@@ -17,14 +17,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     adddepartment.cpp \
     addposition.cpp \
-    addscheduletype.cpp
+    addscheduletype.cpp \
+    addschedule.cpp
 
 HEADERS  += mainwindow.h \
     adddepartment.h \
     addposition.h \
-    addscheduletype.h
+    addscheduletype.h \
+    addschedule.h
 
 FORMS    += mainwindow.ui \
     adddepartment.ui \
     addposition.ui \
-    addscheduletype.ui
+    addscheduletype.ui \
+    addschedule.ui

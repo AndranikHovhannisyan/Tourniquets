@@ -8,6 +8,7 @@
 #include "adddepartment.h"
 #include "addposition.h"
 #include "addscheduletype.h"
+#include "addschedule.h"
 
 namespace Ui {
 class MainWindow;
