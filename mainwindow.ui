@@ -61,7 +61,7 @@
     <addaction name="schedule"/>
     <addaction name="schedule_type"/>
     <addaction name="tourniquet"/>
-    <addaction name="employeer_ids"/>
+    <addaction name="employer_ids"/>
     <addaction name="employer"/>
     <addaction name="address"/>
     <addaction name="phone_number"/>
@@ -103,7 +103,7 @@
     <string>Տուրնիկետ</string>
    </property>
   </action>
-  <action name="employeer_ids">
+  <action name="employer_ids">
    <property name="text">
     <string>ID</string>
    </property>

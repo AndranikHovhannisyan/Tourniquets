@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->schedule, SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->schedule_type, SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->tourniquet, SIGNAL(triggered()), this, SLOT(infoWindow()));
-    connect(ui->employeer_ids, SIGNAL(triggered()), this, SLOT(infoWindow()));
+    connect(ui->employer_ids, SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->employer, SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->address, SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->phone_number, SIGNAL(triggered()), this, SLOT(infoWindow()));
@@ -31,10 +31,12 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setPassword("root");
     db.open();
 
-    addItemDialog["department"] = new addDepartment(db, this);
-    addItemDialog["position"]   = new addPosition(db, this);
-    addItemDialog["schedule"]   = new addSchedule(db, this);
-    addItemDialog["schedule_type"]   = new addScheduleType(db, this);
+    addItemDialog["department"]     = new addDepartment(db, this);
+    addItemDialog["position"]       = new addPosition(db, this);
+    addItemDialog["schedule"]       = new addSchedule(db, this);
+    addItemDialog["schedule_type"]  = new addScheduleType(db, this);
+    addItemDialog["tourniquet"]     = new addTourniquet(db, this);
+    addItemDialog["employer_ids"]   = new addEmployerId(db, this);
 }
 
 MainWindow::~MainWindow()

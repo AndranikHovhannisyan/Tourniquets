@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>addTourniquet</class>
- <widget class="QDialog" name="addTourniquet">
+ <class>employerId</class>
+ <widget class="QDialog" name="employerId">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>176</height>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>120</y>
+     <x>30</x>
+     <y>130</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -29,48 +29,71 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="type">
+  <widget class="QLabel" name="label_employer">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>33</x>
      <y>20</y>
-     <width>231</width>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Employer</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_empId">
+   <property name="geometry">
+    <rect>
+     <x>33</x>
+     <y>57</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Employer Id</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_idType">
+   <property name="geometry">
+    <rect>
+     <x>33</x>
+     <y>90</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Id Type</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="employer">
+   <property name="geometry">
+    <rect>
+     <x>183</x>
+     <y>16</y>
+     <width>181</width>
      <height>27</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_number">
+  <widget class="QComboBox" name="idType">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>66</y>
-     <width>67</width>
-     <height>17</height>
+     <x>183</x>
+     <y>80</y>
+     <width>181</width>
+     <height>27</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Number</string>
-   </property>
   </widget>
-  <widget class="QLabel" name="label_type">
+  <widget class="QLineEdit" name="employerId_2">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>26</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Type</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="number">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>60</y>
-     <width>231</width>
+     <x>183</x>
+     <y>49</y>
+     <width>181</width>
      <height>27</height>
     </rect>
    </property>
@@ -81,7 +104,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>addTourniquet</receiver>
+   <receiver>employerId</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -97,7 +120,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>addTourniquet</receiver>
+   <receiver>employerId</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

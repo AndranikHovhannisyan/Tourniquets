@@ -2,6 +2,7 @@
 #define ADDTOURNIQUET_H
 
 #include <QDialog>
+#include <QSqlDatabase>
 
 namespace Ui {
 class addTourniquet;
@@ -12,7 +13,7 @@ class addTourniquet : public QDialog
     Q_OBJECT
 
 public:
-    explicit addTourniquet(QWidget *parent = 0);
+    explicit addTourniquet(QSqlDatabase db, QWidget *parent = 0);
     ~addTourniquet();
 
 private:

@@ -9,6 +9,8 @@
 #include "addposition.h"
 #include "addscheduletype.h"
 #include "addschedule.h"
+#include "addtourniquet.h"
+#include "addemployerid.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,9 +28,6 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QMap<QString, QDialog*> addItemDialog;
-//    addItem["department"] =
-//    addDepartment *addDepDialog;
-//    addPosition *addPosDialog;
 
 public slots:
     void infoWindow();
