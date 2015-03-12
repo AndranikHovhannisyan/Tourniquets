@@ -7,6 +7,7 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addEmployerId)
 {
     ui->setupUi(this);
+    this->setWindowTitle("add employer id");
 
     QSqlTableModel *employerModel = new QSqlTableModel(this, db);
     employerModel->setTable("employer");

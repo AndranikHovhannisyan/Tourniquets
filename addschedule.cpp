@@ -7,6 +7,7 @@ addSchedule::addSchedule(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addSchedule)
 {
     ui->setupUi(this);
+    this->setWindowTitle("add schedule");
 
     QSqlTableModel *scheduleTypeModel = new QSqlTableModel(this, db);
     scheduleTypeModel->setTable("schedule_type");

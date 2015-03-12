@@ -8,6 +8,7 @@ addTourniquet::addTourniquet(QSqlDatabase db, QWidget *parent) :
     ui->setupUi(this);
     ui->type->addItem("In");
     ui->type->addItem("Out");
+    this->setWindowTitle("add tourniquet");
 }
 
 addTourniquet::~addTourniquet()
