@@ -12,6 +12,8 @@
 #include "addtourniquet.h"
 #include "addemployerid.h"
 #include "addemployer.h"
+#include "addaddress.h"
+#include "addphone.h"
 
 namespace Ui {
 class MainWindow;
