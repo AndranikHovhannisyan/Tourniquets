@@ -11,6 +11,7 @@
 #include "addschedule.h"
 #include "addtourniquet.h"
 #include "addemployerid.h"
+#include "addemployer.h"
 
 namespace Ui {
 class MainWindow;

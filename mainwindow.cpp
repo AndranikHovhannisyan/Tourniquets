@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     addItemDialog["schedule_type"]  = new addScheduleType(db, this);
     addItemDialog["tourniquet"]     = new addTourniquet(db, this);
     addItemDialog["employer_ids"]   = new addEmployerId(db, this);
+    addItemDialog["employer"]       = new addEmployer(db, this);
 }
 
 MainWindow::~MainWindow()

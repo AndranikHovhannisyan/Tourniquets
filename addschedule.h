@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QSqlDatabase>
+#include <QMap>
+#include <QGridLayout>
 
 namespace Ui {
 class addSchedule;

@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     addscheduletype.cpp \
     addschedule.cpp \
     addtourniquet.cpp \
-    addemployerid.cpp
+    addemployerid.cpp \
+    addemployer.cpp
 
 HEADERS  += mainwindow.h \
     adddepartment.h \
@@ -28,7 +29,9 @@ HEADERS  += mainwindow.h \
     addscheduletype.h \
     addschedule.h \
     addtourniquet.h \
-    addemployerid.h
+    addemployerid.h \
+    constants.h \
+    addemployer.h
 
 FORMS    += mainwindow.ui \
     adddepartment.ui \
@@ -36,4 +39,5 @@ FORMS    += mainwindow.ui \
     addscheduletype.ui \
     addschedule.ui \
     addtourniquet.ui \
-    addemployerid.ui
+    addemployerid.ui \
+    addemployer.ui

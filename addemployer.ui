@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>addEmployer</class>
+ <widget class="QDialog" name="addEmployer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>674</width>
+    <height>386</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>340</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>631</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="8" column="1">
+     <widget class="QComboBox" name="gender"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="passNumber"/>
+    </item>
+    <item row="5" column="3">
+     <widget class="QLabel" name="label_regNumber">
+      <property name="text">
+       <string>Register address</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="4">
+     <widget class="QComboBox" name="registerAddress"/>
+    </item>
+    <item row="2" column="4">
+     <widget class="QLineEdit" name="childrenNumber"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_gender">
+      <property name="text">
+       <string>Gender</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDateEdit" name="birthdate"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="passSeria"/>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLabel" name="label_isConscipt">
+      <property name="text">
+       <string>Is conscript</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QLabel" name="label_minorNum">
+      <property name="text">
+       <string>Minor Children num</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QComboBox" name="familyStatus"/>
+    </item>
+    <item row="8" column="3">
+     <widget class="QLabel" name="label_schedule">
+      <property name="text">
+       <string>Schedule</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="4">
+     <widget class="QComboBox" name="schedule"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_passNumber">
+      <property name="text">
+       <string>Passport number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_firstname">
+      <property name="text">
+       <string>Firstname</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lastname"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_passSeria">
+      <property name="text">
+       <string>Passport seria</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QLabel" name="label_livingAddr">
+      <property name="text">
+       <string>Living address</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="4">
+     <widget class="QComboBox" name="livingAddress"/>
+    </item>
+    <item row="7" column="4">
+     <widget class="QComboBox" name="position"/>
+    </item>
+    <item row="0" column="4">
+     <widget class="QCheckBox" name="isConscript">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="firstname"/>
+    </item>
+    <item row="3" column="4">
+     <widget class="QLineEdit" name="minorNumber"/>
+    </item>
+    <item row="1" column="3">
+     <widget class="QLabel" name="label_familyStatus">
+      <property name="text">
+       <string>Family status</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_lastname">
+      <property name="text">
+       <string>Lastname</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_givenDate">
+      <property name="text">
+       <string>Given date</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QDateEdit" name="givenDate"/>
+    </item>
+    <item row="6" column="3">
+     <widget class="QLabel" name="label_department">
+      <property name="text">
+       <string>Department</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="4">
+     <widget class="QComboBox" name="department"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_givenFrom">
+      <property name="text">
+       <string>Given from</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QLabel" name="label_position">
+      <property name="text">
+       <string>Position</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_middlename">
+      <property name="text">
+       <string>Middlename</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_birthdate">
+      <property name="text">
+       <string>Birth date</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="middlename"/>
+    </item>
+    <item row="2" column="3">
+     <widget class="QLabel" name="label_childrenNum">
+      <property name="text">
+       <string>Number of children</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLineEdit" name="givenFrom"/>
+    </item>
+    <item row="0" column="2">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>13</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>addEmployer</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>addEmployer</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>338</height>
+    <width>437</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>280</y>
-     <width>341</width>
-     <height>32</height>
+     <x>240</x>
+     <y>430</y>
+     <width>176</width>
+     <height>27</height>
     </rect>
    </property>
    <property name="orientation">
@@ -29,75 +29,180 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_type">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>23</y>
-     <width>111</width>
-     <height>17</height>
+     <x>9</x>
+     <y>24</y>
+     <width>411</width>
+     <height>371</height>
     </rect>
    </property>
-   <property name="text">
-    <string>ScheduleType</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_type">
+      <property name="text">
+       <string>ScheduleType</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QComboBox" name="scheduleType"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_stIn">
+      <property name="text">
+       <string>Standart in time</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QTimeEdit" name="stInTime"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_stOut">
+      <property name="text">
+       <string>Standart out time</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QTimeEdit" name="stOutTime"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_monday">
+      <property name="text">
+       <string>Monday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTimeEdit" name="mondayDayIn"/>
+    </item>
+    <item row="3" column="2">
+     <widget class="QTimeEdit" name="mondayDayOut"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_thusday">
+      <property name="text">
+       <string>Thusday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QTimeEdit" name="thusdayDayIn"/>
+    </item>
+    <item row="4" column="2">
+     <widget class="QTimeEdit" name="thusdayDayOut"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_wednesday">
+      <property name="text">
+       <string>Wednesday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QTimeEdit" name="wednesdayDayIn"/>
+    </item>
+    <item row="5" column="2">
+     <widget class="QTimeEdit" name="wednesdayDayOut"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_thursday">
+      <property name="text">
+       <string>Tursday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QTimeEdit" name="thursdayDayIn"/>
+    </item>
+    <item row="6" column="2">
+     <widget class="QTimeEdit" name="thursdayDayOut"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_friday">
+      <property name="text">
+       <string>Friday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QTimeEdit" name="fridayDayIn"/>
+    </item>
+    <item row="7" column="2">
+     <widget class="QTimeEdit" name="fridayDayOut"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_saturday">
+      <property name="text">
+       <string>Saturday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QTimeEdit" name="saturdayDayIn"/>
+    </item>
+    <item row="8" column="2">
+     <widget class="QTimeEdit" name="saturdayDayOut"/>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_sunday">
+      <property name="text">
+       <string>Sunday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="QTimeEdit" name="sundayDayIn"/>
+    </item>
+    <item row="9" column="2">
+     <widget class="QTimeEdit" name="sundayDayOut"/>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_interval">
+      <property name="text">
+       <string>Day interval</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1" colspan="2">
+     <widget class="QLineEdit" name="interval"/>
+    </item>
+   </layout>
   </widget>
-  <widget class="QComboBox" name="scheduleType">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>16</y>
-     <width>221</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_stIn">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>58</y>
-     <width>111</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Standart in time</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_stOut">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>91</y>
-     <width>121</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Standart out time</string>
-   </property>
-  </widget>
-  <widget class="QTimeEdit" name="stInTime">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>51</y>
-     <width>221</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTimeEdit" name="stOutTime">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>87</y>
-     <width>221</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
+  <zorder>stInTime</zorder>
+  <zorder>interval</zorder>
+  <zorder>label_stIn</zorder>
+  <zorder>label_stOut</zorder>
+  <zorder>label_type</zorder>
+  <zorder>scheduleType</zorder>
+  <zorder>stOutTime</zorder>
+  <zorder>label_interval</zorder>
+  <zorder>mondayDayIn</zorder>
+  <zorder>buttonBox</zorder>
+  <zorder>label_monday</zorder>
+  <zorder>mondayDayOut</zorder>
+  <zorder>stInTime</zorder>
+  <zorder>thusdayDayOut</zorder>
+  <zorder>label_thusday</zorder>
+  <zorder>thusdayDayIn</zorder>
+  <zorder>wednesdayDayOut</zorder>
+  <zorder>wednesdayDayIn</zorder>
+  <zorder>label_wednesday</zorder>
+  <zorder>label_thursday</zorder>
+  <zorder>thursdayDayIn</zorder>
+  <zorder>thursdayDayOut</zorder>
+  <zorder>fridayDayOut</zorder>
+  <zorder>label_friday</zorder>
+  <zorder>fridayDayIn</zorder>
+  <zorder>saturdayDayIn</zorder>
+  <zorder>saturdayDayOut</zorder>
+  <zorder>label_saturday</zorder>
+  <zorder>label_sunday</zorder>
+  <zorder>sundayDayIn</zorder>
+  <zorder>sundayDayOut</zorder>
  </widget>
  <resources/>
  <connections>
@@ -108,8 +213,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>427</x>
+     <y>332</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -124,8 +229,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>427</x>
+     <y>332</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
