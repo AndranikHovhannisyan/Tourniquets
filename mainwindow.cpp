@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     addItemDialog["employer_ids"]   = new addEmployerId(db, this);
     addItemDialog["employer"]       = new addEmployer(db, this);
     addItemDialog["address"]        = new addAddress(db, this);
-    addItemDialog["phone"]          = new addPhone(db, this);
+    addItemDialog["phone_number"]          = new addPhone(db, this);
 }
 
 MainWindow::~MainWindow()
