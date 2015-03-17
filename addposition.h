@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::addPosition *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDPOSITION_H

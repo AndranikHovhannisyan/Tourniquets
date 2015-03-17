@@ -29,74 +29,47 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="namesss">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>175</x>
+     <x>20</x>
      <y>10</y>
-     <width>191</width>
-     <height>27</height>
+     <width>381</width>
+     <height>95</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QTimeEdit" name="allowLag">
-   <property name="geometry">
-    <rect>
-     <x>175</x>
-     <y>42</y>
-     <width>191</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTimeEdit" name="ignoreTime">
-   <property name="geometry">
-    <rect>
-     <x>174</x>
-     <y>74</y>
-     <width>191</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_name">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>15</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Name</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_lag">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>50</y>
-     <width>81</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Allow lag</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_ignore">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>80</y>
-     <width>101</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Ignore time</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_name">
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="namesss"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_lag">
+      <property name="text">
+       <string>Allow lag</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QTimeEdit" name="allowLag"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_ignore">
+      <property name="text">
+       <string>Ignore time</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTimeEdit" name="ignoreTime"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

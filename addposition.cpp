@@ -7,6 +7,7 @@ addPosition::addPosition(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addPosition)
 {
     ui->setupUi(this);
+    this->db = db;
     this->setWindowTitle("add position");
 
     QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);

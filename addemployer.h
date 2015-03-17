@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::addEmployer *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDEMPLOYER_H

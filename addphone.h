@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::addPhone *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDPHONE_H

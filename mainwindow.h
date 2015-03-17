@@ -31,10 +31,12 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QMap<QString, QDialog*> addItemDialog;
+    QString lastTable;
 
 public slots:
     void infoWindow();
     void addItem();
+    void refresh();
 };
 
 #endif // MAINWINDOW_H

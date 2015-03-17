@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::addDepartment *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDDEPARTMENT_H

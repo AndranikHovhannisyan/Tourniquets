@@ -9,6 +9,7 @@ addSchedule::addSchedule(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addSchedule)
 {
     ui->setupUi(this);
+    this->db = db;
     this->setWindowTitle("add schedule");
 
     /*

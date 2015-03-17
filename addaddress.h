@@ -18,6 +18,10 @@ public:
 
 private:
     Ui::addAddress *ui;
+    QSqlDatabase db;
+
+private slots:
+    void createAddress();
 };
 
 #endif // ADDADDRESS_H

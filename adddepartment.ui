@@ -29,74 +29,47 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_name">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>25</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Name</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_manager">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>57</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Manager</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_schedule">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>87</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Schedule</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="managers">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>50</y>
-     <width>241</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="schedule">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>80</y>
-     <width>241</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="dep_name">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
      <y>20</y>
-     <width>241</width>
-     <height>27</height>
+     <width>351</width>
+     <height>95</height>
     </rect>
    </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_name">
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="dep_name"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_manager">
+      <property name="text">
+       <string>Manager</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="managers"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_schedule">
+      <property name="text">
+       <string>Schedule</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="schedule"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

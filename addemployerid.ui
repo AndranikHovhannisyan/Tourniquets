@@ -29,74 +29,47 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="employer">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>10</x>
      <y>20</y>
-     <width>221</width>
-     <height>27</height>
+     <width>371</width>
+     <height>95</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QComboBox" name="idType">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>90</y>
-     <width>221</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="employerId">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>54</y>
-     <width>221</width>
-     <height>27</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_employer">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>25</y>
-     <width>91</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Emoployer</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_empId">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>60</y>
-     <width>101</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Emoployer Id</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_IdType">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>90</y>
-     <width>101</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Id Type</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_employer">
+      <property name="text">
+       <string>Emoployer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="employer"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_empId">
+      <property name="text">
+       <string>Emoployer Id</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="employerId"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_IdType">
+      <property name="text">
+       <string>Id Type</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="idType"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

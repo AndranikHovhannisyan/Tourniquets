@@ -6,6 +6,7 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addEmployer)
 {
     ui->setupUi(this);
+    this->db = db;
 }
 
 addEmployer::~addEmployer()

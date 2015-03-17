@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::addTourniquet *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDTOURNIQUET_H

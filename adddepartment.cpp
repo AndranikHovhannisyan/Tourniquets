@@ -7,6 +7,7 @@ addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addDepartment)
 {
     ui->setupUi(this);
+    this->db = db;
     this->setWindowTitle("add department");
 
     QSqlTableModel *managerModel = new QSqlTableModel(this, db);

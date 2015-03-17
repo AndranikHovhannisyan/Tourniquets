@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::addScheduleType *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDSCHEDULETYPE_H

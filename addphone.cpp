@@ -6,6 +6,7 @@ addPhone::addPhone(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addPhone)
 {
     ui->setupUi(this);
+    this->db = db;
 }
 
 addPhone::~addPhone()

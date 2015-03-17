@@ -20,6 +20,7 @@ public:
 
 private:
     Ui::addSchedule *ui;
+    QSqlDatabase db;
 };
 
 #endif // ADDSCHEDULE_H
