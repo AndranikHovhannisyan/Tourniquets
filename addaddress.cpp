@@ -24,12 +24,25 @@ void addAddress::createAddress()
 {
     QSqlTableModel model(this, db);
     model.setTable("address");
-    QSqlRecord record = model.record();
-    record.setValue(1, QVariant(ui->country->text()));
-    record.setValue(2, QVariant(ui->city->text()));
-    record.setValue(3, QVariant(ui->street->text()));
-    record.setValue(4, QVariant(ui->hNumber->text()));
-    model.insertRecord(-1, record);
+
+    if (id == 0) {
+        QSqlRecord record = model.record();
+        record.setValue(1, QVariant(ui->country->text()));
+        record.setValue(2, QVariant(ui->city->text()));
+        record.setValue(3, QVariant(ui->street->text()));
+        record.setValue(4, QVariant(ui->hNumber->text()));
+        model.insertRecord(-1, record);
+    }
+    else {
+        model.setFilter("id = "+ QString::number(id));
+        model.select();
+        QSqlRecord record = model.record(0);
+        record.setValue(1, QVariant(ui->country->text()));
+        record.setValue(2, QVariant(ui->city->text()));
+        record.setValue(3, QVariant(ui->street->text()));
+        record.setValue(4, QVariant(ui->hNumber->text()));
+        model.setRecord(0, record);
+    }
 
     emit ready();
 }
