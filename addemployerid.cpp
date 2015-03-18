@@ -2,8 +2,9 @@
 #include "ui_addemployerid.h"
 #include <QSqlRelationalTableModel>
 #include <QSqlRecord>
-#include <QDebug>
 
+#include <QDebug>
+#include <QSqlError>
 
 addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
     addDialog(db, parent),
@@ -16,9 +17,8 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createEmployerId()));
 
-    QStringList strList;
-    strList << "Քարտ" << "Մատնահետք";
-    ui->idType->addItems(strList);
+    ui->idType->insertItem(0, "Քարտ");
+    ui->idType->insertItem(1, "Մատնահետք");
 
 
     employerModel = new QSqlTableModel(this, db);
@@ -36,8 +36,6 @@ addEmployerId::~addEmployerId()
     delete ui;
 }
 
-#include <QSqlError>
-
 void addEmployerId::createEmployerId()
 {
     QSqlRelationalTableModel model(this, db);
@@ -50,7 +48,7 @@ void addEmployerId::createEmployerId()
         QSqlRecord record = model.record();
         record.setValue(0, QVariant(ui->employerId->text()));
         record.setValue(1, QVariant(ui->employer->currentIndex()));
-        record.setValue(2, QVariant(types[ui->idType->currentText()]));
+        record.setValue(2, QVariant(ui->idType->currentIndex()));
         model.insertRecord(-1, record);
 
         qDebug() << model.lastError();
@@ -71,6 +69,29 @@ void addEmployerId::createEmployerId()
 
 void addEmployerId::init()
 {
+    if (id != 0) {
+
+        QSqlTableModel model(this, db);
+        model.setTable("employer_ids");
+        model.setFilter("emp_number = "+ QString::number(id));
+        model.select();
+
+        if (model.rowCount() == 1) {
+            qDebug() << model.record(0).value("employeer_id").toInt();
+            ui->employer->setCurrentIndex(model.record(0).value("employeer_id").toInt());
+            ui->employerId->setText(model.record(0).value("emp_number").toString());
+            ui->idType->setCurrentIndex(model.record(0).value("id_type").toInt());
+
+            qDebug() << model.record(0).value("id_type").toInt();
+        }
+        else {
+            this->claer();
+        }
+    }
+    else {
+        this->claer();
+    }
+
     qDebug() << "id =" << id;
 }
 
