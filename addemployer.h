@@ -18,6 +18,7 @@ public:
 private:
     Ui::addEmployer *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDEMPLOYER_H

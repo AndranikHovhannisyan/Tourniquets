@@ -30,3 +30,7 @@ addDepartment::~addDepartment()
 void addDepartment::init() {
     qDebug() << "id =" << id;
 }
+
+void addDepartment::claer() {
+
+}

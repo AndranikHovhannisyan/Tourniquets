@@ -18,6 +18,7 @@ public:
 private:
     Ui::addAddress *ui;
     virtual void init();
+    virtual void claer();
 
 private slots:
     void createAddress();

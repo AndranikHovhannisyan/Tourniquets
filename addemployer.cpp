@@ -17,3 +17,7 @@ addEmployer::~addEmployer()
 void addEmployer::init() {
     qDebug() << "id =" << id;
 }
+
+void addEmployer::claer() {
+
+}

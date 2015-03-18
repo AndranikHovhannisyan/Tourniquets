@@ -16,6 +16,7 @@ protected:
     int id;
 
     virtual void init() = 0;
+    virtual void claer() = 0;
 
 public slots:
     void editShow(int id);

@@ -24,3 +24,7 @@ addPosition::~addPosition()
 void addPosition::init() {
     qDebug() << "id =" << id;
 }
+
+void addPosition::claer() {
+
+}

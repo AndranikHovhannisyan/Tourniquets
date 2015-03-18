@@ -4,6 +4,7 @@
 #include <QtSql/QSqlDatabase>
 #include <QMainWindow>
 #include <QMap>
+#include <QSqlTableModel>
 
 #include "addDialog.h"
 #include "adddepartment.h"
@@ -35,6 +36,7 @@ private:
     QSqlDatabase db;
     QMap<QString, addDialog*> addItemDialog;
     QString table;
+    QSqlTableModel *model;
 
 public slots:
     void infoWindow();

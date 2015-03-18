@@ -18,6 +18,7 @@ public:
 private:
     Ui::addEmployerId *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDEMPLOYERID_H

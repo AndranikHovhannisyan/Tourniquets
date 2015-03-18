@@ -4,6 +4,7 @@ addDialog::addDialog(QSqlDatabase db, QWidget *parent) :
     QDialog(parent)
 {
     this->db = db;
+    this->id = 0;
 }
 
 addDialog::~addDialog() {

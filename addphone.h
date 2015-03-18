@@ -18,6 +18,7 @@ public:
 private:
     Ui::addPhone *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDPHONE_H

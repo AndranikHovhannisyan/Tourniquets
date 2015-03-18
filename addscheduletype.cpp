@@ -18,3 +18,7 @@ addScheduleType::~addScheduleType()
 void addScheduleType::init() {
     qDebug() << "id =" << id;
 }
+
+void addScheduleType::claer() {
+
+}

@@ -17,3 +17,7 @@ addPhone::~addPhone()
 void addPhone::init() {
     qDebug() << "id =" << id;
 }
+
+void addPhone::claer() {
+
+}

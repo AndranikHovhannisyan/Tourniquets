@@ -20,3 +20,7 @@ addTourniquet::~addTourniquet()
 void addTourniquet::init() {
     qDebug() << "id =" << id;
 }
+
+void addTourniquet::claer() {
+
+}

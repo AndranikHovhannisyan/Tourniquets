@@ -26,3 +26,7 @@ addSchedule::~addSchedule()
 void addSchedule::init() {
     qDebug() << "id =" << id;
 }
+
+void addSchedule::claer() {
+
+}

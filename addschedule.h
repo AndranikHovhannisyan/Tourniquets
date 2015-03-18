@@ -20,6 +20,7 @@ public:
 private:
     Ui::addSchedule *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDSCHEDULE_H

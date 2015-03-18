@@ -18,6 +18,7 @@ public:
 private:
     Ui::addPosition *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDPOSITION_H

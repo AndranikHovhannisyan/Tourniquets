@@ -26,10 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->address,        SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
 
+    connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
     connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
 
-    //Need to change
-    connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
+
 
     //Create a database connection
     db = QSqlDatabase::addDatabase("QMYSQL");
@@ -70,7 +70,7 @@ void MainWindow::infoWindow()
 
 void MainWindow::refresh()
 {
-    QSqlTableModel *model = new QSqlTableModel(this, db);
+    model = new QSqlTableModel(this, db);
     model->setTable(this->table);
     model->select();
     ui->tableView->setModel(model);
@@ -78,17 +78,13 @@ void MainWindow::refresh()
 
 void MainWindow::addItem()
 {
-    //Get button name and determine which dialog will be open
-    QPushButton* addButton = dynamic_cast<QPushButton*>(sender());
-    if (addButton != NULL) {
-        QString buttonText = addButton->text();
-        QString str = buttonText.split(QRegExp("\\s"))[1];
-        addItemDialog[str]->editShow(5);
-
-        connect(addItemDialog[str], SIGNAL(ready()), this, SLOT(refresh()));
-    }
+    addItemDialog[this->table]->editShow(0);
+    connect(addItemDialog[this->table], SIGNAL(ready()), this, SLOT(refresh()));
 }
 
 void MainWindow::edit(QModelIndex a) {
-    qDebug() << a.row() << a.column();
+    int id = model->data(model->index(a.row(), 0)).toInt();
+    addItemDialog[this->table]->editShow(id);
+
+    connect(addItemDialog[this->table], SIGNAL(ready()), this, SLOT(refresh()));
 }

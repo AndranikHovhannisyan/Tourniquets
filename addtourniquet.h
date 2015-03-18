@@ -18,6 +18,7 @@ public:
 private:
     Ui::addTourniquet *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDTOURNIQUET_H

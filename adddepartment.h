@@ -18,6 +18,7 @@ public:
 private:
     Ui::addDepartment *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDDEPARTMENT_H

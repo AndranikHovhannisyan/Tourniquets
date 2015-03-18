@@ -1,7 +1,9 @@
 #include "addemployerid.h"
 #include "ui_addemployerid.h"
 #include <QSqlTableModel>
+#include <QSqlRecord>
 #include <QDebug>
+
 
 addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
     addDialog(db, parent),
@@ -21,6 +23,11 @@ addEmployerId::~addEmployerId()
     delete ui;
 }
 
-void addEmployerId::init() {
+void addEmployerId::init()
+{
     qDebug() << "id =" << id;
+}
+
+void addEmployerId::claer() {
+
 }

@@ -18,6 +18,7 @@ public:
 private:
     Ui::addScheduleType *ui;
     virtual void init();
+    virtual void claer();
 };
 
 #endif // ADDSCHEDULETYPE_H
