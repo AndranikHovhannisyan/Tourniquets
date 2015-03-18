@@ -1,13 +1,13 @@
 #include "addposition.h"
 #include "ui_addposition.h"
 #include <QSqlTableModel>
+#include <QDebug>
 
 addPosition::addPosition(QSqlDatabase db, QWidget *parent) :
-    QDialog(parent),
+    addDialog(db, parent),
     ui(new Ui::addPosition)
 {
     ui->setupUi(this);
-    this->db = db;
     this->setWindowTitle("add position");
 
     QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);
@@ -19,4 +19,8 @@ addPosition::addPosition(QSqlDatabase db, QWidget *parent) :
 addPosition::~addPosition()
 {
     delete ui;
+}
+
+void addPosition::init() {
+    qDebug() << "id =" << id;
 }

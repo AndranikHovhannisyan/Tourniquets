@@ -1,14 +1,13 @@
 #ifndef ADDADDRESS_H
 #define ADDADDRESS_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addAddress;
 }
 
-class addAddress : public QDialog
+class addAddress : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addAddress *ui;
-    QSqlDatabase db;
+    virtual void init();
 
 private slots:
     void createAddress();

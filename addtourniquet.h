@@ -1,14 +1,13 @@
 #ifndef ADDTOURNIQUET_H
 #define ADDTOURNIQUET_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addTourniquet;
 }
 
-class addTourniquet : public QDialog
+class addTourniquet : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addTourniquet *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDTOURNIQUET_H

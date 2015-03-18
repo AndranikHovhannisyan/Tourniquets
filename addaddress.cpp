@@ -2,14 +2,13 @@
 #include "ui_addaddress.h"
 #include <QSqlQuery>
 #include <QTimer>
-
+#include <QDebug>
 
 addAddress::addAddress(QSqlDatabase db, QWidget *parent) :
-    QDialog(parent),
+    addDialog(db, parent),
     ui(new Ui::addAddress)
 {
     ui->setupUi(this);
-    this->db = db;
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createAddress()));
 }
@@ -31,4 +30,9 @@ void addAddress::createAddress()
     query.exec();
 
     emit ready();
+}
+
+
+void addAddress::init() {
+    qDebug() << "id =" << id;
 }

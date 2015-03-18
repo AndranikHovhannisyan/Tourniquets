@@ -1,14 +1,13 @@
 #ifndef ADDPOSITION_H
 #define ADDPOSITION_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addPosition;
 }
 
-class addPosition : public QDialog
+class addPosition : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addPosition *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDPOSITION_H

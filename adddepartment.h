@@ -1,14 +1,13 @@
 #ifndef ADDDEPARTMENT_H
 #define ADDDEPARTMENT_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addDepartment;
 }
 
-class addDepartment : public QDialog
+class addDepartment : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addDepartment *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDDEPARTMENT_H

@@ -7,6 +7,7 @@
 
 #include <QAction>
 #include <QSqlRecord>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->employer,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->address,        SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
+
+    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
 
     //Need to change
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
@@ -65,6 +68,14 @@ void MainWindow::infoWindow()
     }
 }
 
+void MainWindow::refresh()
+{
+    QSqlTableModel *model = new QSqlTableModel(this, db);
+    model->setTable(this->table);
+    model->select();
+    ui->tableView->setModel(model);
+}
+
 void MainWindow::addItem()
 {
     //Get button name and determine which dialog will be open
@@ -72,17 +83,12 @@ void MainWindow::addItem()
     if (addButton != NULL) {
         QString buttonText = addButton->text();
         QString str = buttonText.split(QRegExp("\\s"))[1];
-        addItemDialog[str]->show();
+        addItemDialog[str]->editShow(5);
 
         connect(addItemDialog[str], SIGNAL(ready()), this, SLOT(refresh()));
     }
 }
 
-void MainWindow::refresh()
-{
-    //Depends on action name determine table and get data from it
-    QSqlTableModel *model = new QSqlTableModel(this, db);
-    model->setTable(this->table);
-    model->select();
-    ui->tableView->setModel(model);
+void MainWindow::edit(QModelIndex a) {
+    qDebug() << a.row() << a.column();
 }

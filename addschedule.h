@@ -1,8 +1,7 @@
 #ifndef ADDSCHEDULE_H
 #define ADDSCHEDULE_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 #include <QMap>
 #include <QGridLayout>
 
@@ -10,7 +9,7 @@ namespace Ui {
 class addSchedule;
 }
 
-class addSchedule : public QDialog
+class addSchedule : public addDialog
 {
     Q_OBJECT
 
@@ -20,7 +19,7 @@ public:
 
 private:
     Ui::addSchedule *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDSCHEDULE_H

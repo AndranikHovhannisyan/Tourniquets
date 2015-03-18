@@ -1,15 +1,19 @@
 #include "addphone.h"
 #include "ui_addphone.h"
+#include <QDebug>
 
 addPhone::addPhone(QSqlDatabase db, QWidget *parent) :
-    QDialog(parent),
+    addDialog(db, parent),
     ui(new Ui::addPhone)
 {
     ui->setupUi(this);
-    this->db = db;
 }
 
 addPhone::~addPhone()
 {
     delete ui;
+}
+
+void addPhone::init() {
+    qDebug() << "id =" << id;
 }

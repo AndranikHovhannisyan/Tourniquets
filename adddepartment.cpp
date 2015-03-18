@@ -1,13 +1,13 @@
 #include "adddepartment.h"
 #include "ui_adddepartment.h"
 #include <QSqlTableModel>
+#include <QDebug>
 
 addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
-    QDialog(parent),
+    addDialog(db, parent),
     ui(new Ui::addDepartment)
 {
     ui->setupUi(this);
-    this->db = db;
     this->setWindowTitle("add department");
 
     QSqlTableModel *managerModel = new QSqlTableModel(this, db);
@@ -25,4 +25,8 @@ addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
 addDepartment::~addDepartment()
 {
     delete ui;
+}
+
+void addDepartment::init() {
+    qDebug() << "id =" << id;
 }

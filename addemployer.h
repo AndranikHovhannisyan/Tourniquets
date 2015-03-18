@@ -1,14 +1,13 @@
 #ifndef ADDEMPLOYER_H
 #define ADDEMPLOYER_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addEmployer;
 }
 
-class addEmployer : public QDialog
+class addEmployer : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addEmployer *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDEMPLOYER_H

@@ -1,12 +1,12 @@
 #include "addtourniquet.h"
 #include "ui_addtourniquet.h"
+#include <QDebug>
 
 addTourniquet::addTourniquet(QSqlDatabase db, QWidget *parent) :
-    QDialog(parent),
+    addDialog(db, parent),
     ui(new Ui::addTourniquet)
 {
     ui->setupUi(this);
-    this->db = db;
     ui->type->addItem("In");
     ui->type->addItem("Out");
     this->setWindowTitle("add tourniquet");
@@ -15,4 +15,8 @@ addTourniquet::addTourniquet(QSqlDatabase db, QWidget *parent) :
 addTourniquet::~addTourniquet()
 {
     delete ui;
+}
+
+void addTourniquet::init() {
+    qDebug() << "id =" << id;
 }

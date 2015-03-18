@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     addemployerid.cpp \
     addemployer.cpp \
     addaddress.cpp \
-    addphone.cpp
+    addphone.cpp \
+    addDialog.cpp
 
 HEADERS  += mainwindow.h \
     adddepartment.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     constants.h \
     addemployer.h \
     addaddress.h \
-    addphone.h
+    addphone.h \
+    addDialog.h
 
 FORMS    += mainwindow.ui \
     adddepartment.ui \

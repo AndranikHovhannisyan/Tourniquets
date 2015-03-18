@@ -1,14 +1,13 @@
 #ifndef ADDPHONE_H
 #define ADDPHONE_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addPhone;
 }
 
-class addPhone : public QDialog
+class addPhone : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addPhone *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDPHONE_H

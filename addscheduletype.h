@@ -1,14 +1,13 @@
 #ifndef ADDSCHEDULETYPE_H
 #define ADDSCHEDULETYPE_H
 
-#include <QDialog>
-#include <QSqlDatabase>
+#include "addDialog.h"
 
 namespace Ui {
 class addScheduleType;
 }
 
-class addScheduleType : public QDialog
+class addScheduleType : public addDialog
 {
     Q_OBJECT
 
@@ -18,7 +17,7 @@ public:
 
 private:
     Ui::addScheduleType *ui;
-    QSqlDatabase db;
+    virtual void init();
 };
 
 #endif // ADDSCHEDULETYPE_H
