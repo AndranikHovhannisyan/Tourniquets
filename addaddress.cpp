@@ -1,6 +1,8 @@
 #include "addaddress.h"
 #include "ui_addaddress.h"
 #include <QSqlQuery>
+#include <QTimer>
+
 
 addAddress::addAddress(QSqlDatabase db, QWidget *parent) :
     QDialog(parent),
@@ -27,4 +29,6 @@ void addAddress::createAddress()
     query.bindValue(2, ui->street->text());
     query.bindValue(3, ui->hNumber->text());
     query.exec();
+
+    emit ready();
 }

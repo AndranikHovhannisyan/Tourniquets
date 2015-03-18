@@ -4,7 +4,9 @@
 #include <QSqlTableModel>
 #include <QRegExp>
 
-#include <QTableView>
+
+#include <QAction>
+#include <QSqlRecord>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,7 +60,7 @@ void MainWindow::infoWindow()
     if (action != NULL) {
         //Change also button name
         ui->addButton->setText("Add " + action->objectName());
-        this->lastTable = action->objectName();
+        this->table = action->objectName();
         this->refresh();
     }
 }
@@ -72,7 +74,7 @@ void MainWindow::addItem()
         QString str = buttonText.split(QRegExp("\\s"))[1];
         addItemDialog[str]->show();
 
-        connect(addItemDialog[str], SIGNAL(accepted()), this, SLOT(refresh()));
+        connect(addItemDialog[str], SIGNAL(ready()), this, SLOT(refresh()));
     }
 }
 
@@ -80,7 +82,7 @@ void MainWindow::refresh()
 {
     //Depends on action name determine table and get data from it
     QSqlTableModel *model = new QSqlTableModel(this, db);
-    model->setTable(this->lastTable);
+    model->setTable(this->table);
     model->select();
     ui->tableView->setModel(model);
 }

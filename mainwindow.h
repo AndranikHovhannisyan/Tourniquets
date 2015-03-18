@@ -31,7 +31,7 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QMap<QString, QDialog*> addItemDialog;
-    QString lastTable;
+    QString table;
 
 public slots:
     void infoWindow();

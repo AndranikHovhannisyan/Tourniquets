@@ -22,6 +22,9 @@ private:
 
 private slots:
     void createAddress();
+
+signals:
+    void ready();
 };
 
 #endif // ADDADDRESS_H
