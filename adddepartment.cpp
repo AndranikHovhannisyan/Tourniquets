@@ -8,7 +8,7 @@ addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addDepartment)
 {
     ui->setupUi(this);
-    this->setWindowTitle("add department");
+    this->setWindowTitle("Ավելացնել բաժին");
     tableName = "department";
 
     QSqlTableModel *employerModel = new QSqlTableModel(this, db);

@@ -2,6 +2,7 @@
 #define ADDPOSITION_H
 
 #include "addDialog.h"
+#include <QMap>
 
 namespace Ui {
 class addPosition;
@@ -17,7 +18,9 @@ public:
 
 private:
     Ui::addPosition *ui;
-    virtual void init(QSqlRecord &);
+    QMap<int, int> comboIndexScheduleId;
+
+    virtual void init(QSqlRecord &record);
     virtual void claer();
     virtual void populateData(QSqlRecord &);
 };
