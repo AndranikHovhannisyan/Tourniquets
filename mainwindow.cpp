@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QRegExp>
 
 
@@ -70,8 +71,13 @@ void MainWindow::infoWindow()
 
 void MainWindow::refresh()
 {
-    model = new QSqlTableModel(this, db);
+    model = new QSqlRelationalTableModel(this, db);
     model->setTable(this->table);
+
+    if (this->table == "employer_ids") {
+        model->setRelation(1, QSqlRelation("employer", "id", "firstname"));
+    }
+
     model->select();
     ui->tableView->setModel(model);
 }

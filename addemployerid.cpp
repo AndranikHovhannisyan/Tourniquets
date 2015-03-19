@@ -25,8 +25,7 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
 
     for (int i = 0; i < employerModel->rowCount(); i++) {
         comboIndexId[i] = employerModel->record(i).value("id").toInt();
-
-        ui->employer->insertItem(-1, employerModel->record(i).value("firstname").toString());
+        ui->employer->addItem(employerModel->record(i).value("firstname").toString());
     }
 }
 
@@ -41,9 +40,7 @@ void addEmployerId::createEmployerId()
     model.setTable("employer_ids");
     model.select();
 
-
     if (id == 0) {
-
         QSqlRecord record = model.record();
         record.setValue(0, QVariant(ui->employerId->text()));
         record.setValue(1, QVariant(comboIndexId[ui->employer->currentIndex()]));
@@ -57,8 +54,6 @@ void addEmployerId::createEmployerId()
         model.select();
         QSqlRecord record = model.record(0);
         record.setValue(0, QVariant(ui->employerId->text()));
-        qDebug() << comboIndexId[ui->employer->currentIndex()];
-
         record.setValue(1, QVariant(comboIndexId[ui->employer->currentIndex()]));
         record.setValue(2, QVariant(ui->idType->currentIndex()));
         model.setRecord(0, record);
@@ -92,4 +87,6 @@ void addEmployerId::init()
 
 void addEmployerId::claer() {
     ui->employerId->setText("");
+    ui->employer->setCurrentIndex(0);
+    ui->idType->setCurrentIndex(0);
 }
