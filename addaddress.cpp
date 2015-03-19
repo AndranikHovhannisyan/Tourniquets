@@ -27,20 +27,14 @@ void addAddress::createAddress()
 
     if (id == 0) {
         QSqlRecord record = model.record();
-        record.setValue(record.indexOf("country"), QVariant(ui->country->text()));
-        record.setValue(record.indexOf("city"), QVariant(ui->city->text()));
-        record.setValue(record.indexOf("street"), QVariant(ui->street->text()));
-        record.setValue(record.indexOf("h_number"), QVariant(ui->hNumber->text()));
+        populateData(record);
         model.insertRecord(-1, record);
     }
     else {
         model.setFilter("id = "+ QString::number(id));
         model.select();
         QSqlRecord record = model.record(0);
-        record.setValue(record.indexOf("country"), QVariant(ui->country->text()));
-        record.setValue(record.indexOf("city"), QVariant(ui->city->text()));
-        record.setValue(record.indexOf("street"), QVariant(ui->street->text()));
-        record.setValue(record.indexOf("h_number"), QVariant(ui->hNumber->text()));
+        populateData(record);
         model.setRecord(0, record);
     }
 
@@ -78,4 +72,11 @@ void addAddress::claer() {
     ui->city->setText("");
     ui->street->setText("");
     ui->hNumber->setText("");
+}
+
+void addAddress::populateData(QSqlRecord &record) {
+    record.setValue(record.indexOf("country"), QVariant(ui->country->text()));
+    record.setValue(record.indexOf("city"), QVariant(ui->city->text()));
+    record.setValue(record.indexOf("street"), QVariant(ui->street->text()));
+    record.setValue(record.indexOf("h_number"), QVariant(ui->hNumber->text()));
 }

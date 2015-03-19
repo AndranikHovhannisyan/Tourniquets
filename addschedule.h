@@ -19,8 +19,10 @@ public:
 
 private:
     Ui::addSchedule *ui;
+
     virtual void init();
     virtual void claer();
+    virtual void populateData(QSqlRecord &);
 };
 
 #endif // ADDSCHEDULE_H

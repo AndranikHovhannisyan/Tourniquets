@@ -41,9 +41,7 @@ void addEmployerId::createEmployerId()
 
     if (id == 0) {
         QSqlRecord record = model.record();
-        record.setValue(record.indexOf("emp_number"), QVariant(ui->employerId->text()));
-        record.setValue(record.indexOf("employeer_id"), QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
-        record.setValue(record.indexOf("id_ype"), QVariant(ui->idType->currentIndex()));
+        populateData(record);
         model.insertRecord(-1, record);
 
         qDebug() << model.lastError();
@@ -52,9 +50,7 @@ void addEmployerId::createEmployerId()
         model.setFilter("emp_number = "+ QString::number(id));
         model.select();
         QSqlRecord record = model.record(0);
-        record.setValue(record.indexOf("emp_number"), QVariant(ui->employerId->text()));
-        record.setValue(record.indexOf("employeer_id"), QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
-        record.setValue(record.indexOf("id_ype"), QVariant(ui->idType->currentIndex()));
+        populateData(record);
         model.setRecord(0, record);
     }
 
@@ -88,4 +84,10 @@ void addEmployerId::claer() {
     ui->employerId->setText("");
     ui->employer->setCurrentIndex(0);
     ui->idType->setCurrentIndex(0);
+}
+
+void addEmployerId::populateData(QSqlRecord &record) {
+    record.setValue(record.indexOf("emp_number"), QVariant(ui->employerId->text()));
+    record.setValue(record.indexOf("employeer_id"), QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
+    record.setValue(record.indexOf("id_type"), QVariant(ui->idType->currentIndex()));
 }

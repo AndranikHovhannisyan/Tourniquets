@@ -19,6 +19,7 @@ private:
     Ui::addPhone *ui;
     virtual void init();
     virtual void claer();
+    virtual void populateData(QSqlRecord &);
 };
 
 #endif // ADDPHONE_H

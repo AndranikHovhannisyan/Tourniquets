@@ -22,3 +22,7 @@ void addScheduleType::init() {
 void addScheduleType::claer() {
 
 }
+
+void addScheduleType::populateData(QSqlRecord &rec) {
+
+}

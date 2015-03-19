@@ -28,3 +28,7 @@ void addPosition::init() {
 void addPosition::claer() {
 
 }
+
+void addPosition::populateData(QSqlRecord &rec) {
+
+}

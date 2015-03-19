@@ -19,6 +19,7 @@ private:
     Ui::addDepartment *ui;
     virtual void init();
     virtual void claer();
+    virtual void populateData(QSqlRecord &);
 };
 
 #endif // ADDDEPARTMENT_H

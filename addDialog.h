@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSqlDatabase>
+#include <QSqlRecord>
 
 class addDialog : public QDialog
 {
@@ -17,6 +18,7 @@ protected:
 
     virtual void init() = 0;
     virtual void claer() = 0;
+    virtual void populateData(QSqlRecord &) = 0;
 
 public slots:
     void editShow(int id);

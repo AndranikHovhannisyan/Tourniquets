@@ -17,8 +17,10 @@ public:
 
 private:
     Ui::addTourniquet *ui;
+
     virtual void init();
     virtual void claer();
+    virtual void populateData(QSqlRecord &);
 };
 
 #endif // ADDTOURNIQUET_H

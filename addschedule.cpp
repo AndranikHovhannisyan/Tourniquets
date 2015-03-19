@@ -30,3 +30,7 @@ void addSchedule::init() {
 void addSchedule::claer() {
 
 }
+
+void addSchedule::populateData(QSqlRecord &rec) {
+
+}

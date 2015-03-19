@@ -21,3 +21,7 @@ void addPhone::init() {
 void addPhone::claer() {
 
 }
+
+void addPhone::populateData(QSqlRecord &rec) {
+
+}

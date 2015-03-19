@@ -19,6 +19,7 @@ private:
     Ui::addPosition *ui;
     virtual void init();
     virtual void claer();
+    virtual void populateData(QSqlRecord &);
 };
 
 #endif // ADDPOSITION_H

@@ -24,3 +24,7 @@ void addTourniquet::init() {
 void addTourniquet::claer() {
 
 }
+
+void addTourniquet::populateData(QSqlRecord &rec) {
+
+}

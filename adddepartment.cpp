@@ -34,3 +34,7 @@ void addDepartment::init() {
 void addDepartment::claer() {
 
 }
+
+void addDepartment::populateData(QSqlRecord &rec) {
+
+}
