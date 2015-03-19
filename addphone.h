@@ -2,6 +2,7 @@
 #define ADDPHONE_H
 
 #include "addDialog.h"
+#include <QMap>
 
 namespace Ui {
 class addPhone;
@@ -17,6 +18,8 @@ public:
 
 private:
     Ui::addPhone *ui;
+    QMap<int, int> comboIndexEmployerId;
+
     virtual void init(QSqlRecord &);
     virtual void claer();
     virtual void populateData(QSqlRecord &);
