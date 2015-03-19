@@ -20,9 +20,6 @@ private:
     virtual void init();
     virtual void claer();
     virtual void populateData(QSqlRecord &);
-
-private slots:
-    void createAddress();
 };
 
 #endif // ADDADDRESS_H

@@ -12,6 +12,8 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակցի իդենտիֆիկատոր");
+    tableName = "employer_ids";
+    IdField = "emp_number";
 
     ui->idType->insertItem(0, "Քարտ");
     ui->idType->insertItem(1, "Մատնահետք");
@@ -25,36 +27,12 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
         ui->employer->addItem(employerModel->record(i).value("firstname").toString());
     }
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createEmployerId()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
 }
 
 addEmployerId::~addEmployerId()
 {
     delete ui;
-}
-
-void addEmployerId::createEmployerId()
-{
-    QSqlRelationalTableModel model(this, db);
-    model.setTable("employer_ids");
-    model.select();
-
-    if (id == 0) {
-        QSqlRecord record = model.record();
-        populateData(record);
-        model.insertRecord(-1, record);
-
-        qDebug() << model.lastError();
-    }
-    else {
-        model.setFilter("emp_number = "+ QString::number(id));
-        model.select();
-        QSqlRecord record = model.record(0);
-        populateData(record);
-        model.setRecord(0, record);
-    }
-
-    emit ready();
 }
 
 void addEmployerId::init()

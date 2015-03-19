@@ -15,6 +15,8 @@ public:
 protected:
     QSqlDatabase db;
     int id;
+    QString tableName;
+    QString IdField;
 
     virtual void init() = 0;
     virtual void claer() = 0;
@@ -22,6 +24,9 @@ protected:
 
 public slots:
     void editShow(int id);
+
+private slots:
+    void create();
 
 signals:
     void ready();

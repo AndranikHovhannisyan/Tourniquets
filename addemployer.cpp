@@ -13,6 +13,7 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակից");
+    tableName = "employer";
 
     ui->gender->insertItem(0, "Ա");
     ui->gender->insertItem(1, "Ի");
@@ -70,7 +71,7 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
     }
     //================================ End schedule insertion ===========================
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createEmployer()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
 
 
 }
@@ -78,30 +79,6 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
 addEmployer::~addEmployer()
 {
     delete ui;
-}
-
-void addEmployer::createEmployer()
-{
-    QSqlRelationalTableModel model(this, db);
-    model.setTable("employer");
-    model.select();
-
-    if (id == 0) {
-        QSqlRecord record = model.record();
-        populateData(record);
-        model.insertRecord(-1, record);
-
-        qDebug() << model.lastError();
-    }
-    else {
-        model.setFilter("id = "+ QString::number(id));
-        model.select();
-        QSqlRecord record = model.record(0);
-        populateData(record);
-        model.setRecord(0, record);
-    }
-
-    emit ready();
 }
 
 void addEmployer::init() {

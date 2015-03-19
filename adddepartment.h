@@ -2,6 +2,7 @@
 #define ADDDEPARTMENT_H
 
 #include "addDialog.h"
+#include <QMap>
 
 namespace Ui {
 class addDepartment;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::addDepartment *ui;
+    QMap<int, int> comboIndexEmployerId;
+    QMap<int, int> comboIndexScheduleId;
+
     virtual void init();
     virtual void claer();
     virtual void populateData(QSqlRecord &);

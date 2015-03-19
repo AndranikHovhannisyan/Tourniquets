@@ -11,36 +11,16 @@ addAddress::addAddress(QSqlDatabase db, QWidget *parent) :
     ui(new Ui::addAddress)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Ավելացնել հասցե");
+    tableName = "address";
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createAddress()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
 }
 
 addAddress::~addAddress()
 {
     delete ui;
 }
-
-void addAddress::createAddress()
-{
-    QSqlTableModel model(this, db);
-    model.setTable("address");
-
-    if (id == 0) {
-        QSqlRecord record = model.record();
-        populateData(record);
-        model.insertRecord(-1, record);
-    }
-    else {
-        model.setFilter("id = "+ QString::number(id));
-        model.select();
-        QSqlRecord record = model.record(0);
-        populateData(record);
-        model.setRecord(0, record);
-    }
-
-    emit ready();
-}
-
 
 void addAddress::init()
 {
