@@ -15,6 +15,9 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
     ui->gender->insertItem(0, "Ա");
     ui->gender->insertItem(1, "Ի");
 
+    ui->familyStatus->insertItem(0, "Այրի");
+    ui->familyStatus->insertItem(1, "Ամուրի");
+
 
     //================================ Insert addresses ================================
     QSqlTableModel *addressModel = new QSqlTableModel(this, db);
@@ -75,9 +78,34 @@ addEmployer::~addEmployer()
     delete ui;
 }
 
-void addEmployer::createEmployer() {
+void addEmployer::createEmployer()
+{
+//    QSqlRelationalTableModel model(this, db);
+//    model.setTable("employer");
+//    model.select();
 
+//    if (id == 0) {
+//        QSqlRecord record = model.record();
 
+//        record.setValue(1, QVariant(ui->employerId->text()));
+//        record.setValue(1, QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
+//        record.setValue(2, QVariant(ui->idType->currentIndex()));
+
+//        model.insertRecord(-1, record);
+
+//        qDebug() << model.lastError();
+//    }
+//    else {
+//        model.setFilter("emp_number = "+ QString::number(id));
+//        model.select();
+//        QSqlRecord record = model.record(0);
+//        record.setValue(0, QVariant(ui->employerId->text()));
+//        record.setValue(1, QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
+//        record.setValue(2, QVariant(ui->idType->currentIndex()));
+//        model.setRecord(0, record);
+//    }
+
+//    emit ready();
 }
 
 void addEmployer::init() {

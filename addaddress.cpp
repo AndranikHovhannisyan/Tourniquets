@@ -27,20 +27,20 @@ void addAddress::createAddress()
 
     if (id == 0) {
         QSqlRecord record = model.record();
-        record.setValue(1, QVariant(ui->country->text()));
-        record.setValue(2, QVariant(ui->city->text()));
-        record.setValue(3, QVariant(ui->street->text()));
-        record.setValue(4, QVariant(ui->hNumber->text()));
+        record.setValue(record.indexOf("country"), QVariant(ui->country->text()));
+        record.setValue(record.indexOf("city"), QVariant(ui->city->text()));
+        record.setValue(record.indexOf("street"), QVariant(ui->street->text()));
+        record.setValue(record.indexOf("h_number"), QVariant(ui->hNumber->text()));
         model.insertRecord(-1, record);
     }
     else {
         model.setFilter("id = "+ QString::number(id));
         model.select();
         QSqlRecord record = model.record(0);
-        record.setValue(1, QVariant(ui->country->text()));
-        record.setValue(2, QVariant(ui->city->text()));
-        record.setValue(3, QVariant(ui->street->text()));
-        record.setValue(4, QVariant(ui->hNumber->text()));
+        record.setValue(record.indexOf("country"), QVariant(ui->country->text()));
+        record.setValue(record.indexOf("city"), QVariant(ui->city->text()));
+        record.setValue(record.indexOf("street"), QVariant(ui->street->text()));
+        record.setValue(record.indexOf("h_number"), QVariant(ui->hNumber->text()));
         model.setRecord(0, record);
     }
 
