@@ -17,7 +17,7 @@ addTourniquet::~addTourniquet()
     delete ui;
 }
 
-void addTourniquet::init() {
+void addTourniquet::init(QSqlRecord &) {
     qDebug() << "id =" << id;
 }
 

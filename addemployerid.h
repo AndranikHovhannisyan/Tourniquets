@@ -20,7 +20,7 @@ private:
     Ui::addEmployerId *ui;
     QMap<int, int> comboIndexEmployerId;
 
-    virtual void init();
+    virtual void init(QSqlRecord &);
     virtual void claer();
     virtual void populateData(QSqlRecord &);
 };

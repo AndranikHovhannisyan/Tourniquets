@@ -17,7 +17,7 @@ public:
 
 private:
     Ui::addPosition *ui;
-    virtual void init();
+    virtual void init(QSqlRecord &);
     virtual void claer();
     virtual void populateData(QSqlRecord &);
 };

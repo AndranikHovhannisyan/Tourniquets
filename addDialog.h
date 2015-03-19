@@ -18,9 +18,10 @@ protected:
     QString tableName;
     QString IdField;
 
-    virtual void init() = 0;
+    virtual void init(QSqlRecord &) = 0;
     virtual void claer() = 0;
     virtual void populateData(QSqlRecord &) = 0;
+    virtual void initialize();
 
 public slots:
     void editShow(int id);

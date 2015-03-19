@@ -22,28 +22,12 @@ addAddress::~addAddress()
     delete ui;
 }
 
-void addAddress::init()
+void addAddress::init(QSqlRecord &record)
 {
-    if (id != 0) {
-
-        QSqlTableModel model(this, db);
-        model.setTable("address");
-        model.setFilter("id = "+ QString::number(id));
-        model.select();
-
-        if (model.rowCount() == 1) {
-            ui->country->setText(model.record(0).value("country").toString());
-            ui->city->setText(model.record(0).value("city").toString());
-            ui->street->setText( model.record(0).value("street").toString());
-            ui->hNumber->setText(model.record(0).value("h_number").toString());
-        }
-        else {
-            this->claer();
-        }
-    }
-    else {
-        this->claer();
-    }
+    ui->country->setText(record.value("country").toString());
+    ui->city->setText(record.value("city").toString());
+    ui->street->setText(record.value("street").toString());
+    ui->hNumber->setText(record.value("h_number").toString());
 }
 
 

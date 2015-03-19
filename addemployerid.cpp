@@ -30,33 +30,20 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
 }
 
+
 addEmployerId::~addEmployerId()
 {
     delete ui;
 }
 
-void addEmployerId::init()
+
+void addEmployerId::init(QSqlRecord &record)
 {
-    if (id != 0) {
-
-        QSqlTableModel model(this, db);
-        model.setTable("employer_ids");
-        model.setFilter("emp_number = "+ QString::number(id));
-        model.select();
-
-        if (model.rowCount() == 1) {
-            ui->employer->setCurrentIndex(comboIndexEmployerId.key(model.record(0).value("employeer_id").toInt()));
-            ui->employerId->setText(model.record(0).value("emp_number").toString());
-            ui->idType->setCurrentIndex(model.record(0).value("id_type").toInt());
-        }
-        else {
-            this->claer();
-        }
-    }
-    else {
-        this->claer();
-    }
+    ui->employer->setCurrentIndex(comboIndexEmployerId.key(record.value("employeer_id").toInt()));
+    ui->employerId->setText(record.value("emp_number").toString());
+    ui->idType->setCurrentIndex(record.value("id_type").toInt());
 }
+
 
 void addEmployerId::claer() {
     ui->employerId->setText("");

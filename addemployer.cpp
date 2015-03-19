@@ -81,43 +81,26 @@ addEmployer::~addEmployer()
     delete ui;
 }
 
-void addEmployer::init() {
-
-    if (id != 0) {
-
-        QSqlTableModel model(this, db);
-        model.setTable("employer");
-        model.setFilter("id = "+ QString::number(id));
-        model.select();
-
-        if (model.rowCount() == 1) {
-
-            ui->firstname->setText(model.record(0).value("firstname").toString());
-            ui->lastname->setText(model.record(0).value("lastname").toString());
-            ui->middlename->setText(model.record(0).value("middlename").toString());
-            ui->birthdate->setDate(model.record(0).value("birth_date").toDate());
-            ui->passSeria->setText(model.record(0).value("passport_series").toString());
-            ui->passNumber->setText(model.record(0).value("passport_number").toString());
-            ui->givenDate->setDate(model.record(0).value("given_date").toDate());
-            ui->givenFrom->setText(model.record(0).value("given_from").toString());
-            ui->gender->setCurrentIndex(model.record(0).value("gender").toInt());
-            ui->isConscript->setChecked(model.record(0).value("is_conscript").toBool());
-            ui->familyStatus->setCurrentIndex(model.record(0).value("family_status").toInt());
-            ui->childrenNumber->setText(model.record(0).value("children_num").toString());
-            ui->minorNumber->setText(model.record(0).value("minor_children_num").toString());
-            ui->registerAddress->setCurrentIndex(comboIndexAddressId.key(model.record(0).value("register_address_id").toInt()));
-            ui->livingAddress->setCurrentIndex(comboIndexAddressId.key(model.record(0).value("living_address_id").toInt()));
-            ui->department->setCurrentIndex(comboIndexDepartmentId.key(model.record(0).value("department_id").toInt()));
-            ui->position->setCurrentIndex(comboIndexPositionId.key(model.record(0).value("position_id").toInt()));
-            ui->schedule->setCurrentIndex(comboIndexScheduleId.key(model.record(0).value("schedule_id").toInt()));
-        }
-        else {
-            this->claer();
-        }
-    }
-    else {
-        this->claer();
-    }
+void addEmployer::init(QSqlRecord &record)
+{
+    ui->firstname->setText(record.value("firstname").toString());
+    ui->lastname->setText(record.value("lastname").toString());
+    ui->middlename->setText(record.value("middlename").toString());
+    ui->birthdate->setDate(record.value("birth_date").toDate());
+    ui->passSeria->setText(record.value("passport_series").toString());
+    ui->passNumber->setText(record.value("passport_number").toString());
+    ui->givenDate->setDate(record.value("given_date").toDate());
+    ui->givenFrom->setText(record.value("given_from").toString());
+    ui->gender->setCurrentIndex(record.value("gender").toInt());
+    ui->isConscript->setChecked(record.value("is_conscript").toBool());
+    ui->familyStatus->setCurrentIndex(record.value("family_status").toInt());
+    ui->childrenNumber->setText(record.value("children_num").toString());
+    ui->minorNumber->setText(record.value("minor_children_num").toString());
+    ui->registerAddress->setCurrentIndex(comboIndexAddressId.key(record.value("register_address_id").toInt()));
+    ui->livingAddress->setCurrentIndex(comboIndexAddressId.key(record.value("living_address_id").toInt()));
+    ui->department->setCurrentIndex(comboIndexDepartmentId.key(record.value("department_id").toInt()));
+    ui->position->setCurrentIndex(comboIndexPositionId.key(record.value("position_id").toInt()));
+    ui->schedule->setCurrentIndex(comboIndexScheduleId.key(record.value("schedule_id").toInt()));
 }
 
 void addEmployer::claer() {

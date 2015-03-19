@@ -16,10 +16,9 @@ addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
     employerModel->select();
 
     for (int i = 0; i < employerModel->rowCount(); i++) {
-        comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
+        comboIndexManagerId[i] = employerModel->record(i).value("id").toInt();
         ui->managers->addItem(employerModel->record(i).value("firstname").toString());
     }
-
 
     QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);
     scheduleModel->setTable("schedule");
@@ -38,14 +37,28 @@ addDepartment::~addDepartment()
     delete ui;
 }
 
-void addDepartment::init() {
-    qDebug() << "id =" << id;
+void addDepartment::init(QSqlRecord &record)
+{
+    ui->dep_name->setText(record.value("name").toString());
+    ui->managers->setCurrentIndex(comboIndexManagerId.key(record.value("manager_id").toInt()));
+    ui->schedule->setCurrentIndex(comboIndexScheduleId.key(record.value("schedule_id").toInt()));
 }
 
 void addDepartment::claer() {
-
+    ui->dep_name->setText("");
+    ui->managers->setCurrentIndex(0);
+    ui->schedule->setCurrentIndex(0);
 }
 
-void addDepartment::populateData(QSqlRecord &rec) {
+void addDepartment::populateData(QSqlRecord &record)
+{
+    record.setValue(record.indexOf("name"), QVariant(ui->dep_name->text()));
 
+    if (comboIndexManagerId[ui->managers->currentIndex()] != 0) {
+        record.setValue(record.indexOf("manager_id"), QVariant(comboIndexManagerId[ui->managers->currentIndex()]));
+    }
+
+    if (comboIndexScheduleId[ui->schedule->currentIndex()] != 0) {
+        record.setValue(record.indexOf("schedule_id"), QVariant(comboIndexScheduleId[ui->schedule->currentIndex()]));
+    }
 }

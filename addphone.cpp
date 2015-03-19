@@ -14,7 +14,7 @@ addPhone::~addPhone()
     delete ui;
 }
 
-void addPhone::init() {
+void addPhone::init(QSqlRecord &) {
     qDebug() << "id =" << id;
 }
 

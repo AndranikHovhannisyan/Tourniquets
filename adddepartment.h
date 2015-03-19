@@ -18,12 +18,12 @@ public:
 
 private:
     Ui::addDepartment *ui;
-    QMap<int, int> comboIndexEmployerId;
+    QMap<int, int> comboIndexManagerId;
     QMap<int, int> comboIndexScheduleId;
 
-    virtual void init();
+    virtual void init(QSqlRecord &record);
     virtual void claer();
-    virtual void populateData(QSqlRecord &);
+    virtual void populateData(QSqlRecord &record);
 };
 
 #endif // ADDDEPARTMENT_H

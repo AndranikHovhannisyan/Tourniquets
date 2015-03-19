@@ -17,7 +17,7 @@ public:
 
 private:
     Ui::addAddress *ui;
-    virtual void init();
+    virtual void init(QSqlRecord &record);
     virtual void claer();
     virtual void populateData(QSqlRecord &);
 };

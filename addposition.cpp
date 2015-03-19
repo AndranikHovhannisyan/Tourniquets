@@ -21,7 +21,7 @@ addPosition::~addPosition()
     delete ui;
 }
 
-void addPosition::init() {
+void addPosition::init(QSqlRecord &) {
     qDebug() << "id =" << id;
 }
 

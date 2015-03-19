@@ -23,7 +23,7 @@ addSchedule::~addSchedule()
     delete ui;
 }
 
-void addSchedule::init() {
+void addSchedule::init(QSqlRecord &) {
     qDebug() << "id =" << id;
 }
 

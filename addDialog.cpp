@@ -18,7 +18,7 @@ addDialog::~addDialog() {
 
 void addDialog::editShow(int id) {
     this->id = id;
-    this->init();
+    this->initialize();
     this->show();
 }
 
@@ -44,4 +44,26 @@ void addDialog::create()
     }
 
     emit ready();
+}
+
+void addDialog::initialize()
+{
+    if (id != 0) {
+
+        QSqlTableModel model(this, db);
+        model.setTable(tableName);
+        model.setFilter(IdField + " = "+ QString::number(id));
+        model.select();
+
+        if (model.rowCount() == 1) {
+            QSqlRecord record = model.record(0);
+            init(record);
+        }
+        else {
+            this->claer();
+        }
+    }
+    else {
+        this->claer();
+    }
 }
