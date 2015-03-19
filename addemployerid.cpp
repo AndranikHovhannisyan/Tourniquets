@@ -88,6 +88,9 @@ void addEmployerId::claer() {
 
 void addEmployerId::populateData(QSqlRecord &record) {
     record.setValue(record.indexOf("emp_number"), QVariant(ui->employerId->text()));
-    record.setValue(record.indexOf("employeer_id"), QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
     record.setValue(record.indexOf("id_type"), QVariant(ui->idType->currentIndex()));
+
+    if (comboIndexEmployerId[ui->employer->currentIndex()] != 0) {
+        record.setValue(record.indexOf("employeer_id"), QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
+    }
 }

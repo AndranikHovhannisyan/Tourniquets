@@ -1,7 +1,9 @@
 #include "addemployer.h"
 #include "ui_addemployer.h"
 #include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QSqlRecord>
+#include <QSqlError>
 #include <QDebug>
 
 
@@ -86,43 +88,16 @@ void addEmployer::createEmployer()
 
     if (id == 0) {
         QSqlRecord record = model.record();
-
-
-        record.setValue(record.indexOf("firstname"), QVariant(ui->firstname->text()));
-        record.setValue(record.indexOf("lastname"), QVariant(ui->lastname->text()));
-        record.setValue(record.indexOf("middlename"), QVariant(ui->middlename->text()));
-        record.setValue(record.indexOf("birth_date"), QVariant(ui->birthdate->date()));
-        record.setValue(record.indexOf("passport_series"), QVariant(ui->passSeria->text()));
-        record.setValue(record.indexOf("passport_number"), QVariant(ui->passNumber->text()));
-        record.setValue(record.indexOf("given_date"), QVariant(ui->givenDate->date()));
-        record.setValue(record.indexOf("given_from"), QVariant(ui->givenFrom->text()));
-        record.setValue(record.indexOf("gender"), QVariant(ui->gender->currentIndex()));
-        record.setValue(record.indexOf("is_conscript"), QVariant(ui->isConscript->isChecked()));
-        record.setValue(record.indexOf("family_status"), QVariant(ui->familyStatus->currentIndex()));
-        record.setValue(record.indexOf("children_num"), QVariant(ui->childrenNumber->text()));
-        record.setValue(record.indexOf("minor_children_num"), QVariant(ui->minorNumber->text()));
-
-        record.setValue(record.indexOf("firstname"), QVariant(ui->firstname->text()));
-        record.setValue(record.indexOf("firstname"), QVariant(ui->firstname->text()));
-
-
-
-
-
-        record.setValue(1, QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
-        record.setValue(2, QVariant(ui->idType->currentIndex()));
-
+        populateData(record);
         model.insertRecord(-1, record);
 
         qDebug() << model.lastError();
     }
     else {
-        model.setFilter("emp_number = "+ QString::number(id));
+        model.setFilter("id = "+ QString::number(id));
         model.select();
         QSqlRecord record = model.record(0);
-        record.setValue(0, QVariant(ui->employerId->text()));
-        record.setValue(1, QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
-        record.setValue(2, QVariant(ui->idType->currentIndex()));
+        populateData(record);
         model.setRecord(0, record);
     }
 
@@ -137,6 +112,45 @@ void addEmployer::claer() {
 
 }
 
-void addEmployer::populateData(QSqlRecord &rec) {
+void addEmployer::populateData(QSqlRecord &record)
+{
+    record.setValue(record.indexOf("firstname"), QVariant(ui->firstname->text()));
+    record.setValue(record.indexOf("lastname"), QVariant(ui->lastname->text()));
+    record.setValue(record.indexOf("middlename"), QVariant(ui->middlename->text()));
+    record.setValue(record.indexOf("birth_date"), QVariant(ui->birthdate->date()));
+    record.setValue(record.indexOf("passport_series"), QVariant(ui->passSeria->text()));
+    record.setValue(record.indexOf("passport_number"), QVariant(ui->passNumber->text()));
+    record.setValue(record.indexOf("given_date"), QVariant(ui->givenDate->date()));
+    record.setValue(record.indexOf("given_from"), QVariant(ui->givenFrom->text()));
+    record.setValue(record.indexOf("gender"), QVariant(ui->gender->currentIndex()));
+    record.setValue(record.indexOf("is_conscript"), QVariant(ui->isConscript->isChecked()));
+    record.setValue(record.indexOf("family_status"), QVariant(ui->familyStatus->currentIndex()));
+    record.setValue(record.indexOf("children_num"), QVariant(ui->childrenNumber->text()));
+    record.setValue(record.indexOf("minor_children_num"), QVariant(ui->minorNumber->text()));
 
+    qDebug() << comboIndexAddressId[ui->registerAddress->currentIndex()];
+    qDebug() << comboIndexAddressId[ui->livingAddress->currentIndex()];
+    qDebug() << comboIndexDepartmentId[ui->department->currentIndex()];
+    qDebug() << comboIndexPositionId[ui->position->currentIndex()];
+    qDebug() << comboIndexScheduleId[ui->schedule->currentIndex()];
+
+    if (comboIndexAddressId[ui->registerAddress->currentIndex()] != 0) {
+        record.setValue(record.indexOf("register_address_id"), QVariant(comboIndexAddressId[ui->registerAddress->currentIndex()]));
+    }
+
+    if (comboIndexAddressId[ui->livingAddress->currentIndex()] != 0) {
+        record.setValue(record.indexOf("living_address_id"), QVariant(comboIndexAddressId[ui->livingAddress->currentIndex()]));
+    }
+
+    if (comboIndexDepartmentId[ui->department->currentIndex()] != 0) {
+    record.setValue(record.indexOf("department_id"), QVariant(comboIndexDepartmentId[ui->department->currentIndex()]));
+    }
+
+    if (comboIndexPositionId[ui->position->currentIndex()] != 0) {
+        record.setValue(record.indexOf("position_id"), QVariant(comboIndexPositionId[ui->position->currentIndex()]));
+    }
+
+    if (comboIndexScheduleId[ui->schedule->currentIndex()] != 0) {
+        record.setValue(record.indexOf("schedule_id"), QVariant(comboIndexScheduleId[ui->schedule->currentIndex()]));
+    }
 }
