@@ -20,7 +20,7 @@ public:
 private:
     Ui::addEmployerId *ui;
     QSqlTableModel *employerModel;
-    QMap<QString, int> types;
+    QMap<int, int> comboIndexId;
 
     virtual void init();
     virtual void claer();
