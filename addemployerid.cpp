@@ -13,13 +13,10 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակցի իդենտիֆիկատոր");
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createEmployerId()));
-
     ui->idType->insertItem(0, "Քարտ");
     ui->idType->insertItem(1, "Մատնահետք");
 
-
-    employerModel = new QSqlTableModel(this, db);
+    QSqlTableModel *employerModel = new QSqlTableModel(this, db);
     employerModel->setTable("employer");
     employerModel->select();
 
@@ -27,6 +24,8 @@ addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
         comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
         ui->employer->addItem(employerModel->record(i).value("firstname").toString());
     }
+
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(createEmployerId()));
 }
 
 addEmployerId::~addEmployerId()

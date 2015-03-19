@@ -2,6 +2,7 @@
 #define ADDEMPLOYER_H
 
 #include "addDialog.h"
+#include <QMap>
 
 namespace Ui {
 class addEmployer;
@@ -17,8 +18,17 @@ public:
 
 private:
     Ui::addEmployer *ui;
+    QMap<int, int> comboIndexAddressId;
+    QMap<int, int> comboIndexDepartmentId;
+    QMap<int, int> comboIndexPositionId;
+    QMap<int, int> comboIndexScheduleId;
+
+
     virtual void init();
     virtual void claer();
+
+private slots:
+    void createEmployer();
 };
 
 #endif // ADDEMPLOYER_H

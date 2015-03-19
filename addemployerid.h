@@ -2,7 +2,6 @@
 #define ADDEMPLOYERID_H
 
 #include "addDialog.h"
-#include <QSqlTableModel>
 #include <QMap>
 
 namespace Ui {
@@ -19,7 +18,6 @@ public:
 
 private:
     Ui::addEmployerId *ui;
-    QSqlTableModel *employerModel;
     QMap<int, int> comboIndexEmployerId;
 
     virtual void init();
