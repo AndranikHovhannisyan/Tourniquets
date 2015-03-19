@@ -282,10 +282,10 @@ DROP TABLE IF EXISTS `schedule_type`;
 CREATE TABLE `schedule_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `allow_lag` int(11) DEFAULT NULL,
-  `ignore time` time DEFAULT NULL,
+  `allow_lag` time DEFAULT NULL,
+  `ignore_time` time DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,7 +294,7 @@ CREATE TABLE `schedule_type` (
 
 LOCK TABLES `schedule_type` WRITE;
 /*!40000 ALTER TABLE `schedule_type` DISABLE KEYS */;
-INSERT INTO `schedule_type` VALUES (1,'Standart',15,'00:00:15');
+INSERT INTO `schedule_type` VALUES (1,'Standart','00:00:15','00:00:15'),(2,'gggg111','05:18:15','07:37:00'),(3,'fffff','00:00:00','05:00:00'),(4,'11144','02:15:15','05:35:00');
 /*!40000 ALTER TABLE `schedule_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,11 +308,11 @@ DROP TABLE IF EXISTS `tourniquet`;
 CREATE TABLE `tourniquet` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(10) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL,
+  `type` smallint(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `in_number_UNIQUE` (`number`),
   UNIQUE KEY `out_number_UNIQUE` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,6 +321,7 @@ CREATE TABLE `tourniquet` (
 
 LOCK TABLES `tourniquet` WRITE;
 /*!40000 ALTER TABLE `tourniquet` DISABLE KEYS */;
+INSERT INTO `tourniquet` VALUES (1,'1144558888',1),(2,'111111222',0);
 /*!40000 ALTER TABLE `tourniquet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-19  7:28:12
+-- Dump completed on 2015-03-19  7:46:57
