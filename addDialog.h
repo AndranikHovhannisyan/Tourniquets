@@ -12,6 +12,9 @@ class addDialog : public QDialog
 public:
     explicit addDialog(QSqlDatabase db, QWidget *parent = 0);
     ~addDialog();
+
+    virtual void subConnections();
+
 protected:
     QSqlDatabase db;
     int id;
@@ -30,7 +33,7 @@ private slots:
     void create();
 
 signals:
-    void ready();
+    void ready(int);
 };
 
 #endif // ADDDIALOG_H

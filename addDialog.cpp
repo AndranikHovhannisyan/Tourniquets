@@ -24,12 +24,13 @@ void addDialog::editShow(int id) {
 
 void addDialog::create()
 {
+    QSqlRecord record;
     QSqlRelationalTableModel model(this, db);
     model.setTable(tableName);
     model.select();
 
     if (id == 0) {
-        QSqlRecord record = model.record();
+        record = model.record();
         populateData(record);
         model.insertRecord(-1, record);
 
@@ -38,12 +39,12 @@ void addDialog::create()
     else {
         model.setFilter(IdField + " = "+ QString::number(id));
         model.select();
-        QSqlRecord record = model.record(0);
+        record = model.record(0);
         populateData(record);
         model.setRecord(0, record);
     }
 
-    emit ready();
+    emit ready(record.value(this->IdField).toInt());
 }
 
 void addDialog::initialize()
@@ -66,4 +67,8 @@ void addDialog::initialize()
     else {
         this->claer();
     }
+}
+
+void addDialog::subConnections() {
+
 }

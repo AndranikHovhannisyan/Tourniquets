@@ -10,11 +10,19 @@
 #include <QSqlRecord>
 #include <QDebug>
 
+/**
+ * @brief MainWindow::MainWindow
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    addButton = new QPushButton;
+    tableView = new QTableView;
+    mainLayout = new QGridLayout;
 
     //Connect menu actions
     connect(ui->department,     SIGNAL(triggered()), this, SLOT(infoWindow()));
@@ -27,9 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->address,        SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
 
-    connect(ui->addButton, SIGNAL(clicked()), this, SLOT(addItem()));
-    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
-
+    connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
+    connect(tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
 
 
     //Create a database connection
@@ -50,26 +57,51 @@ MainWindow::MainWindow(QWidget *parent) :
     addItemDialog["employer"]       = new addEmployer(db, this);
     addItemDialog["address"]        = new addAddress(db, this);
     addItemDialog["phone_number"]   = new addPhone(db, this);
+
+    addItemDialog["department"]->subConnections();
+    addItemDialog["position"]->subConnections();
+    addItemDialog["schedule"]->subConnections();
+    addItemDialog["schedule_type"]->subConnections();
+    addItemDialog["tourniquet"]->subConnections();
+    addItemDialog["employer_ids"]->subConnections();
+    addItemDialog["employer"]->subConnections();
+    addItemDialog["address"]->subConnections();
+    addItemDialog["phone_number"]->subConnections();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+
+//    delete addButton;
+//    delete tableView;
+//    delete mainLayout;
 }
 
+/**
+ * @brief MainWindow::infoWindow
+ */
 void MainWindow::infoWindow()
 {
     //Get an action from which the signal come here
     QAction* action = dynamic_cast<QAction*>(sender());
     if (action != NULL) {
+
+        mainLayout->addWidget(addButton, 0, 0, 1, 2);
+        mainLayout->addWidget(tableView, 1, 0, 15, 15);
+        this->centralWidget()->setLayout(mainLayout);
+
         //Change also button name
-        ui->addButton->setText("Add " + action->objectName());
+        addButton->setText("Add " + action->objectName());
         this->table = action->objectName();
         this->refresh();
     }
 }
 
-void MainWindow::refresh()
+/**
+ * @brief MainWindow::refresh
+ */
+void MainWindow::refresh(int)
 {
     model = new QSqlRelationalTableModel(this, db);
     model->setTable(this->table);
@@ -79,18 +111,34 @@ void MainWindow::refresh()
     }
 
     model->select();
-    ui->tableView->setModel(model);
+    tableView->setModel(model);
 }
 
+/**
+ * @brief MainWindow::addItem
+ */
 void MainWindow::addItem()
 {
     addItemDialog[this->table]->editShow(0);
-    connect(addItemDialog[this->table], SIGNAL(ready()), this, SLOT(refresh()));
+    connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
 }
 
+/**
+ * @brief MainWindow::edit
+ * @param a
+ */
 void MainWindow::edit(QModelIndex a) {
     int id = model->data(model->index(a.row(), 0)).toInt();
     addItemDialog[this->table]->editShow(id);
 
-    connect(addItemDialog[this->table], SIGNAL(ready()), this, SLOT(refresh()));
+    connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
+}
+
+/**
+ * @brief MainWindow::subTables
+ */
+void MainWindow::subTables() {
+//    if (this->table == "employer") {
+        QTableView *t = new QTableView;
+//    }
 }

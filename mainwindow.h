@@ -18,6 +18,9 @@
 #include "addphone.h"
 
 #include <QModelIndex>
+#include <QTableView>
+#include <QGridLayout>
+#include <QPushButton>
 
 namespace Ui {
 class MainWindow;
@@ -31,7 +34,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
+public:
+    QPushButton *addButton;
+    QTableView  *tableView;
+    QGridLayout *mainLayout;
+
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QMap<QString, addDialog*> addItemDialog;
@@ -41,7 +48,8 @@ private:
 public slots:
     void infoWindow();
     void addItem();
-    void refresh();
+    void refresh(int = 0);
+    void subTables();
 
     void edit(QModelIndex a);
 };

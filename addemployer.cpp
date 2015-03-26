@@ -1,5 +1,6 @@
 #include "addemployer.h"
 #include "ui_addemployer.h"
+#include "mainwindow.h"
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
 #include <QSqlRecord>
@@ -21,59 +22,13 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
     ui->familyStatus->insertItem(0, "Այրի");
     ui->familyStatus->insertItem(1, "Ամուրի");
 
-
-    //================================ Insert addresses ================================
-    QSqlTableModel *addressModel = new QSqlTableModel(this, db);
-    addressModel->setTable("address");
-    addressModel->select();
-
-    for (int i = 0; i < addressModel->rowCount(); i++) {
-        comboIndexAddressId[i] = addressModel->record(i).value("id").toInt();
-
-        ui->livingAddress->addItem(addressModel->record(i).value("street").toString() +
-                              " " + addressModel->record(i).value("h_number").toString());
-
-        ui->registerAddress->addItem(addressModel->record(i).value("street").toString() +
-                              " " + addressModel->record(i).value("h_number").toString());
-    }
-    //============================== End address insertion ==============================
-
-    //================================ Insert department ================================
-    QSqlTableModel *departmentModel = new QSqlTableModel(this, db);
-    departmentModel->setTable("department");
-    departmentModel->select();
-
-    for (int i = 0; i < departmentModel->rowCount(); i++) {
-        comboIndexDepartmentId[i] = departmentModel->record(i).value("id").toInt();
-        ui->department->addItem(departmentModel->record(i).value("name").toString());
-    }
-    //============================== End department insertion ===========================
-
-    //================================== Insert position ================================
-    QSqlTableModel *positionModel = new QSqlTableModel(this, db);
-    positionModel->setTable("position");
-    positionModel->select();
-
-    for (int i = 0; i < positionModel->rowCount(); i++) {
-        comboIndexPositionId[i] = positionModel->record(i).value("id").toInt();
-        ui->position->addItem(positionModel->record(i).value("name").toString());
-    }
-    //================================ End position insertion ===========================
-
-    //================================== Insert schedule ================================
-    QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);
-    scheduleModel->setTable("schedule");
-    scheduleModel->select();
-
-    for (int i = 0; i < scheduleModel->rowCount(); i++) {
-        comboIndexScheduleId[i] = scheduleModel->record(i).value("id").toInt();
-        ui->schedule->addItem(scheduleModel->record(i).value("standart_in_time").toString());
-    }
-    //================================ End schedule insertion ===========================
+    populateLivingAddresses();
+    populateRegisterAddresses();
+    populateDepartments();
+    populatePositions();
+    populateSchedules();
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
-
-
 }
 
 addEmployer::~addEmployer()
@@ -81,6 +36,20 @@ addEmployer::~addEmployer()
     delete ui;
 }
 
+void addEmployer::subConnections()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow*>(this->parent());
+    connect(mainWindow->addItemDialog["address"], SIGNAL(ready(int)), this, SLOT(populateLivingAddresses(int)));
+    connect(mainWindow->addItemDialog["address"], SIGNAL(ready(int)), this, SLOT(populateRegisterAddresses(int)));
+    connect(mainWindow->addItemDialog["department"], SIGNAL(ready(int)), this, SLOT(populateDepartments(int)));
+    connect(mainWindow->addItemDialog["position"], SIGNAL(ready(int)), this, SLOT(populatePositions(int)));
+    connect(mainWindow->addItemDialog["schedule"], SIGNAL(ready(int)), this, SLOT(populateSchedules(int)));
+}
+
+/**
+ * @brief addEmployer::init
+ * @param record
+ */
 void addEmployer::init(QSqlRecord &record)
 {
     ui->firstname->setText(record.value("firstname").toString());
@@ -103,6 +72,9 @@ void addEmployer::init(QSqlRecord &record)
     ui->schedule->setCurrentIndex(comboIndexScheduleId.key(record.value("schedule_id").toInt()));
 }
 
+/**
+ * @brief addEmployer::claer
+ */
 void addEmployer::claer() {
     ui->firstname->setText("");
     ui->lastname->setText("");
@@ -124,6 +96,10 @@ void addEmployer::claer() {
     ui->schedule->setCurrentIndex(0);
 }
 
+/**
+ * @brief addEmployer::populateData
+ * @param record
+ */
 void addEmployer::populateData(QSqlRecord &record)
 {
     record.setValue(record.indexOf("firstname"), QVariant(ui->firstname->text()));
@@ -158,5 +134,135 @@ void addEmployer::populateData(QSqlRecord &record)
 
     if (comboIndexScheduleId[ui->schedule->currentIndex()] != 0) {
         record.setValue(record.indexOf("schedule_id"), QVariant(comboIndexScheduleId[ui->schedule->currentIndex()]));
+    }
+}
+
+//===================================================================
+//==================== Populating combo boxes =======================
+//===================================================================
+
+/**
+ * @brief addEmployer::populateLivingAddresses
+ * @param livingAddressId
+ */
+void addEmployer::populateLivingAddresses(int livingAddressId)
+{
+    QSqlTableModel *addressModel = new QSqlTableModel(this, db);
+    addressModel->setTable("address");
+    if (livingAddressId != 0) {
+        model.setFilter(IdField + " = "+ QString::number(livingAddressId));
+        addressModel->select();
+
+        if (addressModel->rowCount() == 1) {
+            comboIndexAddressId[i] = addressModel->record(0).value("id").toInt();
+
+            ui->livingAddress->addItem(addressModel->record(0).value("street").toString() +
+                                  " " + addressModel->record(0).value("h_number").toString());
+
+            if (ui->livingAddress->currentIndex() == -1) {
+                ui->livingAddress->setCurrentIndex(i);
+            }
+        }
+    }
+    else
+    {
+        addressModel->select();
+
+        for (int i = 0; i < addressModel->rowCount(); i++) {
+            comboIndexAddressId[i] = addressModel->record(i).value("id").toInt();
+
+            ui->livingAddress->addItem(addressModel->record(i).value("street").toString() +
+                                  " " + addressModel->record(i).value("h_number").toString());
+        }
+    }
+}
+
+/**
+ * @brief addEmployer::populateRegisterAddresses
+ * @param registesrAddressId
+ */
+void addEmployer::populateRegisterAddresses(int registesrAddressId)
+{
+    QSqlTableModel *addressModel = new QSqlTableModel(this, db);
+    addressModel->setTable("address");
+    addressModel->select();
+
+    for (int i = 0; i < addressModel->rowCount(); i++) {
+        comboIndexAddressId[i] = addressModel->record(i).value("id").toInt();
+
+        ui->registerAddress->addItem(addressModel->record(i).value("street").toString() +
+                              " " + addressModel->record(i).value("h_number").toString());
+
+        //==============================================================================================
+        if (comboIndexAddressId[i] == registesrAddressId && ui->registerAddress->currentIndex() == -1){
+            ui->registerAddress->setCurrentIndex(i);
+        }
+        //==============================================================================================
+    }
+}
+
+/**
+ * @brief addEmployer::populateDepartments
+ * @param departmentId
+ */
+void addEmployer::populateDepartments(int departmentId)
+{
+    QSqlTableModel *departmentModel = new QSqlTableModel(this, db);
+    departmentModel->setTable("department");
+    departmentModel->select();
+
+    for (int i = 0; i < departmentModel->rowCount(); i++) {
+        comboIndexDepartmentId[i] = departmentModel->record(i).value("id").toInt();
+        ui->department->addItem(departmentModel->record(i).value("name").toString());
+
+        //==============================================================================================
+        if (comboIndexDepartmentId[i] == departmentId && ui->department->currentIndex() == -1) {
+            ui->department->setCurrentIndex(i);
+        }
+        //==============================================================================================
+    }
+}
+
+/**
+ * @brief addEmployer::populatePositions
+ * @param positionId
+ */
+void addEmployer::populatePositions(int positionId)
+{
+    QSqlTableModel *positionModel = new QSqlTableModel(this, db);
+    positionModel->setTable("position");
+    positionModel->select();
+
+    for (int i = 0; i < positionModel->rowCount(); i++) {
+        comboIndexPositionId[i] = positionModel->record(i).value("id").toInt();
+        ui->position->addItem(positionModel->record(i).value("name").toString());
+
+        //==============================================================================================
+        if (comboIndexPositionId[i] == positionId && ui->position->currentIndex() == -1) {
+            ui->position->setCurrentIndex(i);
+        }
+        //==============================================================================================
+    }
+}
+
+/**
+ * @brief addEmployer::populateSchedules
+ * @param scheduleId
+ */
+void addEmployer::populateSchedules(int scheduleId)
+{
+    QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);
+    scheduleModel->setTable("schedule");
+    scheduleModel->select();
+
+    for (int i = 0; i < scheduleModel->rowCount(); i++) {
+        comboIndexScheduleId[i] = scheduleModel->record(i).value("id").toInt();
+        ui->schedule->addItem(scheduleModel->record(i).value("standart_in_time").toString());
+
+        //===================================================================================
+        if (comboIndexScheduleId[i] == scheduleId && ui->schedule->currentIndex() == -1) {
+            ui->schedule->setCurrentIndex(i);
+        }
+        //===================================================================================
     }
 }
