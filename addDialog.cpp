@@ -1,9 +1,14 @@
 #include "addDialog.h"
 #include <QSqlRelationalTableModel>
+#include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
 
-
+/**
+ * @brief addDialog::addDialog
+ * @param db
+ * @param parent
+ */
 addDialog::addDialog(QSqlDatabase db, QWidget *parent) :
     QDialog(parent)
 {
@@ -13,17 +18,28 @@ addDialog::addDialog(QSqlDatabase db, QWidget *parent) :
     this->IdField = "id";
 }
 
+/**
+ * @brief addDialog::~addDialog
+ */
 addDialog::~addDialog() {
 }
 
+/**
+ * @brief addDialog::editShow
+ * @param id
+ */
 void addDialog::editShow(int id) {
     this->id = id;
     this->initialize();
     this->show();
 }
 
+/**
+ * @brief addDialog::create
+ */
 void addDialog::create()
 {
+    int insertedId = id;
     QSqlRecord record;
     QSqlRelationalTableModel model(this, db);
     model.setTable(tableName);
@@ -33,8 +49,7 @@ void addDialog::create()
         record = model.record();
         populateData(record);
         model.insertRecord(-1, record);
-
-        qDebug() << model.lastError();
+        insertedId = model.query().lastInsertId().toInt();
     }
     else {
         model.setFilter(IdField + " = "+ QString::number(id));
@@ -44,9 +59,12 @@ void addDialog::create()
         model.setRecord(0, record);
     }
 
-    emit ready(record.value(this->IdField).toInt());
+    emit ready(insertedId);
 }
 
+/**
+ * @brief addDialog::initialize
+ */
 void addDialog::initialize()
 {
     if (id != 0) {
@@ -69,6 +87,9 @@ void addDialog::initialize()
     }
 }
 
+/**
+ * @brief addDialog::subConnections
+ */
 void addDialog::subConnections() {
 
 }

@@ -12,6 +12,7 @@ addEmployer::addEmployer(QSqlDatabase db, QWidget *parent) :
     addDialog(db, parent),
     ui(new Ui::addEmployer)
 {
+    QComboBox a;
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակից");
     tableName = "employer";
@@ -97,6 +98,8 @@ void addEmployer::claer() {
 }
 
 /**
+ * This function is used to populate data to the record from widgets
+ *
  * @brief addEmployer::populateData
  * @param record
  */
@@ -149,18 +152,27 @@ void addEmployer::populateLivingAddresses(int livingAddressId)
 {
     QSqlTableModel *addressModel = new QSqlTableModel(this, db);
     addressModel->setTable("address");
+
     if (livingAddressId != 0) {
-        model.setFilter(IdField + " = "+ QString::number(livingAddressId));
+        addressModel->setFilter("id = "+ QString::number(livingAddressId));
         addressModel->select();
 
-        if (addressModel->rowCount() == 1) {
-            comboIndexAddressId[i] = addressModel->record(0).value("id").toInt();
+        if (addressModel->rowCount() == 1)
+        {
+            int comboIndex = ui->livingAddress->count();
+            if (int lastComboIndex = comboIndexAddressId.key(addressModel->record(0).value("id").toInt())) {
+                ui->livingAddress->removeItem(lastComboIndex);
+                comboIndex = lastComboIndex;
+            }
 
-            ui->livingAddress->addItem(addressModel->record(0).value("street").toString() +
+
+            comboIndexAddressId[comboIndex] = addressModel->record(0).value("id").toInt();
+
+            ui->livingAddress->insertItem(comboIndex, addressModel->record(0).value("street").toString() +
                                   " " + addressModel->record(0).value("h_number").toString());
 
             if (ui->livingAddress->currentIndex() == -1) {
-                ui->livingAddress->setCurrentIndex(i);
+                ui->livingAddress->setCurrentIndex(comboIndex);
             }
         }
     }
@@ -168,10 +180,12 @@ void addEmployer::populateLivingAddresses(int livingAddressId)
     {
         addressModel->select();
 
-        for (int i = 0; i < addressModel->rowCount(); i++) {
-            comboIndexAddressId[i] = addressModel->record(i).value("id").toInt();
+        for (int i = 0; i < addressModel->rowCount(); i++)
+        {
+            int comboIndex = ui->livingAddress->count();
+            comboIndexAddressId[comboIndex] = addressModel->record(i).value("id").toInt();
 
-            ui->livingAddress->addItem(addressModel->record(i).value("street").toString() +
+            ui->livingAddress->insertItem(comboIndex, addressModel->record(i).value("street").toString() +
                                   " " + addressModel->record(i).value("h_number").toString());
         }
     }
