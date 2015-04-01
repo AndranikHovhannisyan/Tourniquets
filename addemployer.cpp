@@ -153,24 +153,30 @@ void addEmployer::populateLivingAddresses(int livingAddressId)
     QSqlTableModel *addressModel = new QSqlTableModel(this, db);
     addressModel->setTable("address");
 
-    if (livingAddressId != 0) {
+    //If changed only one item, then need only to change or edit it
+    if (livingAddressId != 0)
+    {
+        //Get than item
         addressModel->setFilter("id = "+ QString::number(livingAddressId));
         addressModel->select();
 
         if (addressModel->rowCount() == 1)
         {
+            //If there are such item in comboBox then remove it to add new created
             int comboIndex = ui->livingAddress->count();
             if (int lastComboIndex = comboIndexAddressId.key(addressModel->record(0).value("id").toInt())) {
                 ui->livingAddress->removeItem(lastComboIndex);
                 comboIndex = lastComboIndex;
             }
 
-
+            //Set comboIndex - ItemId pair in the corresponding map
             comboIndexAddressId[comboIndex] = addressModel->record(0).value("id").toInt();
 
+            //Insert item in ComboBox
             ui->livingAddress->insertItem(comboIndex, addressModel->record(0).value("street").toString() +
                                   " " + addressModel->record(0).value("h_number").toString());
 
+            //If current index of comboBox is equal to -1 then change it to new created or edited
             if (ui->livingAddress->currentIndex() == -1) {
                 ui->livingAddress->setCurrentIndex(comboIndex);
             }
@@ -178,8 +184,10 @@ void addEmployer::populateLivingAddresses(int livingAddressId)
     }
     else
     {
+        //Get all addresses
         addressModel->select();
 
+        //Insert items to the addressModel
         for (int i = 0; i < addressModel->rowCount(); i++)
         {
             int comboIndex = ui->livingAddress->count();
