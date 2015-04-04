@@ -83,7 +83,9 @@ void MainWindow::infoWindow()
     QAction* action = dynamic_cast<QAction*>(sender());
     if (action != NULL) {
 
-        Address::select(this);
+        Address* address = Address::create(&db);
+        address->select(this);
+
 //        mainLayout->addWidget(addButton, 0, 0, 1, 2);
 //        mainLayout->addWidget(tableView, 1, 0, 15, 15);
 //        this->centralWidget()->setLayout(mainLayout);

@@ -1,40 +1,70 @@
 #include "address.h"
+#include <QObject>
 
-//Initialize static members
-QSqlRelationalTableModel* Address::model      = NULL;
-QTableView*               Address::tableView  = NULL;
-QPushButton*              Address::addButton  = NULL;
-QGridLayout*              Address::mainLayout = NULL;
-QString                   Address::tableName  = "address";
+Address* Address::address = NULL;
 
+/**
+ * Create singleton object of Address
+ *
+ * @brief Address::create
+ * @param dbConnection
+ * @return
+ */
+Address* Address::create(QSqlDatabase* dbConnection)
+{
+    if (!address) {
+        address = new Address(dbConnection);
+    }
 
+    return address;
+}
+
+/**
+ * @brief Address::Address
+ */
+Address::Address(QSqlDatabase* dbConnection) {
+    model = NULL;
+    db = dbConnection;
+    tableName  = "address";
+}
+
+/**
+ * @brief Address::select
+ * @param mainWindow
+ */
 void Address::select(QMainWindow *mainWindow)
 {
-    tableView   = new QTableView;
+    parent = mainWindow;
+
+    tableView   = new QTableView(mainWindow);
     addButton   = new QPushButton("Ավելացնել Հասցե");
     mainLayout  = new QGridLayout;
 
+    //Arrange widgets
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
     mainWindow->centralWidget()->setLayout(mainLayout);
 
+    tableView->setModel(getModel());
 
-    tableView->setModel(Address::getModel());
+    //Connect mainWindow destroy with removeWidgets to remove dynamic objects
+    QObject::connect(mainWindow, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
+    QObject::connect(mainWindow, SIGNAL(destroyed()), addButton,  SLOT(deleteLater()));
+    QObject::connect(mainWindow, SIGNAL(destroyed()), mainLayout, SLOT(deleteLater()));
 }
 
-
+/**
+ * @brief Address::getModel
+ * @return
+ */
 QSqlRelationalTableModel* Address::getModel()
 {
+    //Check if model isn't created create it
     if (!model) {
-        model = new QSqlRelationalTableModel;
+        model = new QSqlRelationalTableModel(parent, *db);
         model->setTable(tableName);
         model->select();
     }
 
     return model;
-}
-
-
-void Address::removeWidgets() {
-
 }

@@ -7,28 +7,41 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QString>
+#include <QMainWindow>
+#include <QSqlDatabase>
 #include "addaddress.h"
 
 class Address
 {
 private:
-    Address();
-    static QSqlRelationalTableModel *model;
-    static QTableView *tableView;
-    static QPushButton *addButton;
-    static QGridLayout *mainLayout;
-    static QString tableName;
+    Address(QSqlDatabase *dbConnection);
+    Address(const Address &);
+    Address& operator=(const Address&);
+
+    static Address* address;
+
+    addAddress *add_address;
+    QSqlRelationalTableModel *model;
+    QSqlDatabase* db;
+
+    QMainWindow *parent;
+    QTableView  *tableView;
+    QPushButton *addButton;
+    QGridLayout *mainLayout;
+    QString tableName;
 
 public:
 
+    static Address* create(QSqlDatabase *dbConnection);
+
     //This function is used to return coressponding model
-    static QSqlRelationalTableModel* getModel();
+    QSqlRelationalTableModel* getModel();
 
     //This function will draw all neccessary fields on the passed QMainWindow
-    static void select(QMainWindow *mainWindow);
+    void select(QMainWindow *mainWindow);
 
 private slots:
-    static void removeWidgets();
+    void removeWidgets();
 };
 
 #endif // ADDRESS_H
