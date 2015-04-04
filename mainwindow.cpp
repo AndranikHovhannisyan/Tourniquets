@@ -58,15 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
     addItemDialog["address"]        = new addAddress(db, this);
     addItemDialog["phone_number"]   = new addPhone(db, this);
 
-    addItemDialog["department"]->subConnections();
-    addItemDialog["position"]->subConnections();
-    addItemDialog["schedule"]->subConnections();
-    addItemDialog["schedule_type"]->subConnections();
-    addItemDialog["tourniquet"]->subConnections();
-    addItemDialog["employer_ids"]->subConnections();
-    addItemDialog["employer"]->subConnections();
-    addItemDialog["address"]->subConnections();
-    addItemDialog["phone_number"]->subConnections();
+    foreach(addDialog * add_dialog, addItemDialog) {
+        add_dialog->subConnections();
+    }
 }
 
 MainWindow::~MainWindow()

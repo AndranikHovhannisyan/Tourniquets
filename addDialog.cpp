@@ -3,7 +3,6 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
-
 /**
  * @brief addDialog::addDialog
  * @param db
