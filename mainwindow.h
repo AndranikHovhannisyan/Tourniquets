@@ -7,15 +7,15 @@
 #include <QSqlRelationalTableModel>
 
 #include "addDialog.h"
-#include "adddepartment.h"
-#include "addposition.h"
-#include "addscheduletype.h"
-#include "addschedule.h"
-#include "addtourniquet.h"
-#include "addemployerid.h"
-#include "addemployer.h"
-#include "addaddress.h"
-#include "addphone.h"
+#include "Department/adddepartment.h"
+#include "Position/addposition.h"
+#include "ScheduleType/addscheduletype.h"
+#include "Schedule/addschedule.h"
+#include "Tourniquet/addtourniquet.h"
+#include "EmployerId/addemployerid.h"
+#include "Employer/addemployer.h"
+#include "Address/addaddress.h"
+#include "Phone/addphone.h"
 
 #include <QModelIndex>
 #include <QTableView>

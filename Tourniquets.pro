@@ -15,37 +15,37 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    adddepartment.cpp \
-    addposition.cpp \
-    addscheduletype.cpp \
-    addschedule.cpp \
-    addtourniquet.cpp \
-    addemployerid.cpp \
-    addemployer.cpp \
-    addaddress.cpp \
-    addphone.cpp \
-    addDialog.cpp
+    addDialog.cpp \
+    Address/addaddress.cpp \
+    Department/adddepartment.cpp \
+    Employer/addemployer.cpp \
+    EmployerId/addemployerid.cpp \
+    Phone/addphone.cpp \
+    Position/addposition.cpp \
+    Schedule/addschedule.cpp \
+    ScheduleType/addscheduletype.cpp \
+    Tourniquet/addtourniquet.cpp
 
 HEADERS  += mainwindow.h \
-    adddepartment.h \
-    addposition.h \
-    addscheduletype.h \
-    addschedule.h \
-    addtourniquet.h \
-    addemployerid.h \
     constants.h \
-    addemployer.h \
-    addaddress.h \
-    addphone.h \
-    addDialog.h
+    addDialog.h \
+    Address/addaddress.h \
+    Department/adddepartment.h \
+    Employer/addemployer.h \
+    EmployerId/addemployerid.h \
+    Phone/addphone.h \
+    Position/addposition.h \
+    Schedule/addschedule.h \
+    ScheduleType/addscheduletype.h \
+    Tourniquet/addtourniquet.h
 
 FORMS    += mainwindow.ui \
-    adddepartment.ui \
-    addposition.ui \
-    addscheduletype.ui \
-    addschedule.ui \
-    addtourniquet.ui \
-    addemployerid.ui \
-    addemployer.ui \
-    addaddress.ui \
-    addphone.ui
+    Address/addaddress.ui \
+    Department/adddepartment.ui \
+    Employer/addemployer.ui \
+    EmployerId/addemployerid.ui \
+    Phone/addphone.ui \
+    Position/addposition.ui \
+    Schedule/addschedule.ui \
+    ScheduleType/addscheduletype.ui \
+    Tourniquet/addtourniquet.ui
