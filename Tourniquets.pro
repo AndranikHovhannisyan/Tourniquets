@@ -16,7 +16,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     addDialog.cpp \
-    Address/addaddress.cpp \
     Department/adddepartment.cpp \
     Employer/addemployer.cpp \
     EmployerId/addemployerid.cpp \
@@ -24,12 +23,13 @@ SOURCES += main.cpp\
     Position/addposition.cpp \
     Schedule/addschedule.cpp \
     ScheduleType/addscheduletype.cpp \
-    Tourniquet/addtourniquet.cpp
+    Tourniquet/addtourniquet.cpp \
+    Address/addaddress.cpp \
+    Address/address.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
     addDialog.h \
-    Address/addaddress.h \
     Department/adddepartment.h \
     Employer/addemployer.h \
     EmployerId/addemployerid.h \
@@ -37,10 +37,11 @@ HEADERS  += mainwindow.h \
     Position/addposition.h \
     Schedule/addschedule.h \
     ScheduleType/addscheduletype.h \
-    Tourniquet/addtourniquet.h
+    Tourniquet/addtourniquet.h \
+    Address/addaddress.h \
+    Address/address.h
 
 FORMS    += mainwindow.ui \
-    Address/addaddress.ui \
     Department/adddepartment.ui \
     Employer/addemployer.ui \
     EmployerId/addemployerid.ui \
@@ -48,4 +49,5 @@ FORMS    += mainwindow.ui \
     Position/addposition.ui \
     Schedule/addschedule.ui \
     ScheduleType/addscheduletype.ui \
-    Tourniquet/addtourniquet.ui
+    Tourniquet/addtourniquet.ui \
+    Address/addaddress.ui
