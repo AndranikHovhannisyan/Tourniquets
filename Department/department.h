@@ -39,7 +39,7 @@ public:
 
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
-    void select();
+    void select(QMainWindow *mainWindow = NULL);
 };
 
 #endif // DEPARTMENT_H

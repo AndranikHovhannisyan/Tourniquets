@@ -2,15 +2,14 @@
 #include "ui_addscheduletype.h"
 #include <QDebug>
 
-addScheduleType::addScheduleType(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addScheduleType::addScheduleType(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addScheduleType)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել գրաֆիկի տեսակ");
-    tableName = "schedule_type";
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
 addScheduleType::~addScheduleType()

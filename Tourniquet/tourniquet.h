@@ -32,14 +32,14 @@ private:
 
 public:
 
-    static Tourniquet* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    static Tourniquet* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
 
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
-    void select();
+    void select(QMainWindow *mainWindow = NULL);
 };
 
 #endif // TOURNIQUET_H

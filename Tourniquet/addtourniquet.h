@@ -12,7 +12,7 @@ class addTourniquet : public addDialog
     Q_OBJECT
 
 public:
-    explicit addTourniquet(QSqlDatabase db, QWidget *parent = 0);
+    explicit addTourniquet(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addTourniquet();
 
 private:

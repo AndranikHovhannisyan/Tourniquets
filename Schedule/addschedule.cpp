@@ -5,17 +5,17 @@
 #include <QStringList>
 #include <QDebug>
 
-addSchedule::addSchedule(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addSchedule::addSchedule(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addSchedule)
 {
     ui->setupUi(this);
     this->setWindowTitle("add schedule");
 
-    QSqlTableModel *scheduleTypeModel = new QSqlTableModel(this, db);
-    scheduleTypeModel->setTable("schedule_type");
-    scheduleTypeModel->select();
-    ui->scheduleType->setModel(scheduleTypeModel);
+//    QSqlTableModel *scheduleTypeModel = new QSqlTableModel(this, tableModel);
+//    scheduleTypeModel->setTable("schedule_type");
+//    scheduleTypeModel->select();
+//    ui->scheduleType->setModel(scheduleTypeModel);
 }
 
 addSchedule::~addSchedule()
@@ -24,7 +24,7 @@ addSchedule::~addSchedule()
 }
 
 void addSchedule::init(QSqlRecord &) {
-    qDebug() << "id =" << id;
+//    qDebug() << "id =" << id;
 }
 
 void addSchedule::clear() {

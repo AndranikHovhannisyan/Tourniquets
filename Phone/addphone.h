@@ -13,7 +13,7 @@ class addPhone : public addDialog
     Q_OBJECT
 
 public:
-    explicit addPhone(QSqlDatabase db, QWidget *parent = 0);
+    explicit addPhone(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addPhone();
 
 private:

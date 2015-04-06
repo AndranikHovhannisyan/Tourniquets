@@ -14,7 +14,7 @@ class addSchedule : public addDialog
     Q_OBJECT
 
 public:
-    explicit addSchedule(QSqlDatabase db, QWidget *parent = 0);
+    explicit addSchedule(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addSchedule();
 
 private:

@@ -13,7 +13,7 @@ class addDepartment : public addDialog
     Q_OBJECT
 
 public:
-    explicit addDepartment(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
+    explicit addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase *db = 0, QWidget *parent = 0);
     ~addDepartment();
 
 private:

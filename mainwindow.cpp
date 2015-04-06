@@ -48,19 +48,19 @@ MainWindow::MainWindow(QWidget *parent) :
     db.open();
 
     //Add addDialog elements to add data and sent to their constructor db connection object
-    addItemDialog["department"]     = new addDepartment(db, this);
-    addItemDialog["position"]       = new addPosition(db, this);
-    addItemDialog["schedule"]       = new addSchedule(db, this);
-    addItemDialog["schedule_type"]  = new addScheduleType(db, this);
-    addItemDialog["tourniquet"]     = new addTourniquet(db, this);
-    addItemDialog["employer_ids"]   = new addEmployerId(db, this);
-    addItemDialog["employer"]       = new addEmployer(db, this);
-    addItemDialog["address"]        = new addAddress(db, this);
-    addItemDialog["phone_number"]   = new addPhone(db, this);
+//    addItemDialog["department"]     = new addDepartment(db, this);
+//    addItemDialog["position"]       = new addPosition(db, this);
+//    addItemDialog["schedule"]       = new addSchedule(db, this);
+//    addItemDialog["schedule_type"]  = new addScheduleType(db, this);
+//    addItemDialog["tourniquet"]     = new addTourniquet(db, this);
+//    addItemDialog["employer_ids"]   = new addEmployerId(db, this);
+//    addItemDialog["employer"]       = new addEmployer(db, this);
+//    addItemDialog["address"]        = new addAddress(db, this);
+//    addItemDialog["phone_number"]   = new addPhone(db, this);
 
-    foreach(addDialog * add_dialog, addItemDialog) {
-        add_dialog->subConnections();
-    }
+//    foreach(addDialog * add_dialog, addItemDialog) {
+//        add_dialog->subConnections();
+//    }
 }
 
 MainWindow::~MainWindow()
@@ -83,8 +83,8 @@ void MainWindow::infoWindow()
     QAction* action = dynamic_cast<QAction*>(sender());
     if (action != NULL) {
 
-        Address* address = Address::create(&db);
-        address->select(this);
+        Address* address = Address::create(&db, this);
+        address->select();
 
 //        mainLayout->addWidget(addButton, 0, 0, 1, 2);
 //        mainLayout->addWidget(tableView, 1, 0, 15, 15);
@@ -118,8 +118,8 @@ void MainWindow::refresh(int)
  */
 void MainWindow::addItem()
 {
-    addItemDialog[this->table]->create_edit(0);
-    connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
+//    addItemDialog[this->table]->create_edit(0);
+//    connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
 }
 
 /**
@@ -127,10 +127,10 @@ void MainWindow::addItem()
  * @param a
  */
 void MainWindow::edit(QModelIndex a) {
-    int id = model->data(model->index(a.row(), 0)).toInt();
-    addItemDialog[this->table]->create_edit(id);
+//    int id = model->data(model->index(a.row(), 0)).toInt();
+//    addItemDialog[this->table]->create_edit(id);
 
-    connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
+//    connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
 }
 
 /**

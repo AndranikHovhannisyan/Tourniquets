@@ -2,18 +2,17 @@
 #include "ui_addtourniquet.h"
 #include <QDebug>
 
-addTourniquet::addTourniquet(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addTourniquet::addTourniquet(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addTourniquet)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել տուրնիկետ");
-    tableName = "tourniquet";
 
     ui->type->insertItem(0, "Մուտք");
     ui->type->insertItem(1, "Ելք");
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
 addTourniquet::~addTourniquet()

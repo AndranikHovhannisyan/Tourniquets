@@ -3,19 +3,6 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
-/**
- * @brief addDialog::addDialog
- * @param db
- * @param parent
- */
-addDialog::addDialog(QSqlDatabase db, QWidget *parent) :
-    QDialog(parent)
-{
-    this->db = db;
-    this->id = 0;
-    this->tableName = "";
-    this->IdField = "id";
-}
 
 /**
  * @brief addDialog::addDialog
@@ -45,7 +32,7 @@ void addDialog::initialize(QModelIndex modelIndex)
     this->clear();
     rowNumber = modelIndex.row();
     if (modelIndex.row() != -1) {
-        QSqlRecord record = model->record(modelIndex);
+        QSqlRecord record = model->record(modelIndex.row());
         this->init(record);
     }
 
@@ -57,9 +44,9 @@ void addDialog::initialize(QModelIndex modelIndex)
  */
 void addDialog::save()
 {
-    QSqlRecord record = model.record(rowNumber);
+    QSqlRecord record = model->record(rowNumber);
     populateData(record);
-    model.insertRecord(rowNumber, record);
+    model->insertRecord(rowNumber, record);
 
     emit ready();
 }

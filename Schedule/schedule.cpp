@@ -7,7 +7,7 @@ Schedule* Schedule::schedule = NULL;
 /**
  * Create singleton object of Schedule
  *
- * @brief Phone::create
+ * @brief Schedule::create
  * @param dbConnection
  * @param mainWindow
  * @return

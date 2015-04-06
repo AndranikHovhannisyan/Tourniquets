@@ -3,31 +3,19 @@
 #include <QSqlTableModel>
 #include <QDebug>
 
-addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+#include "Employer/employer.h"
+#include "Schedule/schedule.h"
+
+addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase *db, QWidget *parent) :
     addDialog(tableModel, parent),
     ui(new Ui::addDepartment)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել բաժին");
-    tableName = "department";
 
-    QSqlTableModel *employerModel = new QSqlTableModel(this, tableModel);
-    employerModel->setTable("employer");
-    employerModel->select();
+    ui->managers->setModel(Employer::create(db)->getModel());
+    ui->schedule->setModel(Schedule::create(db)->getModel());
 
-    for (int i = 0; i < employerModel->rowCount(); i++) {
-        comboIndexManagerId[i] = employerModel->record(i).value("id").toInt();
-        ui->managers->addItem(employerModel->record(i).value("firstname").toString());
-    }
-
-    QSqlTableModel *scheduleModel = new QSqlTableModel(this, tableModel);
-    scheduleModel->setTable("schedule");
-    scheduleModel->select();
-
-    for (int i = 0; i < scheduleModel->rowCount(); i++) {
-        comboIndexScheduleId[i] = scheduleModel->record(i).value("id").toInt();
-        ui->schedule->addItem(scheduleModel->record(i).value("standart_in_time").toString());
-    }
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }

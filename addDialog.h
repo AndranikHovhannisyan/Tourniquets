@@ -18,9 +18,6 @@ protected:
     QSqlRelationalTableModel* model;
     int rowNumber;
 
-    QString tableName;
-    QString IdField;
-
     virtual void init(QSqlRecord &) = 0;
     virtual void clear() = 0;
     virtual void populateData(QSqlRecord &) = 0;

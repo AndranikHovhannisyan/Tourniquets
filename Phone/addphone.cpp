@@ -3,25 +3,23 @@
 #include <QSqlTableModel>
 #include <QDebug>
 
-addPhone::addPhone(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addPhone::addPhone(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addPhone)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել հեռախոսահամար");
-    tableName = "phone_number";
-    IdField = "number";
 
-    QSqlTableModel *employerModel = new QSqlTableModel(this, db);
-    employerModel->setTable("employer");
-    employerModel->select();
+//    QSqlTableModel *employerModel = new QSqlTableModel(this, tableModel);
+//    employerModel->setTable("employer");
+//    employerModel->select();
 
-    for (int i = 0; i < employerModel->rowCount(); i++) {
-        comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
-        ui->employer->addItem(employerModel->record(i).value("firstname").toString());
-    }
+//    for (int i = 0; i < employerModel->rowCount(); i++) {
+//        comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
+//        ui->employer->addItem(employerModel->record(i).value("firstname").toString());
+//    }
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 
 }
 

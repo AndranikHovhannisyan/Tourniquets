@@ -6,26 +6,24 @@
 #include <QDebug>
 #include <QSqlError>
 
-addEmployerId::addEmployerId(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addEmployerId::addEmployerId(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addEmployerId)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակցի իդենտիֆիկատոր");
-    tableName = "employer_ids";
-    IdField = "emp_number";
 
     ui->idType->insertItem(0, "Քարտ");
     ui->idType->insertItem(1, "Մատնահետք");
 
-    QSqlTableModel *employerModel = new QSqlTableModel(this, db);
-    employerModel->setTable("employer");
-    employerModel->select();
+//    QSqlTableModel *employerModel = new QSqlTableModel(this, db);
+//    employerModel->setTable("employer");
+//    employerModel->select();
 
-    for (int i = 0; i < employerModel->rowCount(); i++) {
-        comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
-        ui->employer->addItem(employerModel->record(i).value("firstname").toString());
-    }
+//    for (int i = 0; i < employerModel->rowCount(); i++) {
+//        comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
+//        ui->employer->addItem(employerModel->record(i).value("firstname").toString());
+//    }
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
 }

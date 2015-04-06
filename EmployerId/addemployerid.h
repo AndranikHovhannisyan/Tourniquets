@@ -13,7 +13,7 @@ class addEmployerId : public addDialog
     Q_OBJECT
 
 public:
-    explicit addEmployerId(QSqlDatabase db, QWidget *parent = 0);
+    explicit addEmployerId(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addEmployerId();
 
 private:

@@ -17,7 +17,6 @@ addAddress::addAddress(QSqlRelationalTableModel *tableModel, QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել հասցե");
-    tableName = "address";
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }

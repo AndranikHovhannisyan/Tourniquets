@@ -13,7 +13,7 @@ class addPosition : public addDialog
     Q_OBJECT
 
 public:
-    explicit addPosition(QSqlDatabase db, QWidget *parent = 0);
+    explicit addPosition(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addPosition();
 
 private:

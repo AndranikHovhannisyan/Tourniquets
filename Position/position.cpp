@@ -7,7 +7,7 @@ Position* Position::position = NULL;
 /**
  * Create singleton object of Position
  *
- * @brief Phone::create
+ * @brief Position::create
  * @param dbConnection
  * @param mainWindow
  * @return
@@ -22,7 +22,7 @@ Position* Position::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
 }
 
 /**
- * @brief Phone::Phone
+ * @brief Position::Position
  */
 Position::Position(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
     model       = NULL;

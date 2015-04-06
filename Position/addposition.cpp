@@ -3,25 +3,24 @@
 #include <QSqlTableModel>
 #include <QDebug>
 
-addPosition::addPosition(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addPosition::addPosition(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addPosition)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել պաշտոն");
-    tableName = "position";
 
 
-    QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);
-    scheduleModel->setTable("schedule");
-    scheduleModel->select();
+//    QSqlTableModel *scheduleModel = new QSqlTableModel(this, tableModel);
+//    scheduleModel->setTable("schedule");
+//    scheduleModel->select();
 
-    for (int i = 0; i < scheduleModel->rowCount(); i++) {
-        comboIndexScheduleId[i] = scheduleModel->record(i).value("id").toInt();
-        ui->schedule->addItem(scheduleModel->record(i).value("standart_in_time").toString());
-    }
+//    for (int i = 0; i < scheduleModel->rowCount(); i++) {
+//        comboIndexScheduleId[i] = scheduleModel->record(i).value("id").toInt();
+//        ui->schedule->addItem(scheduleModel->record(i).value("standart_in_time").toString());
+//    }
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
 addPosition::~addPosition()
