@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     EmployerId/employerid.cpp \
     Phone/phone.cpp \
     Position/position.cpp \
-    Schedule/schedule.cpp
+    Schedule/schedule.cpp \
+    ScheduleType/scheduletype.cpp \
+    Tourniquet/tourniquet.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -51,7 +53,9 @@ HEADERS  += mainwindow.h \
     EmployerId/employerid.h \
     Phone/phone.h \
     Position/position.h \
-    Schedule/schedule.h
+    Schedule/schedule.h \
+    ScheduleType/scheduletype.h \
+    Tourniquet/tourniquet.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \
