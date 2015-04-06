@@ -35,7 +35,7 @@ void addPhone::init(QSqlRecord &record) {
     ui->number->setText(record.value("number").toString());
 }
 
-void addPhone::claer() {
+void addPhone::clear() {
     ui->number->setText("");
     ui->employer->setCurrentIndex(0);
 }

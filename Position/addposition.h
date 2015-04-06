@@ -21,7 +21,7 @@ private:
     QMap<int, int> comboIndexScheduleId;
 
     virtual void init(QSqlRecord &record);
-    virtual void claer();
+    virtual void clear();
     virtual void populateData(QSqlRecord &);
 };
 

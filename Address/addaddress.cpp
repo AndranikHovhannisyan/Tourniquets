@@ -6,22 +6,34 @@
 
 #include <QDebug>
 
-addAddress::addAddress(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+/**
+ * @brief addAddress::addAddress
+ * @param model
+ * @param parent
+ */
+addAddress::addAddress(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addAddress)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել հասցե");
     tableName = "address";
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
+/**
+ * @brief addAddress::~addAddress
+ */
 addAddress::~addAddress()
 {
     delete ui;
 }
 
+/**
+ * @brief addAddress::init
+ * @param record
+ */
 void addAddress::init(QSqlRecord &record)
 {
     ui->country->setText(record.value("country").toString());
@@ -30,14 +42,20 @@ void addAddress::init(QSqlRecord &record)
     ui->hNumber->setText(record.value("h_number").toString());
 }
 
-
-void addAddress::claer() {
+/**
+ * @brief addAddress::clear
+ */
+void addAddress::clear() {
     ui->country->setText("");
     ui->city->setText("");
     ui->street->setText("");
     ui->hNumber->setText("");
 }
 
+/**
+ * @brief addAddress::populateData
+ * @param record
+ */
 void addAddress::populateData(QSqlRecord &record) {
     record.setValue(record.indexOf("country"), QVariant(ui->country->text()));
     record.setValue(record.indexOf("city"), QVariant(ui->city->text()));

@@ -27,7 +27,7 @@ void addSchedule::init(QSqlRecord &) {
     qDebug() << "id =" << id;
 }
 
-void addSchedule::claer() {
+void addSchedule::clear() {
 
 }
 

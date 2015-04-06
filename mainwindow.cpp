@@ -118,7 +118,7 @@ void MainWindow::refresh(int)
  */
 void MainWindow::addItem()
 {
-    addItemDialog[this->table]->editShow(0);
+    addItemDialog[this->table]->create_edit(0);
     connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
 }
 
@@ -128,7 +128,7 @@ void MainWindow::addItem()
  */
 void MainWindow::edit(QModelIndex a) {
     int id = model->data(model->index(a.row(), 0)).toInt();
-    addItemDialog[this->table]->editShow(id);
+    addItemDialog[this->table]->create_edit(id);
 
     connect(addItemDialog[this->table], SIGNAL(ready(int)), this, SLOT(refresh(int)));
 }

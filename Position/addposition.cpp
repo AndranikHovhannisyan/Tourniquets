@@ -34,7 +34,7 @@ void addPosition::init(QSqlRecord &record) {
     ui->name->setText(record.value("name").toString());
 }
 
-void addPosition::claer() {
+void addPosition::clear() {
     ui->name->setText("");
     ui->schedule->setCurrentIndex(0);
 }

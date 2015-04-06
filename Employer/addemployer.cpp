@@ -74,9 +74,9 @@ void addEmployer::init(QSqlRecord &record)
 }
 
 /**
- * @brief addEmployer::claer
+ * @brief addEmployer::clear
  */
-void addEmployer::claer() {
+void addEmployer::clear() {
     ui->firstname->setText("");
     ui->lastname->setText("");
     ui->middlename->setText("");

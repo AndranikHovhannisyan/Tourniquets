@@ -12,13 +12,13 @@ class addAddress : public addDialog
     Q_OBJECT
 
 public:
-    explicit addAddress(QSqlDatabase db, QWidget *parent = 0);
+    explicit addAddress(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addAddress();
 
 private:
     Ui::addAddress *ui;
     virtual void init(QSqlRecord &record);
-    virtual void claer();
+    virtual void clear();
     virtual void populateData(QSqlRecord &);
 };
 

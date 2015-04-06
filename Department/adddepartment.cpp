@@ -3,15 +3,15 @@
 #include <QSqlTableModel>
 #include <QDebug>
 
-addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
-    addDialog(db, parent),
+addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QWidget *parent) :
+    addDialog(tableModel, parent),
     ui(new Ui::addDepartment)
 {
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել բաժին");
     tableName = "department";
 
-    QSqlTableModel *employerModel = new QSqlTableModel(this, db);
+    QSqlTableModel *employerModel = new QSqlTableModel(this, tableModel);
     employerModel->setTable("employer");
     employerModel->select();
 
@@ -20,7 +20,7 @@ addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
         ui->managers->addItem(employerModel->record(i).value("firstname").toString());
     }
 
-    QSqlTableModel *scheduleModel = new QSqlTableModel(this, db);
+    QSqlTableModel *scheduleModel = new QSqlTableModel(this, tableModel);
     scheduleModel->setTable("schedule");
     scheduleModel->select();
 
@@ -29,7 +29,7 @@ addDepartment::addDepartment(QSqlDatabase db, QWidget *parent) :
         ui->schedule->addItem(scheduleModel->record(i).value("standart_in_time").toString());
     }
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
 addDepartment::~addDepartment()
@@ -44,7 +44,10 @@ void addDepartment::init(QSqlRecord &record)
     ui->schedule->setCurrentIndex(comboIndexScheduleId.key(record.value("schedule_id").toInt()));
 }
 
-void addDepartment::claer() {
+/**
+ * @brief addDepartment::clear
+ */
+void addDepartment::clear() {
     ui->dep_name->setText("");
     ui->managers->setCurrentIndex(0);
     ui->schedule->setCurrentIndex(0);

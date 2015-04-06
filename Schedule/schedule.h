@@ -1,5 +1,5 @@
-#ifndef ADDRESS_H
-#define ADDRESS_H
+#ifndef SCHEDULE_H
+#define SCHEDULE_H
 
 #include <QSqlRelationalTableModel>
 #include <QMainWindow>
@@ -9,18 +9,18 @@
 #include <QString>
 #include <QMainWindow>
 #include <QSqlDatabase>
-#include "addaddress.h"
+#include "addschedule.h"
 
-class Address
+class Schedule
 {
 private:
-    Address(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
-    Address(const Address &);
-    Address& operator=(const Address&);
+    Schedule(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    Schedule(const Schedule &);
+    Schedule& operator=(const Schedule&);
 
-    static Address* address;
+    static Schedule* schedule;
 
-    addAddress *add_address;
+    addSchedule *add_schedule;
     QSqlRelationalTableModel *model;
     QSqlDatabase* db;
 
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    static Address* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    static Schedule* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
@@ -42,4 +42,4 @@ public slots:
     void select();
 };
 
-#endif // ADDRESS_H
+#endif // SCHEDULE_H

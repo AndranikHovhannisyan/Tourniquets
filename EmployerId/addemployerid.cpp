@@ -45,7 +45,7 @@ void addEmployerId::init(QSqlRecord &record)
 }
 
 
-void addEmployerId::claer() {
+void addEmployerId::clear() {
     ui->employerId->setText("");
     ui->employer->setCurrentIndex(0);
     ui->idType->setCurrentIndex(0);

@@ -24,7 +24,7 @@ void addScheduleType::init(QSqlRecord &record) {
     ui->ignoreTime->setTime(record.value("ignore_time").toTime());
 }
 
-void addScheduleType::claer() {
+void addScheduleType::clear() {
     ui->name->setText("");
 }
 

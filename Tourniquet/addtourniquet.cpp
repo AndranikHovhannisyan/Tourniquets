@@ -26,7 +26,7 @@ void addTourniquet::init(QSqlRecord &record) {
     ui->number->setText(record.value("number").toString());
 }
 
-void addTourniquet::claer() {
+void addTourniquet::clear() {
     ui->type->setCurrentIndex(0);
     ui->number->setText("");
 }

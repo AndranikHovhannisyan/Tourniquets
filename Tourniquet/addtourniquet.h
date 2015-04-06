@@ -19,7 +19,7 @@ private:
     Ui::addTourniquet *ui;
 
     virtual void init(QSqlRecord &);
-    virtual void claer();
+    virtual void clear();
     virtual void populateData(QSqlRecord &);
 };
 

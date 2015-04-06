@@ -18,77 +18,48 @@ addDialog::addDialog(QSqlDatabase db, QWidget *parent) :
 }
 
 /**
+ * @brief addDialog::addDialog
+ * @param tableModel
+ * @param parent
+ */
+addDialog::addDialog(QSqlRelationalTableModel* tableModel, QWidget *parent) :
+    QDialog(parent)
+{
+    model = tableModel;
+}
+
+/**
  * @brief addDialog::~addDialog
  */
 addDialog::~addDialog() {
 }
 
 /**
+ * This function is used to get create / edit signals
+ *
  * @brief addDialog::editShow
  * @param id
  */
-void addDialog::editShow(int id) {
-    this->id = id;
-    this->initialize();
+void addDialog::initialize(QModelIndex modelIndex)
+{
+    this->clear();
+    rowNumber = modelIndex.row();
+    if (modelIndex.row() != -1) {
+        QSqlRecord record = model->record(modelIndex);
+        this->init(record);
+    }
+
     this->show();
 }
 
 /**
  * @brief addDialog::create
  */
-void addDialog::create()
+void addDialog::save()
 {
-    int insertedId = id;
-    QSqlRecord record;
-    QSqlRelationalTableModel model(this, db);
-    model.setTable(tableName);
-    model.select();
+    QSqlRecord record = model.record(rowNumber);
+    populateData(record);
+    model.insertRecord(rowNumber, record);
 
-    if (id == 0) {
-        record = model.record();
-        populateData(record);
-        model.insertRecord(-1, record);
-        insertedId = model.query().lastInsertId().toInt();
-    }
-    else {
-        model.setFilter(IdField + " = "+ QString::number(id));
-        model.select();
-        record = model.record(0);
-        populateData(record);
-        model.setRecord(0, record);
-    }
-
-    emit ready(insertedId);
-}
-
-/**
- * @brief addDialog::initialize
- */
-void addDialog::initialize()
-{
-    if (id != 0) {
-
-        QSqlTableModel model(this, db);
-        model.setTable(tableName);
-        model.setFilter(IdField + " = "+ QString::number(id));
-        model.select();
-
-        if (model.rowCount() == 1) {
-            QSqlRecord record = model.record(0);
-            init(record);
-        }
-        else {
-            this->claer();
-        }
-    }
-    else {
-        this->claer();
-    }
-}
-
-/**
- * @brief addDialog::subConnections
- */
-void addDialog::subConnections() {
-
+    emit ready();
 }

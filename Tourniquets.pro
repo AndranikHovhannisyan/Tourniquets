@@ -25,7 +25,13 @@ SOURCES += main.cpp\
     ScheduleType/addscheduletype.cpp \
     Tourniquet/addtourniquet.cpp \
     Address/addaddress.cpp \
-    Address/address.cpp
+    Address/address.cpp \
+    Department/department.cpp \
+    Employer/employer.cpp \
+    EmployerId/employerid.cpp \
+    Phone/phone.cpp \
+    Position/position.cpp \
+    Schedule/schedule.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -39,7 +45,13 @@ HEADERS  += mainwindow.h \
     ScheduleType/addscheduletype.h \
     Tourniquet/addtourniquet.h \
     Address/addaddress.h \
-    Address/address.h
+    Address/address.h \
+    Department/department.h \
+    Employer/employer.h \
+    EmployerId/employerid.h \
+    Phone/phone.h \
+    Position/position.h \
+    Schedule/schedule.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \

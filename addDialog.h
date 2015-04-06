@@ -4,36 +4,35 @@
 #include <QDialog>
 #include <QSqlDatabase>
 #include <QSqlRecord>
+#include <QSqlRelationalTableModel>
 
 class addDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit addDialog(QSqlDatabase db, QWidget *parent = 0);
+    explicit addDialog(QSqlRelationalTableModel* tableModel, QWidget *parent = 0);
     ~addDialog();
 
-    virtual void subConnections();
-
 protected:
-    QSqlDatabase db;
-    int id;
+    QSqlRelationalTableModel* model;
+    int rowNumber;
+
     QString tableName;
     QString IdField;
 
     virtual void init(QSqlRecord &) = 0;
-    virtual void claer() = 0;
+    virtual void clear() = 0;
     virtual void populateData(QSqlRecord &) = 0;
-    virtual void initialize();
 
 public slots:
-    void editShow(int id);
+    void initialize(QModelIndex modelIndex = QModelIndex());
 
 private slots:
-    void create();
+    void save();
 
 signals:
-    void ready(int = 0);
+    void ready();
 };
 
 #endif // ADDDIALOG_H

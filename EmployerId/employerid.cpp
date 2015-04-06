@@ -1,43 +1,45 @@
-#include "address.h"
+#include "EmployerId/employerid.h"
 #include <QObject>
 
-Address* Address::address = NULL;
+
+EmployerId* EmployerId::employerId = NULL;
 
 /**
- * Create singleton object of Address
+ * Create singleton object of EmployerId
  *
- * @brief Address::create
+ * @brief EmployerId::create
  * @param dbConnection
+ * @param mainWindow
  * @return
  */
-Address* Address::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
+EmployerId* EmployerId::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
 {
-    if (!address) {
-        address = new Address(dbConnection, mainWindow);
+    if (!employerId) {
+        employerId = new EmployerId(dbConnection, mainWindow);
     }
 
-    return address;
+    return employerId;
 }
 
 /**
- * @brief Address::Address
+ * @brief EmployerId::EmployerId
  */
-Address::Address(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
+EmployerId::EmployerId(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
-    tableName   = "address";
+    tableName   = "employer_id";
 }
 
 /**
- * @brief Address::select
+ * @brief EmployerId::select
  * @param mainWindow
  */
-void Address::select(QMainWindow *mainWindow)
+void EmployerId::select(QMainWindow *mainWindow)
 {
     //Create widgets
     tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել Հասցե");
+    addButton   = new QPushButton("Ավելացնել Բաժին");
     mainLayout  = new QGridLayout;
 
     //Arrange widgets on window
@@ -48,12 +50,12 @@ void Address::select(QMainWindow *mainWindow)
     //Set tableView content
     tableView->setModel(getModel());
 
-    //Create addAddress instance
-    add_address = new addAddress(getModel());
+    //Create addEmployerId instance
+    add_employerId = new addEmployerId(getModel());
 
     //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton, SIGNAL(clicked()), add_address, SLOT(initialize()));
-    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_address, SLOT(initialize(QModelIndex)));
+    QObject::connect(addButton, SIGNAL(clicked()), add_employerId, SLOT(initialize()));
+    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employerId, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
     QObject::connect(mainWindow, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
@@ -62,10 +64,10 @@ void Address::select(QMainWindow *mainWindow)
 }
 
 /**
- * @brief Address::getModel
+ * @brief EmployerId::getModel
  * @return
  */
-QSqlRelationalTableModel* Address::getModel()
+QSqlRelationalTableModel* EmployerId::getModel()
 {
     //Check if model isn't created create it
     if (!model) {

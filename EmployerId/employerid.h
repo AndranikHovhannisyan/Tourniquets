@@ -1,5 +1,5 @@
-#ifndef ADDRESS_H
-#define ADDRESS_H
+#ifndef EMPLOYERID_H
+#define EMPLOYERID_H
 
 #include <QSqlRelationalTableModel>
 #include <QMainWindow>
@@ -9,18 +9,18 @@
 #include <QString>
 #include <QMainWindow>
 #include <QSqlDatabase>
-#include "addaddress.h"
+#include "addemployerid.h"
 
-class Address
+class EmployerId
 {
 private:
-    Address(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
-    Address(const Address &);
-    Address& operator=(const Address&);
+    EmployerId(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    EmployerId(const EmployerId &);
+    EmployerId& operator=(const EmployerId&);
 
-    static Address* address;
+    static EmployerId* employerId;
 
-    addAddress *add_address;
+    addEmployerId *add_employerId;
     QSqlRelationalTableModel *model;
     QSqlDatabase* db;
 
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    static Address* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    static EmployerId* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
@@ -42,4 +42,4 @@ public slots:
     void select();
 };
 
-#endif // ADDRESS_H
+#endif // EMPLOYERID_H

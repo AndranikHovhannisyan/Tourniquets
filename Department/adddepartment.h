@@ -13,7 +13,7 @@ class addDepartment : public addDialog
     Q_OBJECT
 
 public:
-    explicit addDepartment(QSqlDatabase db, QWidget *parent = 0);
+    explicit addDepartment(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addDepartment();
 
 private:
@@ -22,7 +22,7 @@ private:
     QMap<int, int> comboIndexScheduleId;
 
     virtual void init(QSqlRecord &record);
-    virtual void claer();
+    virtual void clear();
     virtual void populateData(QSqlRecord &record);
 };
 
