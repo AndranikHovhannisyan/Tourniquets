@@ -16,7 +16,6 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     ui->managers->setModel(Employer::create(tableModel->database())->getModel());
     ui->schedule->setModel(Schedule::create(tableModel->database())->getModel());
 
-
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
@@ -41,9 +40,20 @@ void addDepartment::clear() {
     ui->schedule->setCurrentIndex(0);
 }
 
+#include <QSqlRecord>
+
 void addDepartment::populateData(QSqlRecord &record)
 {
     record.setValue(record.indexOf("name"), QVariant(ui->dep_name->text()));
+
+    QSqlRecord employerRecord = Employer::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->managers->currentIndex());
+
+    //testing
+    int k = employerRecord.value("id").toInt();
+
+    record.setValue(record.indexOf("manager_id"), QVariant(employerRecord.value("id").toInt()));
 
     if (comboIndexManagerId[ui->managers->currentIndex()] != 0) {
         record.setValue(record.indexOf("manager_id"), QVariant(comboIndexManagerId[ui->managers->currentIndex()]));
