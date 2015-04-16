@@ -12,7 +12,7 @@ Schedule* Schedule::schedule = NULL;
  * @param mainWindow
  * @return
  */
-Schedule* Schedule::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
+Schedule* Schedule::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 {
     if (!schedule) {
         schedule = new Schedule(dbConnection, mainWindow);
@@ -24,7 +24,7 @@ Schedule* Schedule::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
 /**
  * @brief Schedule::Schedule
  */
-Schedule::Schedule(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
+Schedule::Schedule(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
@@ -71,7 +71,7 @@ QSqlRelationalTableModel* Schedule::getModel()
 {
     //Check if model isn't created create it
     if (!model) {
-        model = new QSqlRelationalTableModel(parent, *db);
+        model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
     }

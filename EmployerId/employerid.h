@@ -14,7 +14,7 @@
 class EmployerId
 {
 private:
-    EmployerId(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    EmployerId(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     EmployerId(const EmployerId &);
     EmployerId& operator=(const EmployerId&);
 
@@ -22,7 +22,7 @@ private:
 
     addEmployerId *add_employerId;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    static EmployerId* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
+    static EmployerId* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();

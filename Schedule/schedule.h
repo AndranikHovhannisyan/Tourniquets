@@ -14,7 +14,7 @@
 class Schedule
 {
 private:
-    Schedule(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    Schedule(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     Schedule(const Schedule &);
     Schedule& operator=(const Schedule&);
 
@@ -22,7 +22,7 @@ private:
 
     addSchedule *add_schedule;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    static Schedule* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
+    static Schedule* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();

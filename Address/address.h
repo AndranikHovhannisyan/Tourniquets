@@ -14,7 +14,7 @@
 class Address
 {
 private:
-    Address(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    Address(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     Address(const Address &);
     Address& operator=(const Address&);
 
@@ -22,7 +22,7 @@ private:
 
     addAddress *add_address;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    static Address* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
+    static Address* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();

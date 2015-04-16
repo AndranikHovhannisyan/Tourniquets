@@ -12,7 +12,7 @@ EmployerId* EmployerId::employerId = NULL;
  * @param mainWindow
  * @return
  */
-EmployerId* EmployerId::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
+EmployerId* EmployerId::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 {
     if (!employerId) {
         employerId = new EmployerId(dbConnection, mainWindow);
@@ -24,7 +24,7 @@ EmployerId* EmployerId::create(QSqlDatabase* dbConnection, QMainWindow *mainWind
 /**
  * @brief EmployerId::EmployerId
  */
-EmployerId::EmployerId(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
+EmployerId::EmployerId(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
@@ -71,7 +71,7 @@ QSqlRelationalTableModel* EmployerId::getModel()
 {
     //Check if model isn't created create it
     if (!model) {
-        model = new QSqlRelationalTableModel(parent, *db);
+        model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
     }

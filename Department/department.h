@@ -14,7 +14,7 @@
 class Department
 {
 private:
-    Department(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    Department(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     Department(const Department &);
     Department& operator=(const Department&);
 
@@ -22,7 +22,7 @@ private:
 
     addDepartment *add_department;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -32,7 +32,7 @@ private:
 
 public:
 
-    static Department* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    static Department* create(QSqlDatabase dbConnection, QMainWindow *mainWindow);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();

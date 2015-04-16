@@ -11,7 +11,7 @@ Address* Address::address = NULL;
  * @param dbConnection
  * @return
  */
-Address* Address::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
+Address* Address::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 {
     if (!address) {
         address = new Address(dbConnection, mainWindow);
@@ -23,7 +23,7 @@ Address* Address::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
 /**
  * @brief Address::Address
  */
-Address::Address(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
+Address::Address(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
@@ -77,7 +77,7 @@ QSqlRelationalTableModel* Address::getModel()
 {
     //Check if model isn't created create it
     if (!model) {
-        model = new QSqlRelationalTableModel(parent, *db);
+        model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
     }

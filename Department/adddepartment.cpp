@@ -13,8 +13,8 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել բաժին");
 
-    ui->managers->setModel(Employer::create(db)->getModel());
-    ui->schedule->setModel(Schedule::create(db)->getModel());
+    ui->managers->setModel(Employer::create(tableModel->database())->getModel());
+    ui->schedule->setModel(Schedule::create(tableModel->database())->getModel());
 
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));

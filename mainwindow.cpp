@@ -73,6 +73,7 @@ MainWindow::~MainWindow()
 }
 
 #include "Address/address.h"
+#include "Department/department.h"
 
 /**
  * @brief MainWindow::infoWindow
@@ -83,8 +84,11 @@ void MainWindow::infoWindow()
     QAction* action = dynamic_cast<QAction*>(sender());
     if (action != NULL) {
 
-        Address* address = Address::create(&db, this);
-        address->select();
+//        Address* address = Address::create(&db, this);
+//        address->select();
+
+        Department* department = Department::create(db, this);
+        department->select();
 
 //        mainLayout->addWidget(addButton, 0, 0, 1, 2);
 //        mainLayout->addWidget(tableView, 1, 0, 15, 15);
