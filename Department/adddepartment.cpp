@@ -46,20 +46,16 @@ void addDepartment::populateData(QSqlRecord &record)
 {
     record.setValue(record.indexOf("name"), QVariant(ui->dep_name->text()));
 
-    QSqlRecord employerRecord = Employer::create(model->database())
+    int employerId = Employer::create(model->database())
                                         ->getModel()
-                                        ->record(ui->managers->currentIndex());
+                                        ->record(ui->managers->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("manager_id"), QVariant(employerId));
 
-    //testing
-    int k = employerRecord.value("id").toInt();
 
-    record.setValue(record.indexOf("manager_id"), QVariant(employerRecord.value("id").toInt()));
-
-    if (comboIndexManagerId[ui->managers->currentIndex()] != 0) {
-        record.setValue(record.indexOf("manager_id"), QVariant(comboIndexManagerId[ui->managers->currentIndex()]));
-    }
-
-    if (comboIndexScheduleId[ui->schedule->currentIndex()] != 0) {
-        record.setValue(record.indexOf("schedule_id"), QVariant(comboIndexScheduleId[ui->schedule->currentIndex()]));
-    }
+    int scheduleId = Schedule::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->schedule->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("schedule_id"), QVariant(scheduleId));
 }
