@@ -2,6 +2,8 @@
 #include <QObject>
 #include <QException>
 
+#include <QComboBox>
+
 Department* Department::department = NULL;
 
 /**
@@ -53,6 +55,7 @@ void Department::select(QMainWindow *mainWindow)
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
     parent->centralWidget()->setLayout(mainLayout);
+
 
     //Set tableView content
     tableView->setModel(getModel());

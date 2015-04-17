@@ -47,6 +47,7 @@ void addDialog::save()
     QSqlRecord record = model->record(rowNumber);
     populateData(record);
     model->insertRecord(rowNumber, record);
+    model->select();
 
     emit ready();
 }
