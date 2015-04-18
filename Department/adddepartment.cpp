@@ -13,23 +13,8 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել բաժին");
 
-    QSqlRelationalTableModel* employerModel = Employer::create(tableModel->database())->getModel();
-    QSqlRelationalTableModel* scheduleModel = Schedule::create(tableModel->database())->getModel();
-
-    ui->managers->setModel(employerModel);
-    ui->schedule->setModel(scheduleModel);
-
-    //Populate comboIndexManagerId
-    int employerCount = employerModel->rowCount();
-    for(int i = 0; i < employerCount; i++) {
-        comboIndexManagerId[employerModel->record(i).value("id").toInt()] = i;
-    }
-
-    //Populate comboIndexScheduleId
-    int scheduleCount = scheduleModel->rowCount();
-    for(int i = 0; i < scheduleCount; i++) {
-        comboIndexScheduleId[scheduleModel->record(i).value("id").toInt()] = i;
-    }
+    ui->managers->setModel(Employer::create(model->database())->getModel());
+    ui->schedule->setModel(Schedule::create(model->database())->getModel());
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
@@ -42,8 +27,25 @@ addDepartment::~addDepartment()
 void addDepartment::init(QSqlRecord &record)
 {
     ui->dep_name->setText(record.value("name").toString());
-    ui->managers->setCurrentIndex(comboIndexManagerId[record.value("manager_id").toInt()]);
-    ui->schedule->setCurrentIndex(comboIndexScheduleId[record.value("schedule_id").toInt()]);
+
+    //TODO: this is bad solution but can't find good solution yet
+    QSqlRelationalTableModel* employerModel = Employer::create(model->database())->getModel();
+    int employerCount = employerModel->rowCount();
+    for(int i = 0; i < employerCount; i++) {
+        if (employerModel->record(i).value("id").toInt() == record.value("manager_id").toInt()) {
+            ui->managers->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    QSqlRelationalTableModel* scheduleModel = Schedule::create(model->database())->getModel();
+    int scheduleCount = scheduleModel->rowCount();
+    for(int i = 0; i < scheduleCount; i++) {
+        if (scheduleModel->record(i).value("id").toInt() == record.value("schedule_id").toInt()) {
+            ui->schedule->setCurrentIndex(i);
+            break;
+        }
+    }
 }
 
 /**
