@@ -28,6 +28,10 @@ Address::Address(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     db          = dbConnection;
     parent      = mainWindow;
     tableName   = "address";
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
 }
 
 /**
@@ -44,9 +48,9 @@ void Address::select(QMainWindow *mainWindow)
     }
 
     //Create widgets
-    tableView   = new QTableView(parent);
-    addButton   = new QPushButton("Ավելացնել Հասցե");
-    mainLayout  = new QGridLayout;
+    tableView   = tableView  ? tableView  : new QTableView();
+    addButton   = addButton  ? addButton  : new QPushButton("Ավելացնել Հասցե");
+    mainLayout  = mainLayout ? mainLayout : new QGridLayout;
 
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
@@ -64,9 +68,7 @@ void Address::select(QMainWindow *mainWindow)
     QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_address, SLOT(initialize(QModelIndex)));
 
     //Connect parent destroy with removeWidgets to remove dynamic objects
-    QObject::connect(parent, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
-    QObject::connect(parent, SIGNAL(destroyed()), addButton,  SLOT(deleteLater()));
-    QObject::connect(parent, SIGNAL(destroyed()), mainLayout, SLOT(deleteLater()));
+//    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
@@ -83,4 +85,14 @@ QSqlRelationalTableModel* Address::getModel()
     }
 
     return model;
+}
+
+/**
+ * @brief Address::destroy
+ */
+void Address::destroy()
+{
+    delete tableView;
+    delete addButton;
+    delete mainLayout;
 }

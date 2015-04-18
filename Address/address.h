@@ -10,8 +10,9 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addaddress.h"
+#include "entity.h"
 
-class Address
+class Address : public Entity
 {
 private:
     Address(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -40,6 +41,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // ADDRESS_H

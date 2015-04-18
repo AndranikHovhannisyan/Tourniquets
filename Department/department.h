@@ -10,8 +10,9 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "adddepartment.h"
+#include "entity.h"
 
-class Department
+class Department : public Entity
 {
 private:
     Department(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -40,6 +41,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // DEPARTMENT_H

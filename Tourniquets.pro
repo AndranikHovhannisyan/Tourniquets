@@ -55,7 +55,8 @@ HEADERS  += mainwindow.h \
     Position/position.h \
     Schedule/schedule.h \
     ScheduleType/scheduletype.h \
-    Tourniquet/tourniquet.h
+    Tourniquet/tourniquet.h \
+    entity.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \

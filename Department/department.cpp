@@ -31,6 +31,10 @@ Department::Department(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     db          = dbConnection;
     parent      = mainWindow;
     tableName   = "department";
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
 }
 
 /**
@@ -47,9 +51,9 @@ void Department::select(QMainWindow *mainWindow)
     }
 
     //Create widgets
-    tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել Բաժին");
-    mainLayout  = new QGridLayout;
+    tableView   = tableView  ? tableView  : new QTableView();
+    addButton   = addButton  ? addButton  : new QPushButton("Ավելացնել Բաժին");
+    mainLayout  = mainLayout ? mainLayout : new QGridLayout;
 
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
@@ -68,9 +72,7 @@ void Department::select(QMainWindow *mainWindow)
     QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_department, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(parent, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
-    QObject::connect(parent, SIGNAL(destroyed()), addButton,  SLOT(deleteLater()));
-    QObject::connect(parent, SIGNAL(destroyed()), mainLayout, SLOT(deleteLater()));
+    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
@@ -87,5 +89,15 @@ QSqlRelationalTableModel* Department::getModel()
     }
 
     return model;
+}
+
+/**
+ * @brief Department::destroy
+ */
+void Department::destroy()
+{
+    delete tableView;
+    delete addButton;
+    delete mainLayout;
 }
 

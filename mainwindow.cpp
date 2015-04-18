@@ -10,6 +10,9 @@
 #include <QSqlRecord>
 #include <QDebug>
 
+#include "Address/address.h"
+#include "Department/department.h"
+
 /**
  * @brief MainWindow::MainWindow
  * @param parent
@@ -20,24 +23,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    addButton = new QPushButton;
-    tableView = new QTableView;
-    mainLayout = new QGridLayout;
-
     //Connect menu actions
-    connect(ui->department,     SIGNAL(triggered()), this, SLOT(infoWindow()));
+    connect(ui->department,     SIGNAL(triggered()), Department::create(db, this), SLOT(select()));
     connect(ui->position,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->schedule,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->schedule_type,  SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->tourniquet,     SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->employer_ids,   SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->employer,       SIGNAL(triggered()), this, SLOT(infoWindow()));
-    connect(ui->address,        SIGNAL(triggered()), this, SLOT(infoWindow()));
+    connect(ui->address,        SIGNAL(triggered()), Address::create(db, this), SLOT(select()));
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
-
-    connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
-    connect(tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
-
 
     //Create a database connection
     db = QSqlDatabase::addDatabase("QMYSQL");
@@ -46,34 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setUserName("root");
     db.setPassword("root");
     db.open();
-
-    //Add addDialog elements to add data and sent to their constructor db connection object
-//    addItemDialog["department"]     = new addDepartment(db, this);
-//    addItemDialog["position"]       = new addPosition(db, this);
-//    addItemDialog["schedule"]       = new addSchedule(db, this);
-//    addItemDialog["schedule_type"]  = new addScheduleType(db, this);
-//    addItemDialog["tourniquet"]     = new addTourniquet(db, this);
-//    addItemDialog["employer_ids"]   = new addEmployerId(db, this);
-//    addItemDialog["employer"]       = new addEmployer(db, this);
-//    addItemDialog["address"]        = new addAddress(db, this);
-//    addItemDialog["phone_number"]   = new addPhone(db, this);
-
-//    foreach(addDialog * add_dialog, addItemDialog) {
-//        add_dialog->subConnections();
-//    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-
-//    delete addButton;
-//    delete tableView;
-//    delete mainLayout;
 }
-
-#include "Address/address.h"
-#include "Department/department.h"
 
 /**
  * @brief MainWindow::infoWindow
@@ -84,7 +57,7 @@ void MainWindow::infoWindow()
     QAction* action = dynamic_cast<QAction*>(sender());
     if (action != NULL) {
 
-//        Address* address = Address::create(&db, this);
+//        Address* address = Address::create(db, this);
 //        address->select();
 
         Department* department = Department::create(db, this);
@@ -95,9 +68,9 @@ void MainWindow::infoWindow()
 //        this->centralWidget()->setLayout(mainLayout);
 
         //Change also button name
-        addButton->setText("Add " + action->objectName());
-        this->table = action->objectName();
-        this->refresh();
+//        addButton->setText("Add " + action->objectName());
+//        this->table = action->objectName();
+//        this->refresh();
     }
 }
 
