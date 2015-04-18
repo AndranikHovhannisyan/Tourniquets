@@ -13,8 +13,23 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել բաժին");
 
-    ui->managers->setModel(Employer::create(tableModel->database())->getModel());
-    ui->schedule->setModel(Schedule::create(tableModel->database())->getModel());
+    QSqlRelationalTableModel* employerModel = Employer::create(tableModel->database())->getModel();
+    QSqlRelationalTableModel* scheduleModel = Schedule::create(tableModel->database())->getModel();
+
+    ui->managers->setModel(employerModel);
+    ui->schedule->setModel(scheduleModel);
+
+    //Populate comboIndexManagerId
+    int employerCount = employerModel->rowCount();
+    for(int i = 0; i < employerCount; i++) {
+        comboIndexManagerId[employerModel->record(i).value("id").toInt()] = i;
+    }
+
+    //Populate comboIndexScheduleId
+    int scheduleCount = scheduleModel->rowCount();
+    for(int i = 0; i < scheduleCount; i++) {
+        comboIndexScheduleId[scheduleModel->record(i).value("id").toInt()] = i;
+    }
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
@@ -27,8 +42,8 @@ addDepartment::~addDepartment()
 void addDepartment::init(QSqlRecord &record)
 {
     ui->dep_name->setText(record.value("name").toString());
-    ui->managers->setCurrentIndex(comboIndexManagerId.key(record.value("manager_id").toInt()));
-    ui->schedule->setCurrentIndex(comboIndexScheduleId.key(record.value("schedule_id").toInt()));
+    ui->managers->setCurrentIndex(comboIndexManagerId[record.value("manager_id").toInt()]);
+    ui->schedule->setCurrentIndex(comboIndexScheduleId[record.value("schedule_id").toInt()]);
 }
 
 /**

@@ -39,6 +39,8 @@ void addDialog::initialize(QModelIndex modelIndex)
     this->show();
 }
 
+#include <QDebug>
+
 /**
  * @brief addDialog::create
  */
@@ -46,7 +48,14 @@ void addDialog::save()
 {
     QSqlRecord record = model->record(rowNumber);
     populateData(record);
-    model->insertRecord(rowNumber, record);
+
+    if (rowNumber < 0) {
+        model->insertRecord(rowNumber, record);
+    }
+    else {
+        model->setRecord(rowNumber, record);
+    }
+
     model->select();
 
     emit ready();
