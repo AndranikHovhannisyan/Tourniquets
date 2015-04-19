@@ -68,7 +68,7 @@ void Address::select(QMainWindow *mainWindow)
     QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_address, SLOT(initialize(QModelIndex)));
 
     //Connect parent destroy with removeWidgets to remove dynamic objects
-//    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
@@ -95,4 +95,10 @@ void Address::destroy()
     delete tableView;
     delete addButton;
     delete mainLayout;
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
+
+    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }

@@ -99,5 +99,11 @@ void Department::destroy()
     delete tableView;
     delete addButton;
     delete mainLayout;
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
+
+    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 

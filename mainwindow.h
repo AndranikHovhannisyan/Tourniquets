@@ -16,6 +16,7 @@
 #include "Employer/addemployer.h"
 #include "Address/addaddress.h"
 #include "Phone/addphone.h"
+#include "entity.h"
 
 #include <QModelIndex>
 #include <QTableView>
@@ -35,14 +36,14 @@ public:
     ~MainWindow();
 
 public:
-    QPushButton *addButton;
-    QTableView  *tableView;
-    QGridLayout *mainLayout;
+    QPushButton              *addButton;
+    QTableView               *tableView;
+    QGridLayout              *mainLayout;
 
-    Ui::MainWindow *ui;
-    QSqlDatabase db;
+    Ui::MainWindow           *ui;
+    QSqlDatabase              db;
     QMap<QString, addDialog*> addItemDialog;
-    QString table;
+    QString                   table;
     QSqlRelationalTableModel *model;
 
 public slots:

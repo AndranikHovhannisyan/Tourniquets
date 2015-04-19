@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->address,        SIGNAL(triggered()), Address::create(db, this), SLOT(select()));
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
 
+    connect(ui->position,       SIGNAL(triggered()), Department::create(db, this), SLOT(destroy()));
+
     //Create a database connection
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
