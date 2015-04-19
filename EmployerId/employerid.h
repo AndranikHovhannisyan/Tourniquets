@@ -10,8 +10,10 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addemployerid.h"
+#include "entity.h"
 
-class EmployerId
+
+class EmployerId : public Entity
 {
 private:
     EmployerId(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -40,6 +42,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // EMPLOYERID_H

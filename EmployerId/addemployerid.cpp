@@ -13,19 +13,13 @@ addEmployerId::addEmployerId(QSqlRelationalTableModel *tableModel, QWidget *pare
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակցի իդենտիֆիկատոր");
 
-    ui->idType->insertItem(0, "Քարտ");
-    ui->idType->insertItem(1, "Մատնահետք");
+    idTypes[0] = "Քարտ";
+    idTypes[1] = "Մատնահետք";
 
-//    QSqlTableModel *employerModel = new QSqlTableModel(this, db);
-//    employerModel->setTable("employer");
-//    employerModel->select();
+    ui->idType->insertItem(0, idTypes[0]);
+    ui->idType->insertItem(1, idTypes[1]);
 
-//    for (int i = 0; i < employerModel->rowCount(); i++) {
-//        comboIndexEmployerId[i] = employerModel->record(i).value("id").toInt();
-//        ui->employer->addItem(employerModel->record(i).value("firstname").toString());
-//    }
-
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(create()));
+    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
 
@@ -37,7 +31,6 @@ addEmployerId::~addEmployerId()
 
 void addEmployerId::init(QSqlRecord &record)
 {
-    ui->employer->setCurrentIndex(comboIndexEmployerId.key(record.value("employeer_id").toInt()));
     ui->employerId->setText(record.value("emp_number").toString());
     ui->idType->setCurrentIndex(record.value("id_type").toInt());
 }
@@ -45,15 +38,10 @@ void addEmployerId::init(QSqlRecord &record)
 
 void addEmployerId::clear() {
     ui->employerId->setText("");
-    ui->employer->setCurrentIndex(0);
     ui->idType->setCurrentIndex(0);
 }
 
 void addEmployerId::populateData(QSqlRecord &record) {
     record.setValue(record.indexOf("emp_number"), QVariant(ui->employerId->text()));
     record.setValue(record.indexOf("id_type"), QVariant(ui->idType->currentIndex()));
-
-    if (comboIndexEmployerId[ui->employer->currentIndex()] != 0) {
-        record.setValue(record.indexOf("employeer_id"), QVariant(comboIndexEmployerId[ui->employer->currentIndex()]));
-    }
 }
