@@ -1,6 +1,6 @@
 #include "Position/position.h"
 #include <QObject>
-
+#include <QException>
 
 Position* Position::position = NULL;
 
@@ -12,7 +12,7 @@ Position* Position::position = NULL;
  * @param mainWindow
  * @return
  */
-Position* Position::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
+Position* Position::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 {
     if (!position) {
         position = new Position(dbConnection, mainWindow);
@@ -24,7 +24,7 @@ Position* Position::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
 /**
  * @brief Position::Position
  */
-Position::Position(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
+Position::Position(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
@@ -37,6 +37,13 @@ Position::Position(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
  */
 void Position::select(QMainWindow *mainWindow)
 {
+    if (mainWindow) {
+        parent = mainWindow;
+    }
+    if (!parent) {
+        throw new QException();
+    }
+
     //Create widgets
     tableView   = new QTableView(mainWindow);
     addButton   = new QPushButton("Ավելացնել Բաժին");
@@ -45,7 +52,7 @@ void Position::select(QMainWindow *mainWindow)
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    mainWindow->centralWidget()->setLayout(mainLayout);
+    parent->centralWidget()->setLayout(mainLayout);
 
     //Set tableView content
     tableView->setModel(getModel());
@@ -58,9 +65,7 @@ void Position::select(QMainWindow *mainWindow)
     QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_position, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(mainWindow, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
-    QObject::connect(mainWindow, SIGNAL(destroyed()), addButton,  SLOT(deleteLater()));
-    QObject::connect(mainWindow, SIGNAL(destroyed()), mainLayout, SLOT(deleteLater()));
+    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
@@ -71,10 +76,26 @@ QSqlRelationalTableModel* Position::getModel()
 {
     //Check if model isn't created create it
     if (!model) {
-        model = new QSqlRelationalTableModel(parent, *db);
+        model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
     }
 
     return model;
+}
+
+/**
+ * @brief Position::destroy
+ */
+void Position::destroy()
+{
+    delete tableView;
+    delete addButton;
+    delete mainLayout;
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
+
+    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }

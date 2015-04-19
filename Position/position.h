@@ -11,11 +11,12 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addposition.h"
+#include "entity.h"
 
-class Position
+class Position : public Entity
 {
 private:
-    Position(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    Position(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     Position(const Position &);
     Position& operator=(const Position&);
 
@@ -23,7 +24,7 @@ private:
 
     addPosition *add_position;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -33,7 +34,7 @@ private:
 
 public:
 
-    static Position* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
+    static Position* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
@@ -41,6 +42,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // POSITION_H

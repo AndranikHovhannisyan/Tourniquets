@@ -33,9 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     currentEntity = NULL;
 
     entities["department"]      = Department::create(db, this);
+    entities["position"]        = Position::create(db, this);
     entities["address"]         = Address::create(db, this);
 
-//    entities["position"]        = Position::create(db, this);
 //    entities["schedule"]        = Schedule::create(db, this);
 //    entities["schedule_type"]   = ScheduleType::create(db, this);
 //    entities["tourniquet"]      = Tourniquet::create(db, this);
@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    entities["phone_number"]    = Phone::create(db, this);
 
     connect(ui->department,     SIGNAL(triggered()), this, SLOT(infoWindow()));
+    connect(ui->position,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->address,        SIGNAL(triggered()), this, SLOT(infoWindow()));
 
 
@@ -74,6 +75,6 @@ void MainWindow::infoWindow()
         }
 
         currentEntity = entities[action->objectName()];
-        entities[action->objectName()]->select();
+        currentEntity->select();
     }
 }
