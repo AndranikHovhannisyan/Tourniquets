@@ -1,11 +1,18 @@
 #include "adddepartment.h"
 #include "ui_adddepartment.h"
 #include <QSqlTableModel>
+#include <QSqlRecord>
 #include <QDebug>
 
 #include "Employer/employer.h"
 #include "Schedule/schedule.h"
 
+/**
+ * @brief addDepartment::addDepartment
+ * @param tableModel
+ * @param db
+ * @param parent
+ */
 addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase *db, QWidget *parent) :
     addDialog(tableModel, parent),
     ui(new Ui::addDepartment)
@@ -19,11 +26,18 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
+/**
+ * @brief addDepartment::~addDepartment
+ */
 addDepartment::~addDepartment()
 {
     delete ui;
 }
 
+/**
+ * @brief addDepartment::init
+ * @param record
+ */
 void addDepartment::init(QSqlRecord &record)
 {
     ui->dep_name->setText(record.value("name").toString());
@@ -57,8 +71,10 @@ void addDepartment::clear() {
     ui->schedule->setCurrentIndex(0);
 }
 
-#include <QSqlRecord>
-
+/**
+ * @brief addDepartment::populateData
+ * @param record
+ */
 void addDepartment::populateData(QSqlRecord &record)
 {
     record.setValue(record.indexOf("name"), QVariant(ui->dep_name->text()));
