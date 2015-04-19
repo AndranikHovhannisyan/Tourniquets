@@ -40,19 +40,21 @@ public:
     QTableView               *tableView;
     QGridLayout              *mainLayout;
 
+    //Part of bad solution
+    // ========================================================
+    QMap<QString, Entity*>    entities;
+    Entity                   *currentEntity;
+    // ========================================================
+
     Ui::MainWindow           *ui;
     QSqlDatabase              db;
     QMap<QString, addDialog*> addItemDialog;
     QString                   table;
     QSqlRelationalTableModel *model;
 
+
 public slots:
     void infoWindow();
-    void addItem();
-    void refresh(int = 0);
-    void subTables();
-
-    void edit(QModelIndex a);
 };
 
 #endif // MAINWINDOW_H
