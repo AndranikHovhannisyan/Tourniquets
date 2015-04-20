@@ -7,6 +7,11 @@
 #include <QSqlError>
 #include <QDebug>
 
+#include "Address/address.h"
+#include "Department/department.h"
+#include "Position/position.h"
+#include "Schedule/schedule.h"
+
 
 addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) :
     addDialog(tableModel, parent),
@@ -21,22 +26,18 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     ui->familyStatus->insertItem(0, "Այրի");
     ui->familyStatus->insertItem(1, "Ամուրի");
 
+    ui->registerAddress->setModel(Address::create(model->database())->getModel());
+    ui->livingAddress->setModel(Address::create(model->database())->getModel());
+    ui->department->setModel(Department::create(model->database())->getModel());
+    ui->position->setModel(Position::create(model->database())->getModel());
+    ui->schedule->setModel(Schedule::create(model->database())->getModel());
+
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
 addEmployer::~addEmployer()
 {
     delete ui;
-}
-
-void addEmployer::subConnections()
-{
-    MainWindow *mainWindow = dynamic_cast<MainWindow*>(this->parent());
-    connect(mainWindow->addItemDialog["address"], SIGNAL(ready(int)), this, SLOT(populateLivingAddresses(int)));
-    connect(mainWindow->addItemDialog["address"], SIGNAL(ready(int)), this, SLOT(populateRegisterAddresses(int)));
-    connect(mainWindow->addItemDialog["department"], SIGNAL(ready(int)), this, SLOT(populateDepartments(int)));
-    connect(mainWindow->addItemDialog["position"], SIGNAL(ready(int)), this, SLOT(populatePositions(int)));
-    connect(mainWindow->addItemDialog["schedule"], SIGNAL(ready(int)), this, SLOT(populateSchedules(int)));
 }
 
 /**
@@ -58,11 +59,50 @@ void addEmployer::init(QSqlRecord &record)
     ui->familyStatus->setCurrentIndex(record.value("family_status").toInt());
     ui->childrenNumber->setText(record.value("children_num").toString());
     ui->minorNumber->setText(record.value("minor_children_num").toString());
-    ui->registerAddress->setCurrentIndex(comboIndexAddressId.key(record.value("register_address_id").toInt()));
-    ui->livingAddress->setCurrentIndex(comboIndexAddressId.key(record.value("living_address_id").toInt()));
-    ui->department->setCurrentIndex(comboIndexDepartmentId.key(record.value("department_id").toInt()));
-    ui->position->setCurrentIndex(comboIndexPositionId.key(record.value("position_id").toInt()));
-    ui->schedule->setCurrentIndex(comboIndexScheduleId.key(record.value("schedule_id").toInt()));
+
+
+
+    QSqlRelationalTableModel* addressModel = Address::create(model->database())->getModel();
+    int addressCount = addressModel->rowCount();
+    int completedCount = 0;
+    for(int i = 0; i < addressCount && completedCount != 2; i++) {
+        if (addressModel->record(i).value("id").toInt() == record.value("register_address_id").toInt()) {
+            ui->registerAddress->setCurrentIndex(i);
+            completedCount++;
+        }
+        if (addressModel->record(i).value("id").toInt() == record.value("living_address_id").toInt()) {
+            ui->livingAddress->setCurrentIndex(i);
+            completedCount++;
+        }
+    }
+
+
+    QSqlRelationalTableModel* departmentModel = Department::create(model->database())->getModel();
+    int departmentCount = departmentModel->rowCount();
+    for(int i = 0; i < departmentCount; i++) {
+        if (departmentModel->record(i).value("id").toInt() == record.value("department_id").toInt()) {
+            ui->department->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    QSqlRelationalTableModel* positionModel = Position::create(model->database())->getModel();
+    int positionCount = positionModel->rowCount();
+    for(int i = 0; i < positionCount; i++) {
+        if (positionModel->record(i).value("id").toInt() == record.value("position_id").toInt()) {
+            ui->position->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    QSqlRelationalTableModel* scheduleModel = Schedule::create(model->database())->getModel();
+    int scheduleCount = scheduleModel->rowCount();
+    for(int i = 0; i < scheduleCount; i++) {
+        if (scheduleModel->record(i).value("id").toInt() == record.value("schedule_id").toInt()) {
+            ui->schedule->setCurrentIndex(i);
+            break;
+        }
+    }
 }
 
 /**
@@ -111,23 +151,37 @@ void addEmployer::populateData(QSqlRecord &record)
     record.setValue(record.indexOf("children_num"), QVariant(ui->childrenNumber->text()));
     record.setValue(record.indexOf("minor_children_num"), QVariant(ui->minorNumber->text()));
 
-    if (comboIndexAddressId[ui->registerAddress->currentIndex()] != 0) {
-        record.setValue(record.indexOf("register_address_id"), QVariant(comboIndexAddressId[ui->registerAddress->currentIndex()]));
-    }
+    int registerAddressId = Address::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->registerAddress->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("register_address_id"), QVariant(registerAddressId));
 
-    if (comboIndexAddressId[ui->livingAddress->currentIndex()] != 0) {
-        record.setValue(record.indexOf("living_address_id"), QVariant(comboIndexAddressId[ui->livingAddress->currentIndex()]));
-    }
 
-    if (comboIndexDepartmentId[ui->department->currentIndex()] != 0) {
-    record.setValue(record.indexOf("department_id"), QVariant(comboIndexDepartmentId[ui->department->currentIndex()]));
-    }
+    int livingAddressId = Address::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->livingAddress->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("living_address_id"), QVariant(livingAddressId));
 
-    if (comboIndexPositionId[ui->position->currentIndex()] != 0) {
-        record.setValue(record.indexOf("position_id"), QVariant(comboIndexPositionId[ui->position->currentIndex()]));
-    }
 
-    if (comboIndexScheduleId[ui->schedule->currentIndex()] != 0) {
-        record.setValue(record.indexOf("schedule_id"), QVariant(comboIndexScheduleId[ui->schedule->currentIndex()]));
-    }
+    int departmentId = Department::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->department->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("department_id"), QVariant(departmentId));
+
+
+    int positionId = Position::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->position->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("position_id"), QVariant(positionId));
+
+
+    int scheduleId = Schedule::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->schedule->currentIndex())
+                                        .value("id").toInt();
+    record.setValue(record.indexOf("schedule_id"), QVariant(scheduleId));
 }

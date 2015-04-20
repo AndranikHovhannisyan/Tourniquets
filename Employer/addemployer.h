@@ -16,8 +16,6 @@ public:
     explicit addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addEmployer();
 
-    virtual void subConnections();
-
 private:
     Ui::addEmployer *ui;
     QMap<int, int> comboIndexAddressId;

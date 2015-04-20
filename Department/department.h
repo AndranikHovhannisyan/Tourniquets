@@ -33,7 +33,7 @@ private:
 
 public:
 
-    static Department* create(QSqlDatabase dbConnection, QMainWindow *mainWindow);
+    static Department* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();

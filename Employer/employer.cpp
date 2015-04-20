@@ -53,7 +53,7 @@ void Employer::select(QMainWindow *mainWindow)
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    mainWindow->centralWidget()->setLayout(mainLayout);
+    parent->centralWidget()->setLayout(mainLayout);
 
     //Set tableView content
     tableView->setModel(getModel());
@@ -66,9 +66,7 @@ void Employer::select(QMainWindow *mainWindow)
     QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employer, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(mainWindow, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
-    QObject::connect(mainWindow, SIGNAL(destroyed()), addButton,  SLOT(deleteLater()));
-    QObject::connect(mainWindow, SIGNAL(destroyed()), mainLayout, SLOT(deleteLater()));
+    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
@@ -85,4 +83,20 @@ QSqlRelationalTableModel* Employer::getModel()
     }
 
     return model;
+}
+
+/**
+ * @brief Employer::destroy
+ */
+void Employer::destroy()
+{
+    delete tableView;
+    delete addButton;
+    delete mainLayout;
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
+
+    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
