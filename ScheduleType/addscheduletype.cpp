@@ -25,6 +25,8 @@ void addScheduleType::init(QSqlRecord &record) {
 
 void addScheduleType::clear() {
     ui->name->setText("");
+    ui->allowLag->clear();
+    ui->ignoreTime->clear();
 }
 
 void addScheduleType::populateData(QSqlRecord &record) {

@@ -10,11 +10,12 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addscheduletype.h"
+#include "entity.h"
 
-class ScheduleType
+class ScheduleType : public Entity
 {
 private:
-    ScheduleType(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    ScheduleType(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     ScheduleType(const ScheduleType &);
     ScheduleType& operator=(const ScheduleType&);
 
@@ -22,7 +23,7 @@ private:
 
     addScheduleType *add_scheduleType;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -32,7 +33,7 @@ private:
 
 public:
 
-    static ScheduleType* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
+    static ScheduleType* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
@@ -40,6 +41,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // SCHEDULETYPE_H
