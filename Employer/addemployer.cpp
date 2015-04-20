@@ -112,10 +112,10 @@ void addEmployer::clear() {
     ui->firstname->setText("");
     ui->lastname->setText("");
     ui->middlename->setText("");
-    ui->birthdate->setDate(QDate());
+    ui->birthdate->clear();
     ui->passSeria->setText("");
     ui->passNumber->setText("");
-    ui->givenDate->setDate(QDate());
+    ui->givenDate->clear();
     ui->givenFrom->setText("");
     ui->gender->setCurrentIndex(0);
     ui->isConscript->setChecked(false);
