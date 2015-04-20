@@ -1,4 +1,5 @@
 #include "Employer/employer.h"
+#include <QException>
 #include <QObject>
 
 
@@ -37,6 +38,13 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
  */
 void Employer::select(QMainWindow *mainWindow)
 {
+    if (mainWindow) {
+        parent = mainWindow;
+    }
+    if (!parent) {
+        throw new QException();
+    }
+
     //Create widgets
     tableView   = new QTableView(mainWindow);
     addButton   = new QPushButton("Ավելացնել Բաժին");

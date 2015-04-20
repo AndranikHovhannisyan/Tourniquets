@@ -1,4 +1,5 @@
 #include "Phone/phone.h"
+#include <QException>
 #include <QObject>
 
 
@@ -12,7 +13,7 @@ Phone* Phone::phone = NULL;
  * @param mainWindow
  * @return
  */
-Phone* Phone::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
+Phone* Phone::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 {
     if (!phone) {
         phone = new Phone(dbConnection, mainWindow);
@@ -24,7 +25,7 @@ Phone* Phone::create(QSqlDatabase* dbConnection, QMainWindow *mainWindow)
 /**
  * @brief Phone::Phone
  */
-Phone::Phone(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
+Phone::Phone(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
@@ -37,6 +38,13 @@ Phone::Phone(QSqlDatabase* dbConnection, QMainWindow *mainWindow) {
  */
 void Phone::select(QMainWindow *mainWindow)
 {
+    if (mainWindow) {
+        parent = mainWindow;
+    }
+    if (!parent) {
+        throw new QException();
+    }
+
     //Create widgets
     tableView   = new QTableView(mainWindow);
     addButton   = new QPushButton("Ավելացնել Բաժին");
@@ -45,7 +53,7 @@ void Phone::select(QMainWindow *mainWindow)
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    mainWindow->centralWidget()->setLayout(mainLayout);
+    parent->centralWidget()->setLayout(mainLayout);
 
     //Set tableView content
     tableView->setModel(getModel());
@@ -58,9 +66,7 @@ void Phone::select(QMainWindow *mainWindow)
     QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_phone, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(mainWindow, SIGNAL(destroyed()), tableView,  SLOT(deleteLater()));
-    QObject::connect(mainWindow, SIGNAL(destroyed()), addButton,  SLOT(deleteLater()));
-    QObject::connect(mainWindow, SIGNAL(destroyed()), mainLayout, SLOT(deleteLater()));
+    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
@@ -71,10 +77,26 @@ QSqlRelationalTableModel* Phone::getModel()
 {
     //Check if model isn't created create it
     if (!model) {
-        model = new QSqlRelationalTableModel(parent, *db);
+        model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
     }
 
     return model;
+}
+
+/**
+ * @brief Phone::destroy
+ */
+void Phone::destroy()
+{
+    delete tableView;
+    delete addButton;
+    delete mainLayout;
+
+    tableView  = NULL;
+    addButton  = NULL;
+    mainLayout = NULL;
+
+    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }

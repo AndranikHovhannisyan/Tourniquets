@@ -10,11 +10,12 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addphone.h"
+#include "entity.h"
 
-class Phone
+class Phone : public Entity
 {
 private:
-    Phone(QSqlDatabase *dbConnection, QMainWindow *mainWindow);
+    Phone(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     Phone(const Phone &);
     Phone& operator=(const Phone&);
 
@@ -22,7 +23,7 @@ private:
 
     addPhone *add_phone;
     QSqlRelationalTableModel *model;
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
@@ -32,7 +33,7 @@ private:
 
 public:
 
-    static Phone* create(QSqlDatabase *dbConnection, QMainWindow *mainWindow = NULL);
+    static Phone* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
@@ -40,6 +41,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // PHONE_H
