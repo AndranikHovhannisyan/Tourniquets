@@ -31,8 +31,6 @@ void addTourniquet::clear() {
 }
 
 void addTourniquet::populateData(QSqlRecord &record) {
-    qDebug() << ui->type->currentIndex();
-
     record.setValue(record.indexOf("type"), QVariant(ui->type->currentIndex()));
     record.setValue(record.indexOf("number"), QVariant(ui->number->text()));
 }
