@@ -102,8 +102,7 @@ void Employer::select(QMainWindow *mainWindow)
 
     QObject::connect(tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
     QObject::connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
-
-//    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employer, SLOT(initialize(QModelIndex)));
+    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employer, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
     QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
@@ -156,9 +155,10 @@ QSqlRelationalTableModel* Employer::getModel()
     if (!model) {
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
+        //It is a problem during data save
 //        model->setRelation(14, QSqlRelation("address", "id", "street"));
 //        model->setRelation(15, QSqlRelation("address", "id", "street"));
-        model->setRelation(17, QSqlRelation("department", "id", "name"));
+//        model->setRelation(17, QSqlRelation("department", "id", "name"));
 
         model->select();
     }
