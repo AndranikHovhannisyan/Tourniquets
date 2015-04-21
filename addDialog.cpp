@@ -29,10 +29,19 @@ addDialog::~addDialog() {
  */
 void addDialog::initialize(QModelIndex modelIndex)
 {
+    initByRowNumber(modelIndex.row());
+}
+
+/**
+ * @brief initByRowNumber
+ * @param row
+ */
+void addDialog::initByRowNumber(int row)
+{
     this->clear();
-    rowNumber = modelIndex.row();
-    if (modelIndex.row() != -1) {
-        QSqlRecord record = model->record(modelIndex.row());
+    rowNumber = row;
+    if (row != -1) {
+        QSqlRecord record = model->record(row);
         this->init(record);
     }
 

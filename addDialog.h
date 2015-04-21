@@ -24,6 +24,7 @@ protected:
 
 public slots:
     void initialize(QModelIndex modelIndex = QModelIndex());
+    void initByRowNumber(int = -1);
 
 private slots:
     void save();

@@ -1,6 +1,11 @@
 #include "Employer/employer.h"
 #include <QException>
+#include <QSqlRelation>
 #include <QObject>
+
+
+#include <QModelIndexList>
+#include <QMessageBox>
 
 
 Employer* Employer::employer = NULL;
@@ -46,17 +51,22 @@ void Employer::select(QMainWindow *mainWindow)
     }
 
     //Create widgets
-    tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել աշխատակից");
-    mainLayout  = new QGridLayout;
+    tableView    = new QTableView(mainWindow);
+    addButton    = new QPushButton("Ավելացնել");
+    editButton   = new QPushButton("Խմբագրել");
+    removeButton = new QPushButton("Հեռացնել");
+    mainLayout   = new QGridLayout;
 
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
+    mainLayout->addWidget(editButton, 0, 2, 1, 2);
+    mainLayout->addWidget(removeButton, 0, 4, 1, 2);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
     parent->centralWidget()->setLayout(mainLayout);
 
     //Set tableView content
     tableView->setModel(getModel());
+    tableView->resizeColumnsToContents();
 
     getModel()->setHeaderData(1,  Qt::Horizontal, "Անուն");
     getModel()->setHeaderData(2,  Qt::Horizontal, "Ազգանուն");
@@ -86,11 +96,54 @@ void Employer::select(QMainWindow *mainWindow)
     add_employer = new addEmployer(getModel());
 
     //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton, SIGNAL(clicked()), add_employer, SLOT(initialize()));
-    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employer, SLOT(initialize(QModelIndex)));
+    QObject::connect(addButton,    SIGNAL(clicked()), add_employer, SLOT(initialize()));
+    QObject::connect(editButton,   SIGNAL(clicked()), this, SLOT(edit()));
+    QObject::connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
+
+    QObject::connect(tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+    QObject::connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+
+//    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employer, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
     QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+}
+
+/**
+ * @brief Employer::selectRow
+ * @param modelIndex
+ */
+void Employer::selectRow(const QModelIndex &modelIndex) {
+    tableView->selectRow(modelIndex.row());
+}
+
+/**
+ * @brief Employer::edit
+ */
+void Employer::edit()
+{
+    QModelIndexList selectedRows = tableView->selectionModel()->selectedRows();
+    if (selectedRows.count() == 0) {
+        QMessageBox::warning(NULL, "Error", "Ոչ մի տող նշված չէ");
+        return;
+    }
+
+    if (selectedRows.count() > 1) {
+        QMessageBox::warning(NULL, "Error", "Խմբագրման համար անհրաժեշտ է նշել ճիշտ մեկ տող");
+        return;
+    }
+
+    add_employer->initByRowNumber(selectedRows.at(0).row());
+}
+
+/**
+ * @brief Employer::remove
+ */
+void Employer::remove()
+{
+//    QModelIndexList selectedRows = tableView->selectionModel()->selectedRows();
+//    for( int i = 0; i < selectedRows.count(); i++)
+//            QMessageBox::information(this,"", QString::number(selectedRows.at(i).row()));
 }
 
 /**
@@ -103,8 +156,11 @@ QSqlRelationalTableModel* Employer::getModel()
     if (!model) {
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
-        model->select();
+//        model->setRelation(14, QSqlRelation("address", "id", "street"));
+//        model->setRelation(15, QSqlRelation("address", "id", "street"));
+        model->setRelation(17, QSqlRelation("department", "id", "name"));
 
+        model->select();
     }
 
     return model;
@@ -118,10 +174,14 @@ void Employer::destroy()
     delete tableView;
     delete addButton;
     delete mainLayout;
+    delete editButton;
+    delete removeButton;
 
-    tableView  = NULL;
-    addButton  = NULL;
-    mainLayout = NULL;
+    tableView    = NULL;
+    addButton    = NULL;
+    mainLayout   = NULL;
+    editButton   = NULL;
+    removeButton = NULL;
 
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
