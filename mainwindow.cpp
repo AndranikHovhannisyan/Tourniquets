@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     entities["position"]        = Position::create(db, this);
     entities["address"]         = Address::create(db, this);
 
-//    entities["schedule"]        = Schedule::create(db, this);
+    entities["schedule"]        = Schedule::create(db, this);
     entities["schedule_type"]   = ScheduleType::create(db, this);
     entities["tourniquet"]      = Tourniquet::create(db, this);
     entities["employer_ids"]    = EmployerId::create(db, this);
@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->department,     SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->position,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->address,        SIGNAL(triggered()), this, SLOT(infoWindow()));
-
+    connect(ui->schedule,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->schedule_type,  SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->tourniquet,     SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->employer_ids,   SIGNAL(triggered()), this, SLOT(infoWindow()));

@@ -10,8 +10,9 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addschedule.h"
+#include "entity.h"
 
-class Schedule
+class Schedule : public Entity
 {
 private:
     Schedule(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -40,6 +41,7 @@ public:
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
+    void destroy();
 };
 
 #endif // SCHEDULE_H
