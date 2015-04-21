@@ -47,7 +47,7 @@ void Employer::select(QMainWindow *mainWindow)
 
     //Create widgets
     tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել Բաժին");
+    addButton   = new QPushButton("Ավելացնել աշխատակից");
     mainLayout  = new QGridLayout;
 
     //Arrange widgets on window
@@ -57,6 +57,30 @@ void Employer::select(QMainWindow *mainWindow)
 
     //Set tableView content
     tableView->setModel(getModel());
+
+    getModel()->setHeaderData(1,  Qt::Horizontal, "Անուն");
+    getModel()->setHeaderData(2,  Qt::Horizontal, "Ազգանուն");
+    getModel()->setHeaderData(3,  Qt::Horizontal, "Հայրանուն");
+    getModel()->setHeaderData(4,  Qt::Horizontal, "Ծննդյան ամսաթիվ");
+    getModel()->setHeaderData(5,  Qt::Horizontal, "Անձնագրի սերիա");
+    getModel()->setHeaderData(6,  Qt::Horizontal, "Անձնագրի համար");
+    getModel()->setHeaderData(7,  Qt::Horizontal, "Տրման ամսաթիվ");
+    getModel()->setHeaderData(8,  Qt::Horizontal, "Ում կողմից");
+    getModel()->setHeaderData(9,  Qt::Horizontal, "Սեռը");
+    getModel()->setHeaderData(10, Qt::Horizontal, "Զինապարտություն");
+    getModel()->setHeaderData(11, Qt::Horizontal, "Ընտանեկան վիճակ");
+    getModel()->setHeaderData(12, Qt::Horizontal, "Երեխաների քանակ");
+    getModel()->setHeaderData(13, Qt::Horizontal, "Անչափահաս երեխաների քանակ");
+    getModel()->setHeaderData(14, Qt::Horizontal, "Գրանցման հասցե");
+    getModel()->setHeaderData(15, Qt::Horizontal, "Բնակության հասցե");
+    getModel()->setHeaderData(16, Qt::Horizontal, "Գրաֆիկ");
+    getModel()->setHeaderData(17, Qt::Horizontal, "Բաժին");
+
+
+
+    tableView->hideColumn(0);
+
+
 
     //Create addEmployer instance
     add_employer = new addEmployer(getModel());
@@ -80,6 +104,7 @@ QSqlRelationalTableModel* Employer::getModel()
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
+
     }
 
     return model;
