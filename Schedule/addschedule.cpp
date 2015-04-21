@@ -59,6 +59,23 @@ void addSchedule::init(QSqlRecord &record)
 void addSchedule::clear()
 {
     ui->scheduleType->setCurrentIndex(0);
+    ui->stInTime->setTime(QTime(0, 0));
+    ui->stOutTime->setTime(QTime(0, 0));
+    ui->mondayDayIn->setTime(QTime(0, 0));
+    ui->mondayDayOut->setTime(QTime(0, 0));
+    ui->thursdayDayIn->setTime(QTime(0, 0));
+    ui->thursdayDayOut->setTime(QTime(0, 0));
+    ui->wednesdayDayIn->setTime(QTime(0, 0));
+    ui->wednesdayDayOut->setTime(QTime(0, 0));
+    ui->thusdayDayIn->setTime(QTime(0, 0));
+    ui->thusdayDayOut->setTime(QTime(0, 0));
+    ui->fridayDayIn->setTime(QTime(0, 0));
+    ui->fridayDayOut->setTime(QTime(0, 0));
+    ui->saturdayDayIn->setTime(QTime(0, 0));
+    ui->saturdayDayOut->setTime(QTime(0, 0));
+    ui->sundayDayIn->setTime(QTime(0, 0));
+    ui->sundayDayOut->setTime(QTime(0, 0));
+    ui->interval->setText("");
 }
 
 void addSchedule::populateData(QSqlRecord &record)

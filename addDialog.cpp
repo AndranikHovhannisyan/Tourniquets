@@ -39,8 +39,6 @@ void addDialog::initialize(QModelIndex modelIndex)
     this->show();
 }
 
-#include <QDebug>
-
 /**
  * @brief addDialog::create
  */
@@ -56,6 +54,7 @@ void addDialog::save()
         model->setRecord(rowNumber, record);
     }
 
+    qDebug() << model->lastError();
     model->select();
 
     emit ready();
