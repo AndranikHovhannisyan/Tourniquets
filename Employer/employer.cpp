@@ -35,6 +35,20 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     db          = dbConnection;
     parent      = mainWindow;
     tableName   = "employer";
+
+
+    registerAddressFrame  = NULL;
+    registerAddressLayout = NULL;
+
+    label_reg_country   = NULL;
+    label_reg_city      = NULL;
+    label_reg_street    = NULL;
+    label_reg_hNumber   = NULL;
+
+    reg_country = NULL;
+    reg_city    = NULL;
+    reg_street  = NULL;
+    reg_hNumber = NULL;
 }
 
 /**
@@ -108,12 +122,79 @@ void Employer::select(QMainWindow *mainWindow)
     QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
+
+#include <QDataWidgetMapper>
+#include <QSqlRelationalDelegate>
+#include "Address/address.h"
+
 /**
  * @brief Employer::selectRow
  * @param modelIndex
  */
 void Employer::selectRow(const QModelIndex &modelIndex) {
     tableView->selectRow(modelIndex.row());
+
+
+    //============================================================
+    //====================== Register Address ====================
+    //============================================================
+
+    registerAddressFrame  = registerAddressFrame  ? registerAddressFrame  : new QFrame;
+    registerAddressLayout = registerAddressLayout ? registerAddressLayout :new QGridLayout;
+
+    label_reg_country   = label_reg_country ? label_reg_country : new QLabel("Country");
+    label_reg_city      = label_reg_city    ? label_reg_city    : new QLabel("City");
+    label_reg_street    = label_reg_street  ? label_reg_street  : new QLabel("Street");
+    label_reg_hNumber   = label_reg_hNumber ? label_reg_hNumber : new QLabel("H_Number");
+
+    reg_country = reg_country ? reg_country : new QLineEdit;
+    reg_city    = reg_city    ? reg_city    : new QLineEdit;
+    reg_street  = reg_street  ? reg_street  : new QLineEdit;
+    reg_hNumber = reg_hNumber ? reg_hNumber : new QLineEdit;
+
+    registerAddressLayout->addWidget(label_reg_country, 0, 0);
+    registerAddressLayout->addWidget(label_reg_city, 1, 0);
+    registerAddressLayout->addWidget(label_reg_street, 2, 0);
+    registerAddressLayout->addWidget(label_reg_hNumber, 3, 0);
+
+    registerAddressLayout->addWidget(reg_country, 0, 1);
+    registerAddressLayout->addWidget(reg_city, 1, 1);
+    registerAddressLayout->addWidget(reg_street, 2, 1);
+    registerAddressLayout->addWidget(reg_hNumber, 3, 1);
+
+
+    registerAddressFrame->setLayout(registerAddressLayout);
+//    registerAddressFrame->setFrameStyle(1);
+
+    registerAddressFrame->setObjectName("register_address_frame");
+    registerAddressFrame->setStyleSheet("#register_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
+
+    mainLayout->addWidget(registerAddressFrame, 1, 16, 4, 4);
+
+
+    QDataWidgetMapper *mapper = new QDataWidgetMapper();
+    mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+    mapper->setModel(Address::create(model->database())->getModel());
+    mapper->setItemDelegate(new QSqlRelationalDelegate());
+    mapper->addMapping(reg_country, 1);
+    mapper->addMapping(reg_city,    2);
+    mapper->addMapping(reg_street,  3);
+    mapper->addMapping(reg_hNumber, 4);
+
+    int registerAddressId = getModel()->record(modelIndex.row()).value("register_address_id").toInt();
+
+    QSqlRelationalTableModel* addressModel = Address::create(model->database())->getModel();
+    int addressCount = addressModel->rowCount();
+    for(int i = 0; i < addressCount; i++) {
+        if (addressModel->record(i).value("id").toInt() == registerAddressId) {
+             mapper->setCurrentIndex(i);
+             break;
+        }
+    }
+
+    //============================================================
+    //==================== End Register Address ==================
+    //============================================================
 }
 
 /**
@@ -158,11 +239,6 @@ QSqlRelationalTableModel* Employer::getModel()
     if (!model) {
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
-        //It is a problem during data save
-//        model->setRelation(14, QSqlRelation("address", "id", "street"));
-//        model->setRelation(15, QSqlRelation("address", "id", "street"));
-//        model->setRelation(17, QSqlRelation("department", "id", "name"));
-
         model->select();
     }
 

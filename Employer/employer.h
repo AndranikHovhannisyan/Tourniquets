@@ -9,6 +9,11 @@
 #include <QString>
 #include <QMainWindow>
 #include <QSqlDatabase>
+
+#include <QLineEdit>
+#include <QLabel>
+#include <QFrame>
+
 #include "addemployer.h"
 #include "entity.h"
 
@@ -34,6 +39,20 @@ private:
 
     QGridLayout *mainLayout;
     QString      tableName;
+
+
+    QFrame      *registerAddressFrame;
+    QGridLayout *registerAddressLayout;
+
+    QLabel      *label_reg_country;
+    QLabel      *label_reg_city;
+    QLabel      *label_reg_street;
+    QLabel      *label_reg_hNumber;
+
+    QLineEdit *reg_country;
+    QLineEdit *reg_city;
+    QLineEdit *reg_street;
+    QLineEdit *reg_hNumber;
 
 public:
 
