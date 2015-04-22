@@ -140,9 +140,12 @@ void Employer::edit()
  */
 void Employer::remove()
 {
-//    QModelIndexList selectedRows = tableView->selectionModel()->selectedRows();
-//    for( int i = 0; i < selectedRows.count(); i++)
-//            QMessageBox::information(this,"", QString::number(selectedRows.at(i).row()));
+    QModelIndexList selectedRows = tableView->selectionModel()->selectedRows();
+    for( int i = 0; i < selectedRows.count(); i++) {
+        getModel()->removeRow(selectedRows.at(i).row());
+    }
+
+    getModel()->select();
 }
 
 /**
