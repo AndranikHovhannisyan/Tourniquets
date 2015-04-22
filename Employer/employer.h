@@ -62,6 +62,28 @@ private:
     //==================== End Register Address ==================
     //============================================================
 
+    //============================================================
+    //====================== Living Address ====================
+    //============================================================
+
+    QFrame      *livingAddressFrame;
+    QGridLayout *livingAddressLayout;
+    QLabel      *living_title_label;
+
+    QLabel      *label_living_country;
+    QLabel      *label_living_city;
+    QLabel      *label_living_street;
+    QLabel      *label_living_hNumber;
+
+    QLineEdit *living_country;
+    QLineEdit *living_city;
+    QLineEdit *living_street;
+    QLineEdit *living_hNumber;
+
+    //============================================================
+    //==================== End Living Address ==================
+    //============================================================
+
 public:
 
     static Employer* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);

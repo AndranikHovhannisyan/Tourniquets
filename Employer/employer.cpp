@@ -36,6 +36,9 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     parent      = mainWindow;
     tableName   = "employer";
 
+    //============================================================
+    //====================== Register Address ====================
+    //============================================================
 
     registerAddressFrame  = NULL;
     registerAddressLayout = NULL;
@@ -50,6 +53,26 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     reg_city    = NULL;
     reg_street  = NULL;
     reg_hNumber = NULL;
+
+
+    //============================================================
+    //======================= Living Address =====================
+    //============================================================
+
+    livingAddressFrame  = NULL;
+    livingAddressLayout = NULL;
+    living_title_label  = NULL;
+
+    label_living_country = NULL;
+    label_living_city    = NULL;
+    label_living_street  = NULL;
+    label_living_hNumber = NULL;
+
+    living_country = NULL;
+    living_city    = NULL;
+    living_street  = NULL;
+    living_hNumber = NULL;
+
 }
 
 /**
@@ -136,6 +159,9 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     tableView->selectRow(modelIndex.row());
 
 
+    QSqlRelationalTableModel* addressModel = Address::create(model->database())->getModel();
+    int addressCount = addressModel->rowCount();
+
     //============================================================
     //====================== Register Address ====================
     //============================================================
@@ -155,7 +181,7 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     reg_hNumber = reg_hNumber ? reg_hNumber : new QLineEdit;
 
 
-    reg_title_label->setText("<b>Register Address</b>");
+    reg_title_label->setText("<b>Գրանցման հասցե</b>");
     reg_title_label->setAlignment(Qt::AlignCenter);
     registerAddressLayout->addWidget(reg_title_label, 0, 0, 1, 2);
     registerAddressLayout->addWidget(label_reg_country, 1, 0);
@@ -173,30 +199,88 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     registerAddressFrame->setObjectName("register_address_frame");
     registerAddressFrame->setStyleSheet("#register_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
 
-    mainLayout->addWidget(registerAddressFrame, 1, 16, 4, 4);
+    mainLayout->addWidget(registerAddressFrame, 1, 16, 5, 5);
 
-    QDataWidgetMapper *mapper = new QDataWidgetMapper();
-    mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    mapper->setModel(Address::create(model->database())->getModel());
-    mapper->setItemDelegate(new QSqlRelationalDelegate());
-    mapper->addMapping(reg_country, 1);
-    mapper->addMapping(reg_city,    2);
-    mapper->addMapping(reg_street,  3);
-    mapper->addMapping(reg_hNumber, 4);
+    QDataWidgetMapper *register_mapper = new QDataWidgetMapper();
+    register_mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+    register_mapper->setModel(Address::create(model->database())->getModel());
+    register_mapper->setItemDelegate(new QSqlRelationalDelegate());
+    register_mapper->addMapping(reg_country, 1);
+    register_mapper->addMapping(reg_city,    2);
+    register_mapper->addMapping(reg_street,  3);
+    register_mapper->addMapping(reg_hNumber, 4);
 
     int registerAddressId = getModel()->record(modelIndex.row()).value("register_address_id").toInt();
-
-    QSqlRelationalTableModel* addressModel = Address::create(model->database())->getModel();
-    int addressCount = addressModel->rowCount();
     for(int i = 0; i < addressCount; i++) {
         if (addressModel->record(i).value("id").toInt() == registerAddressId) {
-             mapper->setCurrentIndex(i);
+             register_mapper->setCurrentIndex(i);
              break;
         }
     }
 
     //============================================================
     //==================== End Register Address ==================
+    //============================================================
+
+
+    //============================================================
+    //======================= Living Address =====================
+    //============================================================
+
+    livingAddressFrame  = livingAddressFrame  ? livingAddressFrame  : new QFrame;
+    livingAddressLayout = livingAddressLayout ? livingAddressLayout : new QGridLayout;
+    living_title_label  = living_title_label  ? living_title_label  : new QLabel;
+
+    label_living_country   = label_living_country ? label_living_country : new QLabel("Country");
+    label_living_city      = label_living_city    ? label_living_city    : new QLabel("City");
+    label_living_street    = label_living_street  ? label_living_street  : new QLabel("Street");
+    label_living_hNumber   = label_living_hNumber ? label_living_hNumber : new QLabel("H_Number");
+
+    living_country = living_country ? living_country : new QLineEdit;
+    living_city    = living_city    ? living_city    : new QLineEdit;
+    living_street  = living_street  ? living_street  : new QLineEdit;
+    living_hNumber = living_hNumber ? living_hNumber : new QLineEdit;
+
+
+    living_title_label->setText("<b>Բնակության հասցե</b>");
+    living_title_label->setAlignment(Qt::AlignCenter);
+    livingAddressLayout->addWidget(living_title_label, 0, 0, 1, 2);
+    livingAddressLayout->addWidget(label_living_country, 1, 0);
+    livingAddressLayout->addWidget(label_living_city, 2, 0);
+    livingAddressLayout->addWidget(label_living_street, 3, 0);
+    livingAddressLayout->addWidget(label_living_hNumber, 4, 0);
+
+    livingAddressLayout->addWidget(living_country, 1, 1);
+    livingAddressLayout->addWidget(living_city, 2, 1);
+    livingAddressLayout->addWidget(living_street, 3, 1);
+    livingAddressLayout->addWidget(living_hNumber, 4, 1);
+
+    livingAddressFrame->setLayout(livingAddressLayout);
+
+    livingAddressFrame->setObjectName("living_address_frame");
+    livingAddressFrame->setStyleSheet("#living_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
+
+    mainLayout->addWidget(livingAddressFrame, 7, 16, 5, 5);
+
+    QDataWidgetMapper *living_mapper = new QDataWidgetMapper();
+    living_mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+    living_mapper->setModel(Address::create(model->database())->getModel());
+    living_mapper->setItemDelegate(new QSqlRelationalDelegate());
+    living_mapper->addMapping(living_country, 1);
+    living_mapper->addMapping(living_city,    2);
+    living_mapper->addMapping(living_street,  3);
+    living_mapper->addMapping(living_hNumber, 4);
+
+    int livingAddressId = getModel()->record(modelIndex.row()).value("living_address_id").toInt();
+    for(int i = 0; i < addressCount; i++) {
+        if (addressModel->record(i).value("id").toInt() == livingAddressId) {
+             living_mapper->setCurrentIndex(i);
+             break;
+        }
+    }
+
+    //============================================================
+    //===================== End Living Address ===================
     //============================================================
 }
 
