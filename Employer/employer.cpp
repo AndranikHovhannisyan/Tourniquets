@@ -39,6 +39,7 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
 
     registerAddressFrame  = NULL;
     registerAddressLayout = NULL;
+    reg_title_label       = NULL;
 
     label_reg_country   = NULL;
     label_reg_city      = NULL;
@@ -140,7 +141,8 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     //============================================================
 
     registerAddressFrame  = registerAddressFrame  ? registerAddressFrame  : new QFrame;
-    registerAddressLayout = registerAddressLayout ? registerAddressLayout :new QGridLayout;
+    registerAddressLayout = registerAddressLayout ? registerAddressLayout : new QGridLayout;
+    reg_title_label       = reg_title_label       ? reg_title_label         : new QLabel;
 
     label_reg_country   = label_reg_country ? label_reg_country : new QLabel("Country");
     label_reg_city      = label_reg_city    ? label_reg_city    : new QLabel("City");
@@ -152,25 +154,26 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     reg_street  = reg_street  ? reg_street  : new QLineEdit;
     reg_hNumber = reg_hNumber ? reg_hNumber : new QLineEdit;
 
-    registerAddressLayout->addWidget(label_reg_country, 0, 0);
-    registerAddressLayout->addWidget(label_reg_city, 1, 0);
-    registerAddressLayout->addWidget(label_reg_street, 2, 0);
-    registerAddressLayout->addWidget(label_reg_hNumber, 3, 0);
 
-    registerAddressLayout->addWidget(reg_country, 0, 1);
-    registerAddressLayout->addWidget(reg_city, 1, 1);
-    registerAddressLayout->addWidget(reg_street, 2, 1);
-    registerAddressLayout->addWidget(reg_hNumber, 3, 1);
+    reg_title_label->setText("<b>Register Address</b>");
+    reg_title_label->setAlignment(Qt::AlignCenter);
+    registerAddressLayout->addWidget(reg_title_label, 0, 0, 1, 2);
+    registerAddressLayout->addWidget(label_reg_country, 1, 0);
+    registerAddressLayout->addWidget(label_reg_city, 2, 0);
+    registerAddressLayout->addWidget(label_reg_street, 3, 0);
+    registerAddressLayout->addWidget(label_reg_hNumber, 4, 0);
 
+    registerAddressLayout->addWidget(reg_country, 1, 1);
+    registerAddressLayout->addWidget(reg_city, 2, 1);
+    registerAddressLayout->addWidget(reg_street, 3, 1);
+    registerAddressLayout->addWidget(reg_hNumber, 4, 1);
 
     registerAddressFrame->setLayout(registerAddressLayout);
-//    registerAddressFrame->setFrameStyle(1);
 
     registerAddressFrame->setObjectName("register_address_frame");
     registerAddressFrame->setStyleSheet("#register_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
 
     mainLayout->addWidget(registerAddressFrame, 1, 16, 4, 4);
-
 
     QDataWidgetMapper *mapper = new QDataWidgetMapper();
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);

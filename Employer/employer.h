@@ -40,9 +40,13 @@ private:
     QGridLayout *mainLayout;
     QString      tableName;
 
+    //============================================================
+    //====================== Register Address ====================
+    //============================================================
 
     QFrame      *registerAddressFrame;
     QGridLayout *registerAddressLayout;
+    QLabel      *reg_title_label;
 
     QLabel      *label_reg_country;
     QLabel      *label_reg_city;
@@ -53,6 +57,10 @@ private:
     QLineEdit *reg_city;
     QLineEdit *reg_street;
     QLineEdit *reg_hNumber;
+
+    //============================================================
+    //==================== End Register Address ==================
+    //============================================================
 
 public:
 
