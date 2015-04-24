@@ -29,6 +29,8 @@ Position::Position(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     db          = dbConnection;
     parent      = mainWindow;
     tableName   = "position";
+
+    add_position = NULL;
 }
 
 /**
@@ -58,7 +60,7 @@ void Position::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addPosition instance
-    add_position = new addPosition(getModel());
+    initAddPosition();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_position, SLOT(initialize()));
@@ -98,4 +100,14 @@ void Position::destroy()
     mainLayout = NULL;
 
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+}
+
+/**
+ * @brief Position::initAddPosition
+ * @return
+ */
+addPosition* Position::initAddPosition()
+{
+    add_position = add_position ? add_position : new addPosition(getModel());
+    return add_position;
 }

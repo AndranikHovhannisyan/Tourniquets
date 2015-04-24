@@ -30,6 +30,8 @@ Schedule::Schedule(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     db          = dbConnection;
     parent      = mainWindow;
     tableName   = "schedule";
+
+    add_schedule = NULL;
 }
 
 /**
@@ -59,7 +61,7 @@ void Schedule::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addSchedule instance
-    add_schedule = new addSchedule(getModel());
+    initAddSchedule();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_schedule, SLOT(initialize()));
@@ -99,4 +101,14 @@ void Schedule::destroy()
     mainLayout = NULL;
 
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+}
+
+/**
+ * @brief Schedule::initAddSchedule
+ * @return
+ */
+addSchedule* Schedule::initAddSchedule()
+{
+    add_schedule = add_schedule ? add_schedule : new addSchedule(getModel());
+    return add_schedule;
 }
