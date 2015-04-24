@@ -71,6 +71,8 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     addInComboMap["add_schedule"]         = ui->schedule;
 
     relationComboBox = NULL;
+    livingAddress   = 0;
+    registerAddress = 0;
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
@@ -85,15 +87,21 @@ addEmployer::~addEmployer()
  */
 void addEmployer::selectCreated(int rowNumber)
 {
-    ui->livingAddress->setCurrentIndex(livingAddress);
-    ui->registerAddress->setCurrentIndex(registerAddress);
-    livingAddress   = 0;
-    registerAddress = 0;
+    if (livingAddress){
+        ui->livingAddress->setCurrentIndex(livingAddress);
+    }
+
+    if (registerAddress) {
+        ui->registerAddress->setCurrentIndex(registerAddress);
+    }
 
     if (relationComboBox) {
         relationComboBox->setCurrentIndex(rowNumber);
         relationComboBox = NULL;
     }
+
+    livingAddress   = 0;
+    registerAddress = 0;
 }
 
 /**
