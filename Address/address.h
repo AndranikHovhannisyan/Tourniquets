@@ -38,7 +38,7 @@ public:
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
 
-    addAddress* initAddAddress();
+    addAddress* getAddAddress();
 
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow

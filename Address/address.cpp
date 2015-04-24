@@ -62,7 +62,7 @@ void Address::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addAddress instance
-    initAddAddress();
+    getAddAddress();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_address, SLOT(initialize()));
@@ -108,7 +108,7 @@ void Address::destroy()
  * @brief Address::initAddAddress
  * @return
  */
-addAddress* Address::initAddAddress()
+addAddress* Address::getAddAddress()
 {
     add_address = add_address ? add_address : new addAddress(getModel());
     return add_address;

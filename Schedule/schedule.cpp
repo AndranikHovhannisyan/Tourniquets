@@ -61,7 +61,7 @@ void Schedule::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addSchedule instance
-    initAddSchedule();
+    getAddSchedule();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_schedule, SLOT(initialize()));
@@ -107,7 +107,7 @@ void Schedule::destroy()
  * @brief Schedule::initAddSchedule
  * @return
  */
-addSchedule* Schedule::initAddSchedule()
+addSchedule* Schedule::getAddSchedule()
 {
     add_schedule = add_schedule ? add_schedule : new addSchedule(getModel());
     return add_schedule;

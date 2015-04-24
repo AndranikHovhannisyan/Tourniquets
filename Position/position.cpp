@@ -60,7 +60,7 @@ void Position::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addPosition instance
-    initAddPosition();
+    getAddPosition();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_position, SLOT(initialize()));
@@ -106,7 +106,7 @@ void Position::destroy()
  * @brief Position::initAddPosition
  * @return
  */
-addPosition* Position::initAddPosition()
+addPosition* Position::getAddPosition()
 {
     add_position = add_position ? add_position : new addPosition(getModel());
     return add_position;

@@ -30,7 +30,7 @@ private slots:
     void save();
 
 signals:
-    void ready();
+    void ready(int);
 };
 
 #endif // ADDDIALOG_H

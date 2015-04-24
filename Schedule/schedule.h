@@ -38,7 +38,7 @@ public:
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
 
-    addSchedule* initAddSchedule();
+    addSchedule* getAddSchedule();
 
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow

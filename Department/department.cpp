@@ -65,7 +65,7 @@ void Department::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addDepartment instance
-    initAddDepartment();
+    getAddDepartment();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_department, SLOT(initialize()));
@@ -112,7 +112,7 @@ void Department::destroy()
  * @brief Department::initAddDepartment
  * @return
  */
-addDepartment* Department::initAddDepartment()
+addDepartment* Department::getAddDepartment()
 {
     add_department = add_department ? add_department : new addDepartment(getModel());
     return add_department;

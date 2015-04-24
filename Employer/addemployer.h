@@ -26,6 +26,8 @@ private:
     virtual void init(QSqlRecord &record);
     virtual void clear();
     virtual void populateData(QSqlRecord &record);
+
+private slots:
 };
 
 #endif // ADDEMPLOYER_H
