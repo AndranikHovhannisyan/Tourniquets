@@ -37,6 +37,13 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     ui->department->setModelColumn(1);
     ui->position->setModelColumn(1);
 
+    connect(ui->add_living_address, SIGNAL(clicked()), Address::create(model->database())->initAddAddress(), SLOT(initialize()));
+    connect(ui->add_register_address, SIGNAL(clicked()), Address::create(model->database())->initAddAddress(), SLOT(initialize()));
+    connect(ui->add_department, SIGNAL(clicked()), Department::create(model->database())->initAddDepartment(), SLOT(initialize()));
+//    connect(ui->add_position, SIGNAL(clicked()), Position::create(model->database())->initAddAddress(), SLOT(initialize()));
+//    connect(ui->add_schedule, SIGNAL(clicked()), Schedule::create(model->database())->initAddAddress(), SLOT(initialize()));
+
+
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 

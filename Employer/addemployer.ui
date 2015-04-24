@@ -39,24 +39,17 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="8" column="1">
-     <widget class="QComboBox" name="gender"/>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="passNumber"/>
-    </item>
-    <item row="5" column="3">
-     <widget class="QLabel" name="label_regNumber">
-      <property name="text">
-       <string>Register address</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="4">
      <widget class="QComboBox" name="registerAddress"/>
     </item>
     <item row="2" column="4">
      <widget class="QLineEdit" name="childrenNumber"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="passSeria"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDateEdit" name="birthdate"/>
     </item>
     <item row="8" column="0">
      <widget class="QLabel" name="label_gender">
@@ -65,18 +58,8 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QDateEdit" name="birthdate"/>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="passSeria"/>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLabel" name="label_isConscipt">
-      <property name="text">
-       <string>Is conscript</string>
-      </property>
-     </widget>
+    <item row="1" column="4">
+     <widget class="QComboBox" name="familyStatus"/>
     </item>
     <item row="3" column="3">
      <widget class="QLabel" name="label_minorNum">
@@ -85,8 +68,12 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="4">
-     <widget class="QComboBox" name="familyStatus"/>
+    <item row="0" column="3">
+     <widget class="QLabel" name="label_isConscipt">
+      <property name="text">
+       <string>Is conscript</string>
+      </property>
+     </widget>
     </item>
     <item row="8" column="3">
      <widget class="QLabel" name="label_schedule">
@@ -98,10 +85,27 @@
     <item row="8" column="4">
      <widget class="QComboBox" name="schedule"/>
     </item>
+    <item row="6" column="3">
+     <widget class="QLabel" name="label_department">
+      <property name="text">
+       <string>Department</string>
+      </property>
+     </widget>
+    </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label_passNumber">
       <property name="text">
        <string>Passport number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lastname"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_middlename">
+      <property name="text">
+       <string>Middlename</string>
       </property>
      </widget>
     </item>
@@ -112,15 +116,22 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lastname"/>
-    </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_passSeria">
       <property name="text">
        <string>Passport seria</string>
       </property>
      </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QLabel" name="label_childrenNum">
+      <property name="text">
+       <string>Number of children</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QComboBox" name="gender"/>
     </item>
     <item row="4" column="3">
      <widget class="QLabel" name="label_livingAddr">
@@ -130,7 +141,14 @@
      </widget>
     </item>
     <item row="4" column="4">
-     <widget class="QComboBox" name="livingAddress"/>
+     <widget class="QComboBox" name="livingAddress">
+      <property name="minimumSize">
+       <size>
+        <width>146</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item row="7" column="4">
      <widget class="QComboBox" name="position"/>
@@ -144,9 +162,6 @@
     </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="firstname"/>
-    </item>
-    <item row="3" column="4">
-     <widget class="QLineEdit" name="minorNumber"/>
     </item>
     <item row="1" column="3">
      <widget class="QLabel" name="label_familyStatus">
@@ -172,13 +187,6 @@
     <item row="6" column="1">
      <widget class="QDateEdit" name="givenDate"/>
     </item>
-    <item row="6" column="3">
-     <widget class="QLabel" name="label_department">
-      <property name="text">
-       <string>Department</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="4">
      <widget class="QComboBox" name="department"/>
     </item>
@@ -196,13 +204,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_middlename">
-      <property name="text">
-       <string>Middlename</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_birthdate">
       <property name="text">
@@ -210,18 +211,14 @@
       </property>
      </widget>
     </item>
+    <item row="7" column="1">
+     <widget class="QLineEdit" name="givenFrom"/>
+    </item>
     <item row="2" column="1">
      <widget class="QLineEdit" name="middlename"/>
     </item>
-    <item row="2" column="3">
-     <widget class="QLabel" name="label_childrenNum">
-      <property name="text">
-       <string>Number of children</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="QLineEdit" name="givenFrom"/>
+    <item row="3" column="4">
+     <widget class="QLineEdit" name="minorNumber"/>
     </item>
     <item row="0" column="2">
      <spacer name="horizontalSpacer">
@@ -235,6 +232,51 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="passNumber"/>
+    </item>
+    <item row="5" column="3">
+     <widget class="QLabel" name="label_regNumber">
+      <property name="text">
+       <string>Register address</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="5">
+     <widget class="QPushButton" name="add_living_address">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="5">
+     <widget class="QPushButton" name="add_register_address">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="5">
+     <widget class="QPushButton" name="add_department">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="5">
+     <widget class="QPushButton" name="add_position">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="5">
+     <widget class="QPushButton" name="add_schedule">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

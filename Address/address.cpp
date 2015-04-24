@@ -29,9 +29,10 @@ Address::Address(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     parent      = mainWindow;
     tableName   = "address";
 
-    tableView  = NULL;
-    addButton  = NULL;
-    mainLayout = NULL;
+    tableView   = NULL;
+    addButton   = NULL;
+    mainLayout  = NULL;
+    add_address = NULL;
 }
 
 /**
@@ -61,7 +62,7 @@ void Address::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
 
     //Create addAddress instance
-    add_address = new addAddress(getModel());
+    initAddAddress();
 
     //Connect add new and edit SIGNAL / SLOTS
     QObject::connect(addButton, SIGNAL(clicked()), add_address, SLOT(initialize()));
@@ -101,4 +102,14 @@ void Address::destroy()
     mainLayout = NULL;
 
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+}
+
+/**
+ * @brief Address::initAddAddress
+ * @return
+ */
+addAddress* Address::initAddAddress()
+{
+    add_address = add_address ? add_address : new addAddress(getModel());
+    return add_address;
 }
