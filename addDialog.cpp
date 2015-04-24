@@ -58,6 +58,7 @@ void addDialog::save()
 
     if (rowNumber < 0) {
         model->insertRecord(rowNumber, record);
+        rowNumber = model->rowCount() - 1;
     }
     else {
         model->setRecord(rowNumber, record);
@@ -66,5 +67,6 @@ void addDialog::save()
     qDebug() << model->lastError();
     model->select();
 
+    qDebug() << rowNumber;
     emit ready(rowNumber);
 }

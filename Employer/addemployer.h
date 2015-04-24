@@ -2,6 +2,7 @@
 #define ADDEMPLOYER_H
 
 #include "addDialog.h"
+#include <QComboBox>
 #include <QMap>
 
 namespace Ui {
@@ -18,16 +19,20 @@ public:
 
 private:
     Ui::addEmployer *ui;
-    QMap<int, int> comboIndexAddressId;
-    QMap<int, int> comboIndexDepartmentId;
-    QMap<int, int> comboIndexPositionId;
-    QMap<int, int> comboIndexScheduleId;
+    QMap<QString, QComboBox*> addInComboMap;
+    QComboBox* relationComboBox;
+
+    int livingAddress;
+    int registerAddress;
 
     virtual void init(QSqlRecord &record);
     virtual void clear();
     virtual void populateData(QSqlRecord &record);
 
 private slots:
+    void selectCreated(int rowNumber);
+    void rejectAddition();
+    void initAddition();
 };
 
 #endif // ADDEMPLOYER_H

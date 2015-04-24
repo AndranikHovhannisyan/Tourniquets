@@ -37,12 +37,40 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     ui->department->setModelColumn(1);
     ui->position->setModelColumn(1);
 
+    //Connect add buttons with add dialogs
     connect(ui->add_living_address,   SIGNAL(clicked()), Address::create(model->database())->getAddAddress(),       SLOT(initialize()));
     connect(ui->add_register_address, SIGNAL(clicked()), Address::create(model->database())->getAddAddress(),       SLOT(initialize()));
     connect(ui->add_department,       SIGNAL(clicked()), Department::create(model->database())->getAddDepartment(), SLOT(initialize()));
     connect(ui->add_position,         SIGNAL(clicked()), Position::create(model->database())->getAddPosition(),     SLOT(initialize()));
     connect(ui->add_schedule,         SIGNAL(clicked()), Schedule::create(model->database())->getAddSchedule(),     SLOT(initialize()));
 
+    //Connect add buttons with add initAddition
+    connect(ui->add_living_address,   SIGNAL(clicked()), this, SLOT(initAddition()));
+    connect(ui->add_register_address, SIGNAL(clicked()), this, SLOT(initAddition()));
+    connect(ui->add_department,       SIGNAL(clicked()), this, SLOT(initAddition()));
+    connect(ui->add_position,         SIGNAL(clicked()), this, SLOT(initAddition()));
+    connect(ui->add_schedule,         SIGNAL(clicked()), this, SLOT(initAddition()));
+
+    //Connect add dialogs ready with selectCreated
+    connect(Address::create(model->database())->getAddAddress(),       SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
+    connect(Department::create(model->database())->getAddDepartment(), SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
+    connect(Position::create(model->database())->getAddPosition(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
+    connect(Schedule::create(model->database())->getAddSchedule(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
+
+    //Connect add dialogs rejected with rejectAddition
+    connect(Address::create(model->database())->getAddAddress(),       SIGNAL(rejected()), this, SLOT(rejectAddition()));
+    connect(Department::create(model->database())->getAddDepartment(), SIGNAL(rejected()), this, SLOT(rejectAddition()));
+    connect(Position::create(model->database())->getAddPosition(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
+    connect(Schedule::create(model->database())->getAddSchedule(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
+
+    //Populate addInComboMap for combobox selection after addition
+    addInComboMap["add_living_address"]   = ui->livingAddress;
+    addInComboMap["add_register_address"] = ui->registerAddress;
+    addInComboMap["add_department"]       = ui->department;
+    addInComboMap["add_position"]         = ui->position;
+    addInComboMap["add_schedule"]         = ui->schedule;
+
+    relationComboBox = NULL;
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
@@ -50,6 +78,44 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
 addEmployer::~addEmployer()
 {
     delete ui;
+}
+
+/**
+ * @brief addEmployer::selectCreated
+ */
+void addEmployer::selectCreated(int rowNumber)
+{
+    ui->livingAddress->setCurrentIndex(livingAddress);
+    ui->registerAddress->setCurrentIndex(registerAddress);
+    livingAddress   = 0;
+    registerAddress = 0;
+
+    if (relationComboBox) {
+        relationComboBox->setCurrentIndex(rowNumber);
+        relationComboBox = NULL;
+    }
+}
+
+/**
+ * @brief addEmployer::rejectAddition
+ */
+void addEmployer::rejectAddition()
+{
+    relationComboBox = NULL;
+}
+
+/**
+ * @brief addEmployer::initAddition
+ */
+void addEmployer::initAddition()
+{
+    QPushButton* add_button = dynamic_cast<QPushButton*>(sender());
+    if (add_button != NULL) {
+        relationComboBox = addInComboMap[add_button->objectName()];
+
+        livingAddress   = ui->livingAddress->currentIndex();
+        registerAddress = ui->registerAddress->currentIndex();
+    }
 }
 
 /**
