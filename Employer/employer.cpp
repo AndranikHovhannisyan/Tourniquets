@@ -127,12 +127,13 @@ void Employer::select(QMainWindow *mainWindow)
     getModel()->setHeaderData(11, Qt::Horizontal, "Ընտանեկան վիճակ");
     getModel()->setHeaderData(12, Qt::Horizontal, "Երեխաների քանակ");
     getModel()->setHeaderData(13, Qt::Horizontal, "Անչափահաս երեխաների քանակ");
-    getModel()->setHeaderData(14, Qt::Horizontal, "Գրանցման հասցե");
-    getModel()->setHeaderData(15, Qt::Horizontal, "Բնակության հասցե");
     getModel()->setHeaderData(16, Qt::Horizontal, "Գրաֆիկ");
     getModel()->setHeaderData(17, Qt::Horizontal, "Բաժին");
 
-    tableView->hideColumn(0);
+    tableView->hideColumn(0);  //Hide Id
+    tableView->hideColumn(14); //Hide register address id
+    tableView->hideColumn(15); //Hide living address id
+
 
     //Create addEmployer instance
     add_employer = new addEmployer(getModel());
