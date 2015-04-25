@@ -183,15 +183,15 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         registerAddressLayout = registerAddressLayout ? registerAddressLayout : new QGridLayout;
         reg_title_label       = reg_title_label       ? reg_title_label       : new QLabel;
 
-        label_reg_country   = label_reg_country ? label_reg_country : new QLabel("Country");
-        label_reg_city      = label_reg_city    ? label_reg_city    : new QLabel("City");
-        label_reg_street    = label_reg_street  ? label_reg_street  : new QLabel("Street");
-        label_reg_hNumber   = label_reg_hNumber ? label_reg_hNumber : new QLabel("H_Number");
+        label_reg_country     = label_reg_country     ? label_reg_country     : new QLabel("Country");
+        label_reg_city        = label_reg_city        ? label_reg_city        : new QLabel("City");
+        label_reg_street      = label_reg_street      ? label_reg_street      : new QLabel("Street");
+        label_reg_hNumber     = label_reg_hNumber     ? label_reg_hNumber     : new QLabel("H_Number");
 
-        reg_country = reg_country ? reg_country : new QLineEdit;
-        reg_city    = reg_city    ? reg_city    : new QLineEdit;
-        reg_street  = reg_street  ? reg_street  : new QLineEdit;
-        reg_hNumber = reg_hNumber ? reg_hNumber : new QLineEdit;
+        reg_country           = reg_country           ? reg_country           : new QLineEdit;
+        reg_city              = reg_city              ? reg_city              : new QLineEdit;
+        reg_street            = reg_street            ? reg_street            : new QLineEdit;
+        reg_hNumber           = reg_hNumber           ? reg_hNumber           : new QLineEdit;
 
 
         reg_title_label->setText("<b>Գրանցման հասցե</b>");
@@ -250,19 +250,19 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     }
     else {
 
-        livingAddressFrame  = livingAddressFrame  ? livingAddressFrame  : new QFrame;
-        livingAddressLayout = livingAddressLayout ? livingAddressLayout : new QGridLayout;
-        living_title_label  = living_title_label  ? living_title_label  : new QLabel;
+        livingAddressFrame     = livingAddressFrame   ? livingAddressFrame   : new QFrame;
+        livingAddressLayout    = livingAddressLayout  ? livingAddressLayout  : new QGridLayout;
+        living_title_label     = living_title_label   ? living_title_label   : new QLabel;
 
         label_living_country   = label_living_country ? label_living_country : new QLabel("Country");
         label_living_city      = label_living_city    ? label_living_city    : new QLabel("City");
         label_living_street    = label_living_street  ? label_living_street  : new QLabel("Street");
         label_living_hNumber   = label_living_hNumber ? label_living_hNumber : new QLabel("H_Number");
 
-        living_country = living_country ? living_country : new QLineEdit;
-        living_city    = living_city    ? living_city    : new QLineEdit;
-        living_street  = living_street  ? living_street  : new QLineEdit;
-        living_hNumber = living_hNumber ? living_hNumber : new QLineEdit;
+        living_country         = living_country       ? living_country       : new QLineEdit;
+        living_city            = living_city          ? living_city          : new QLineEdit;
+        living_street          = living_street        ? living_street        : new QLineEdit;
+        living_hNumber         = living_hNumber       ? living_hNumber       : new QLineEdit;
 
 
         living_title_label->setText("<b>Բնակության հասցե</b>");
