@@ -86,6 +86,9 @@ private:
 
 public:
 
+    void setNullRegisterAddressFields();
+    void setNullLivingAddressFields();
+
     static Employer* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
     //This function is used to return coressponding model

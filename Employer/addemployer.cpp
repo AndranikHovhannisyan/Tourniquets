@@ -87,11 +87,11 @@ addEmployer::~addEmployer()
  */
 void addEmployer::selectCreated(int rowNumber)
 {
-    if (livingAddress){
+    if (livingAddress >= 0){
         ui->livingAddress->setCurrentIndex(livingAddress);
     }
 
-    if (registerAddress) {
+    if (registerAddress >= 0) {
         ui->registerAddress->setCurrentIndex(registerAddress);
     }
 
