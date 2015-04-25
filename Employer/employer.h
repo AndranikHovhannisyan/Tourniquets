@@ -40,9 +40,7 @@ private:
     QGridLayout *mainLayout;
     QString      tableName;
 
-    //============================================================
     //====================== Register Address ====================
-    //============================================================
 
     QFrame      *registerAddressFrame;
     QGridLayout *registerAddressLayout;
@@ -53,18 +51,13 @@ private:
     QLabel      *label_reg_street;
     QLabel      *label_reg_hNumber;
 
-    QLineEdit *reg_country;
-    QLineEdit *reg_city;
-    QLineEdit *reg_street;
-    QLineEdit *reg_hNumber;
+    QLineEdit   *reg_country;
+    QLineEdit   *reg_city;
+    QLineEdit   *reg_street;
+    QLineEdit   *reg_hNumber;
 
-    //============================================================
-    //==================== End Register Address ==================
-    //============================================================
 
-    //============================================================
-    //====================== Living Address ====================
-    //============================================================
+    //====================== Living Address ======================
 
     QFrame      *livingAddressFrame;
     QGridLayout *livingAddressLayout;
@@ -75,14 +68,16 @@ private:
     QLabel      *label_living_street;
     QLabel      *label_living_hNumber;
 
-    QLineEdit *living_country;
-    QLineEdit *living_city;
-    QLineEdit *living_street;
-    QLineEdit *living_hNumber;
+    QLineEdit   *living_country;
+    QLineEdit   *living_city;
+    QLineEdit   *living_street;
+    QLineEdit   *living_hNumber;
 
-    //============================================================
-    //==================== End Living Address ==================
-    //============================================================
+
+    //======================== Phone Number ======================
+
+    QTableView *phone_numbers;
+
 
 public:
 

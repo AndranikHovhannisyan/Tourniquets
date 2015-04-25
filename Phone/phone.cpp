@@ -79,8 +79,10 @@ QSqlRelationalTableModel* Phone::getModel()
     if (!model) {
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
-        model->select();
     }
+
+    model->setFilter("");
+    model->select();
 
     return model;
 }

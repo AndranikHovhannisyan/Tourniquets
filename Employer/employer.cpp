@@ -39,6 +39,8 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
 
     setNullRegisterAddressFields();
     setNullLivingAddressFields();
+
+    phone_numbers = NULL;
 }
 
 /**
@@ -50,15 +52,15 @@ void Employer::setNullRegisterAddressFields()
     registerAddressLayout = NULL;
     reg_title_label       = NULL;
 
-    label_reg_country    = NULL;
-    label_reg_city       = NULL;
-    label_reg_street     = NULL;
-    label_reg_hNumber    = NULL;
+    label_reg_country     = NULL;
+    label_reg_city        = NULL;
+    label_reg_street      = NULL;
+    label_reg_hNumber     = NULL;
 
-    reg_country          = NULL;
-    reg_city             = NULL;
-    reg_street           = NULL;
-    reg_hNumber          = NULL;
+    reg_country           = NULL;
+    reg_city              = NULL;
+    reg_street            = NULL;
+    reg_hNumber           = NULL;
 }
 
 
@@ -67,19 +69,19 @@ void Employer::setNullRegisterAddressFields()
  */
 void Employer::setNullLivingAddressFields()
 {
-    livingAddressFrame   = NULL;
-    livingAddressLayout  = NULL;
-    living_title_label   = NULL;
+    livingAddressFrame    = NULL;
+    livingAddressLayout   = NULL;
+    living_title_label    = NULL;
 
-    label_living_country = NULL;
-    label_living_city    = NULL;
-    label_living_street  = NULL;
-    label_living_hNumber = NULL;
+    label_living_country  = NULL;
+    label_living_city     = NULL;
+    label_living_street   = NULL;
+    label_living_hNumber  = NULL;
 
-    living_country       = NULL;
-    living_city          = NULL;
-    living_street        = NULL;
-    living_hNumber       = NULL;
+    living_country        = NULL;
+    living_city           = NULL;
+    living_street         = NULL;
+    living_hNumber        = NULL;
 }
 
 
@@ -155,6 +157,7 @@ void Employer::select(QMainWindow *mainWindow)
 #include <QDataWidgetMapper>
 #include <QSqlRelationalDelegate>
 #include "Address/address.h"
+#include "Phone/phone.h"
 
 /**
  * @brief Employer::selectRow
@@ -306,6 +309,25 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     //============================================================
     //===================== End Living Address ===================
     //============================================================
+
+
+    //============================================================
+    //======================== Phone Number ======================
+    //============================================================
+
+    QSqlRelationalTableModel* phoneModel = Phone::create(model->database())->getModel();
+    int employer_id = getModel()->record(modelIndex.row()).value("id").toInt();
+    phoneModel->setFilter("employer_id = " + QString::number(employer_id));
+    phoneModel->select();
+
+    phone_numbers = phone_numbers ? phone_numbers : new QTableView;
+    phone_numbers->setModel(phoneModel);
+    mainLayout->addWidget(phone_numbers, 17, 0, 3, 5);
+
+
+    //============================================================
+    //===================== End Phone Number =====================
+    //============================================================
 }
 
 /**
@@ -350,6 +372,7 @@ QSqlRelationalTableModel* Employer::getModel()
     if (!model) {
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
+        model->setFilter("");
         model->select();
     }
 
