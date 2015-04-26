@@ -40,7 +40,8 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     setNullRegisterAddressFields();
     setNullLivingAddressFields();
 
-    phone_numbers = NULL;
+    phone_numbers      = NULL;
+    phone_number_label = NULL;
 }
 
 /**
@@ -322,20 +323,32 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     phoneModel->setFilter("employer_id = " + QString::number(employer_id));
     phoneModel->select();
 
+    if (phoneModel->rowCount())
+    {
+        phone_numbers = phone_numbers ? phone_numbers : new QTableView;
+        phone_numbers->setModel(phoneModel);
+        phone_numbers->hideColumn(0);
+        phone_numbers->setColumnWidth(1, 70);
+        phone_numbers->setColumnWidth(2, 70);
+        phone_numbers->setColumnWidth(3, 140);
+        phone_numbers->setFixedSize(QSize(305, 87));
 
-    phone_numbers = phone_numbers ? phone_numbers : new QTableView;
-    phone_numbers->setModel(phoneModel);
-    phone_numbers->hideColumn(0);
-    phone_numbers->setColumnWidth(1, 70);
-    phone_numbers->setColumnWidth(2, 70);
-    phone_numbers->setColumnWidth(3, 140);
-    phone_numbers->setFixedSize(QSize(305, 87));
+        phone_numbers->verticalScrollBar()->setStyleSheet(
+            "QScrollBar:vertical { width: 1px; }");
 
-    phone_numbers->verticalScrollBar()->setStyleSheet(
-        "QScrollBar:vertical { width: 1px; }");
+        phone_number_label = phone_number_label ? phone_number_label : new QLabel("<b>Հեռախոսահամարներ</b>");
+        phone_number_label->setAlignment(Qt::AlignCenter);
+        phone_number_label->setFixedWidth(305);
 
-    mainLayout->addWidget(phone_numbers, 17, 0, 2, 6);
-
+        mainLayout->addWidget(phone_number_label, 17, 0, 1, 6);
+        mainLayout->addWidget(phone_numbers, 18, 0, 2, 6);
+    }
+    else {
+        delete phone_numbers;
+        delete phone_number_label;
+        phone_numbers      = NULL;
+        phone_number_label = NULL;
+    }
 
 
     //============================================================

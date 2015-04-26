@@ -76,7 +76,8 @@ private:
 
     //======================== Phone Number ======================
 
-    QTableView *phone_numbers;
+    QTableView  *phone_numbers;
+    QLabel      *phone_number_label;
 
 
 public:
