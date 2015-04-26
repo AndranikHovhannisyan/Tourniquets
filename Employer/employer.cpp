@@ -116,6 +116,7 @@ void Employer::select(QMainWindow *mainWindow)
     tableView->setModel(getModel());
     tableView->resizeColumnsToContents();
 
+
     getModel()->setHeaderData(1,  Qt::Horizontal, "Անուն");
     getModel()->setHeaderData(2,  Qt::Horizontal, "Ազգանուն");
     getModel()->setHeaderData(3,  Qt::Horizontal, "Հայրանուն");
@@ -320,9 +321,16 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     phoneModel->setFilter("employer_id = " + QString::number(employer_id));
     phoneModel->select();
 
+
     phone_numbers = phone_numbers ? phone_numbers : new QTableView;
     phone_numbers->setModel(phoneModel);
-    mainLayout->addWidget(phone_numbers, 17, 0, 3, 5);
+    phone_numbers->hideColumn(0);
+    phone_numbers->setColumnWidth(1, 70);
+    phone_numbers->setColumnWidth(2, 70);
+    phone_numbers->setColumnWidth(3, 140);
+    phone_numbers->setFixedSize(QSize(299, 87));
+    mainLayout->addWidget(phone_numbers, 17, 0, 2, 6);
+
 
 
     //============================================================
