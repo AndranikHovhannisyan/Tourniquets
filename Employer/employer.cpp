@@ -159,6 +159,7 @@ void Employer::select(QMainWindow *mainWindow)
 #include <QSqlRelationalDelegate>
 #include "Address/address.h"
 #include "Phone/phone.h"
+#include <QScrollBar>
 
 /**
  * @brief Employer::selectRow
@@ -328,7 +329,11 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     phone_numbers->setColumnWidth(1, 70);
     phone_numbers->setColumnWidth(2, 70);
     phone_numbers->setColumnWidth(3, 140);
-    phone_numbers->setFixedSize(QSize(299, 87));
+    phone_numbers->setFixedSize(QSize(305, 87));
+
+    phone_numbers->verticalScrollBar()->setStyleSheet(
+        "QScrollBar:vertical { width: 1px; }");
+
     mainLayout->addWidget(phone_numbers, 17, 0, 2, 6);
 
 
