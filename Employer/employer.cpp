@@ -348,7 +348,6 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         delete phone_number_label;
         phone_numbers      = NULL;
         phone_number_label = NULL;
-
     }
 
 
