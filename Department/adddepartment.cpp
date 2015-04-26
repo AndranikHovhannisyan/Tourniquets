@@ -26,6 +26,8 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     ui->schedule->setModel(Schedule::create(model->database())->getModel());
     ui->position->setModel(Position::create(model->database())->getModel());
 
+    currentId = 0;
+    connect(ui->add_position, SIGNAL(clicked()), this, SLOT(addPosition()));
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
@@ -64,6 +66,9 @@ void addDepartment::init(QSqlRecord &record)
         }
     }
 
+    //Save index of current opened department
+    currentId = record.value("id").toInt();
+
     QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
     depPositionModel->setFilter("department_id = " + QString::number(record.value("id").toInt()));
     depPositionModel->setRelation(2, QSqlRelation("position", "id", "name"));
@@ -73,12 +78,29 @@ void addDepartment::init(QSqlRecord &record)
 }
 
 /**
+ * This slot is for add position button to add positions in add department window
+ *
+ * @brief addDepartment::addPosition
+ */
+void addDepartment::addPosition()
+{
+    QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
+    QSqlRecord positionRecord = Position::create(model->database())->getModel()->record(ui->position->currentIndex());
+    QSqlRecord r = depPositionModel->record(-1);
+    r.setValue(1, QVariant(QString::number(currentId)));
+    r.setValue(2, QVariant(positionRecord.value("id").toInt()));
+    depPositionModel->insertRecord(-1, r);
+    depPositionModel->select();
+}
+
+/**
  * @brief addDepartment::clear
  */
 void addDepartment::clear() {
     ui->dep_name->setText("");
     ui->managers->setCurrentIndex(-1);
     ui->schedule->setCurrentIndex(-1);
+    ui->position->setCurrentIndex(-1);
 }
 
 /**

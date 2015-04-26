@@ -20,10 +20,14 @@ private:
     Ui::addDepartment *ui;
     QMap<int, int> comboIndexManagerId;
     QMap<int, int> comboIndexScheduleId;
+    int currentId;
 
     virtual void init(QSqlRecord &record);
     virtual void clear();
     virtual void populateData(QSqlRecord &record);
+
+private slots:
+    void addPosition();
 };
 
 #endif // ADDDEPARTMENT_H
