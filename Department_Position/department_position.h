@@ -6,9 +6,8 @@
 #include <QTableView>
 #include <QPushButton>
 #include <QGridLayout>
-#include "Department_Position/adddepartmentposition.h"
 
-class Department_Position : public  Entity
+class Department_Position
 {
 private:
     Department_Position(QSqlDatabase dbConnection);

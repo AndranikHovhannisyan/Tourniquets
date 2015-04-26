@@ -6,6 +6,8 @@
 
 #include "Employer/employer.h"
 #include "Schedule/schedule.h"
+#include "Position/position.h"
+#include "Department_Position/department_position.h"
 
 /**
  * @brief addDepartment::addDepartment
@@ -22,6 +24,7 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
 
     ui->managers->setModel(Employer::create(model->database())->getModel());
     ui->schedule->setModel(Schedule::create(model->database())->getModel());
+    ui->position->setModel(Position::create(model->database())->getModel());
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
@@ -60,6 +63,13 @@ void addDepartment::init(QSqlRecord &record)
             break;
         }
     }
+
+    QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
+    depPositionModel->setFilter("department_id = " + QString::number(record.value("id").toInt()));
+    depPositionModel->setRelation(2, QSqlRelation("position", "id", "name"));
+    depPositionModel->select();
+    ui->positionsTable->setModel(Department_Position::create(model->database())->getModel());
+    ui->positionsTable->hideColumn(1);
 }
 
 /**
@@ -67,8 +77,8 @@ void addDepartment::init(QSqlRecord &record)
  */
 void addDepartment::clear() {
     ui->dep_name->setText("");
-    ui->managers->setCurrentIndex(0);
-    ui->schedule->setCurrentIndex(0);
+    ui->managers->setCurrentIndex(-1);
+    ui->schedule->setCurrentIndex(-1);
 }
 
 /**

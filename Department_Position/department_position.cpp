@@ -13,10 +13,10 @@ Department_Position* Department_Position::department_position = NULL;
  * @param mainWindow
  * @return
  */
-Department_Position* Department_Position::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
+Department_Position* Department_Position::create(QSqlDatabase dbConnection)
 {
     if (!department_position) {
-        department_position = new Department_Position(dbConnection, mainWindow);
+        department_position = new Department_Position(dbConnection);
     }
 
     return department_position;
@@ -28,7 +28,7 @@ Department_Position* Department_Position::create(QSqlDatabase dbConnection, QMai
 Department_Position::Department_Position(QSqlDatabase dbConnection) {
     model       = NULL;
     db          = dbConnection;
-    tableName   = "dep_position";
+    tableName   = "dep_positions";
 }
 
 /**
