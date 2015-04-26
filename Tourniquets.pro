@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     Position/position.cpp \
     Schedule/schedule.cpp \
     ScheduleType/scheduletype.cpp \
-    Tourniquet/tourniquet.cpp
+    Tourniquet/tourniquet.cpp \
+    Department_Position/department_position.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     Schedule/schedule.h \
     ScheduleType/scheduletype.h \
     Tourniquet/tourniquet.h \
-    entity.h
+    entity.h \
+    Department_Position/department_position.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \
