@@ -3,9 +3,7 @@
 
 #include "entity.h"
 #include <QSqlRelationalTableModel>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
+
 
 class Department_Position
 {
@@ -17,9 +15,8 @@ private:
     static Department_Position* department_position;
 
     QSqlRelationalTableModel *model;
-    QSqlDatabase db;
-
-    QString      tableName;
+    QSqlDatabase              db;
+    QString                   tableName;
 
 public:
 
