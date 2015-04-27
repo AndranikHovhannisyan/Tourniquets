@@ -98,8 +98,9 @@ void addEmployer::populateDepartmentPositions(int departmentRow)
     int departmentId = Department::create(model->database())->getModel()->record(departmentRow).value("id").toInt();
 
     departmentPositions = departmentPositions ? departmentPositions : new QSqlQueryModel;
-    departmentPositions->setQuery("SELECT p.id, p.name FROM position as p JOIN dep_positions as dp ON dp.position_id = p.id AND dp.department_id = "
-                         + QString::number(departmentId));
+    departmentPositions->setQuery("SELECT p.id, p.name FROM position as p " \
+                                  " JOIN dep_positions as dp ON dp.position_id = p.id AND dp.department_id = "
+                                  + QString::number(departmentId));
 
     ui->position->setModel(departmentPositions);
     ui->position->setModelColumn(1);
@@ -199,26 +200,33 @@ void addEmployer::init(QSqlRecord &record)
 
 
 
+    int employerId = record.value("id").toInt();
+    QSqlQueryModel *queryModel = new QSqlQueryModel;
+    queryModel->setQuery("SELECT dp.department_id, dp.position_id FROM employer_dep_positions as edp " \
+                         "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id " \
+                         "WHERE edp.employer_id = " + QString::number(employerId) +
+                         " AND edp.from >= (SELECT MAX(edp1.from) FROM employer_dep_positions as edp1" \
+                         " WHERE edp1.employer_id = " + QString::number(employerId) + ")");
+
+    int department_id = queryModel->record(0).value("department_id").toInt();
+    int position_id = queryModel->record(0).value("position_id").toInt();
 
     QSqlRelationalTableModel* departmentModel = Department::create(model->database())->getModel();
     int departmentCount = departmentModel->rowCount();
     for(int i = 0; i < departmentCount; i++) {
-        if (departmentModel->record(i).value("id").toInt() == record.value("department_id").toInt()) {
+        if (departmentModel->record(i).value("id").toInt() == department_id) {
             ui->department->setCurrentIndex(i);
             break;
         }
     }
 
-    QSqlRelationalTableModel* positionModel = Position::create(model->database())->getModel();
-    int positionCount = positionModel->rowCount();
+    int positionCount = departmentPositions->rowCount();
     for(int i = 0; i < positionCount; i++) {
-        if (positionModel->record(i).value("id").toInt() == record.value("position_id").toInt()) {
+        if (departmentPositions->record(i).value("id").toInt() == position_id) {
             ui->position->setCurrentIndex(i);
             break;
         }
     }
-
-
 }
 
 /**
@@ -233,16 +241,16 @@ void addEmployer::clear() {
     ui->passNumber->setText("");
     ui->givenDate->clear();
     ui->givenFrom->setText("");
-    ui->gender->setCurrentIndex(0);
+    ui->gender->setCurrentIndex(-1);
     ui->isConscript->setChecked(false);
-    ui->familyStatus->setCurrentIndex(0);
+    ui->familyStatus->setCurrentIndex(-1);
     ui->childrenNumber->setText("");
     ui->minorNumber->setText("");
-    ui->registerAddress->setCurrentIndex(0);
-    ui->livingAddress->setCurrentIndex(0);
-    ui->department->setCurrentIndex(0);
-    ui->position->setCurrentIndex(0);
-    ui->schedule->setCurrentIndex(0);
+    ui->registerAddress->setCurrentIndex(-1);
+    ui->livingAddress->setCurrentIndex(-1);
+    ui->department->setCurrentIndex(-1);
+    ui->position->setCurrentIndex(-1);
+    ui->schedule->setCurrentIndex(-1);
 }
 
 /**
