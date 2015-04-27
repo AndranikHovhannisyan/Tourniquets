@@ -32,6 +32,10 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     currentId = 0;
     connect(ui->add_position, SIGNAL(clicked()), this, SLOT(addPosition()));
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
+
+    connect(ui->positionsTable, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+    connect(ui->positionsTable, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+    connect(ui->remove_depPosition, SIGNAL(clicked()), this, SLOT(removeDepartmentPosition()));
 }
 
 /**
@@ -40,6 +44,28 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
 addDepartment::~addDepartment()
 {
     delete ui;
+}
+
+/**
+ * @brief addDepartment::selectRow
+ * @param modelIndex
+ */
+void addDepartment::selectRow(const QModelIndex &modelIndex)
+{
+    ui->positionsTable->selectRow(modelIndex.row());
+}
+
+/**
+ * @brief addDepartment::remove
+ */
+void addDepartment::removeDepartmentPosition()
+{
+    QModelIndexList selectedRows = ui->positionsTable->selectionModel()->selectedRows();
+    for( int i = 0; i < selectedRows.count(); i++) {
+        Department_Position::create(model->database())->getModel()->removeRow(selectedRows.at(i).row());
+    }
+
+    Department_Position::create(model->database())->getModel()->select();
 }
 
 /**

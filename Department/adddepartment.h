@@ -28,6 +28,8 @@ private:
 
 private slots:
     void addPosition();
+    void selectRow(const QModelIndex &modelIndex);
+    void removeDepartmentPosition();
 };
 
 #endif // ADDDEPARTMENT_H
