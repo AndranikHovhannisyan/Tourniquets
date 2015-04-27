@@ -3,6 +3,7 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QDebug>
+#include <QScrollBar>
 
 #include "Employer/employer.h"
 #include "Schedule/schedule.h"
@@ -23,8 +24,10 @@ addDepartment::addDepartment(QSqlRelationalTableModel *tableModel, QSqlDatabase 
     this->setWindowTitle("Ավելացնել բաժին");
 
     ui->managers->setModel(Employer::create(model->database())->getModel());
+    ui->managers->setModelColumn(1);
     ui->schedule->setModel(Schedule::create(model->database())->getModel());
     ui->position->setModel(Position::create(model->database())->getModel());
+    ui->position->setModelColumn(1);
 
     currentId = 0;
     connect(ui->add_position, SIGNAL(clicked()), this, SLOT(addPosition()));
@@ -69,12 +72,32 @@ void addDepartment::init(QSqlRecord &record)
     //Save index of current opened department
     currentId = record.value("id").toInt();
 
+    //******************************************************************************************************
+    //****************************************** Department Positions **************************************
+    //******************************************************************************************************
+
     QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
     depPositionModel->setFilter("department_id = " + QString::number(record.value("id").toInt()));
     depPositionModel->setRelation(2, QSqlRelation("position", "id", "name"));
     depPositionModel->select();
+
     ui->positionsTable->setModel(Department_Position::create(model->database())->getModel());
     ui->positionsTable->hideColumn(1);
+    ui->positionsTable->setColumnWidth(0, 80);
+    ui->positionsTable->setColumnWidth(2, 150);
+
+    ui->positionsTable->verticalScrollBar()->setStyleSheet(
+        "QScrollBar:vertical { width: 2px; }");
+
+    ui->positionsTable->show();
+    ui->add_position->show();
+    ui->position->show();
+    ui->label_position->show();
+    this->setFixedHeight(350);
+
+    //******************************************************************************************************
+    //**************************************** End Department Positions ************************************
+    //******************************************************************************************************
 }
 
 /**
@@ -84,8 +107,9 @@ void addDepartment::init(QSqlRecord &record)
  */
 void addDepartment::addPosition()
 {
-    QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
     QSqlRecord positionRecord = Position::create(model->database())->getModel()->record(ui->position->currentIndex());
+
+    QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
     QSqlRecord r = depPositionModel->record(-1);
     r.setValue(1, QVariant(QString::number(currentId)));
     r.setValue(2, QVariant(positionRecord.value("id").toInt()));
@@ -101,6 +125,12 @@ void addDepartment::clear() {
     ui->managers->setCurrentIndex(-1);
     ui->schedule->setCurrentIndex(-1);
     ui->position->setCurrentIndex(-1);
+
+    ui->positionsTable->hide();
+    ui->add_position->hide();
+    ui->position->hide();
+    ui->label_position->hide();
+    this->setFixedHeight(170);
 }
 
 /**

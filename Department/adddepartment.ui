@@ -6,91 +6,75 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>417</width>
-    <height>402</height>
+    <width>383</width>
+    <height>352</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>350</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>351</width>
-     <height>301</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_manager">
-      <property name="text">
-       <string>Manager</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_position">
-      <property name="text">
-       <string>Positions</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_schedule">
-      <property name="text">
-       <string>Schedule</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_name">
-      <property name="text">
-       <string>Name</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QComboBox" name="position"/>
-    </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="add_position">
-      <property name="text">
-       <string>Add</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1" colspan="2">
-     <widget class="QComboBox" name="schedule"/>
-    </item>
-    <item row="1" column="1" colspan="2">
-     <widget class="QComboBox" name="managers"/>
-    </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="dep_name"/>
-    </item>
-    <item row="4" column="1" colspan="2">
-     <widget class="QTableView" name="positionsTable"/>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_name">
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="dep_name"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_manager">
+     <property name="text">
+      <string>Manager</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QComboBox" name="managers"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_schedule">
+     <property name="text">
+      <string>Schedule</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QComboBox" name="schedule"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_position">
+     <property name="text">
+      <string>Positions</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QComboBox" name="position"/>
+   </item>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="add_position">
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="2">
+    <widget class="QTableView" name="positionsTable"/>
+   </item>
+   <item row="5" column="1" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections>
