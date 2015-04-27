@@ -281,6 +281,32 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>firstname</tabstop>
+  <tabstop>lastname</tabstop>
+  <tabstop>middlename</tabstop>
+  <tabstop>birthdate</tabstop>
+  <tabstop>passSeria</tabstop>
+  <tabstop>passNumber</tabstop>
+  <tabstop>givenDate</tabstop>
+  <tabstop>givenFrom</tabstop>
+  <tabstop>gender</tabstop>
+  <tabstop>isConscript</tabstop>
+  <tabstop>familyStatus</tabstop>
+  <tabstop>childrenNumber</tabstop>
+  <tabstop>minorNumber</tabstop>
+  <tabstop>livingAddress</tabstop>
+  <tabstop>registerAddress</tabstop>
+  <tabstop>department</tabstop>
+  <tabstop>position</tabstop>
+  <tabstop>schedule</tabstop>
+  <tabstop>add_living_address</tabstop>
+  <tabstop>add_register_address</tabstop>
+  <tabstop>add_department</tabstop>
+  <tabstop>add_position</tabstop>
+  <tabstop>add_schedule</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

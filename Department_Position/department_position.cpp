@@ -10,7 +10,6 @@ Department_Position* Department_Position::department_position = NULL;
  *
  * @brief Department_Position::create
  * @param dbConnection
- * @param mainWindow
  * @return
  */
 Department_Position* Department_Position::create(QSqlDatabase dbConnection)

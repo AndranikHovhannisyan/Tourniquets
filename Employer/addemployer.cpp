@@ -11,12 +11,17 @@
 #include "Department/department.h"
 #include "Position/position.h"
 #include "Schedule/schedule.h"
+#include "Department_Position/department_position.h"
+#include "Employer_DepPosition/employer_depposition.h"
+#include "Employer/employer.h"
 
 
 addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) :
     addDialog(tableModel, parent),
     ui(new Ui::addEmployer)
 {
+    departmentPositions = NULL;
+
     ui->setupUi(this);
     this->setWindowTitle("Ավելացնել աշխատակից");
 
@@ -28,14 +33,16 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
 
     ui->registerAddress->setModel(Address::create(model->database())->getModel());
     ui->livingAddress->setModel(Address::create(model->database())->getModel());
-    ui->department->setModel(Department::create(model->database())->getModel());
-    ui->position->setModel(Position::create(model->database())->getModel());
     ui->schedule->setModel(Schedule::create(model->database())->getModel());
+
+
+    ui->department->setModel(Department::create(model->database())->getModel());
+    connect(ui->department, SIGNAL(currentIndexChanged(int)), this, SLOT(populateDepartmentPositions(int)));
+    connect(this, SIGNAL(ready(int)), this, SLOT(employerDepartmentPositionSave(int)));
 
     ui->registerAddress->setModelColumn(3);
     ui->livingAddress->setModelColumn(3);
     ui->department->setModelColumn(1);
-    ui->position->setModelColumn(1);
 
     //Connect add buttons with add dialogs
     connect(ui->add_living_address,   SIGNAL(clicked()), Address::create(model->database())->getAddAddress(),       SLOT(initialize()));
@@ -70,6 +77,7 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     addInComboMap["add_position"]         = ui->position;
     addInComboMap["add_schedule"]         = ui->schedule;
 
+
     relationComboBox = NULL;
     livingAddress   = 0;
     registerAddress = 0;
@@ -80,6 +88,21 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
 addEmployer::~addEmployer()
 {
     delete ui;
+}
+
+/**
+ * @brief addEmployer::populateDepartmentPositions
+ */
+void addEmployer::populateDepartmentPositions(int departmentRow)
+{
+    int departmentId = Department::create(model->database())->getModel()->record(departmentRow).value("id").toInt();
+
+    departmentPositions = departmentPositions ? departmentPositions : new QSqlQueryModel;
+    departmentPositions->setQuery("SELECT p.id, p.name FROM position as p JOIN dep_positions as dp ON dp.position_id = p.id AND dp.department_id = "
+                         + QString::number(departmentId));
+
+    ui->position->setModel(departmentPositions);
+    ui->position->setModelColumn(1);
 }
 
 /**
@@ -163,6 +186,20 @@ void addEmployer::init(QSqlRecord &record)
     }
 
 
+    QSqlRelationalTableModel* scheduleModel = Schedule::create(model->database())->getModel();
+    int scheduleCount = scheduleModel->rowCount();
+    for(int i = 0; i < scheduleCount; i++) {
+        if (scheduleModel->record(i).value("id").toInt() == record.value("schedule_id").toInt()) {
+            ui->schedule->setCurrentIndex(i);
+            break;
+        }
+    }
+
+
+
+
+
+
     QSqlRelationalTableModel* departmentModel = Department::create(model->database())->getModel();
     int departmentCount = departmentModel->rowCount();
     for(int i = 0; i < departmentCount; i++) {
@@ -181,14 +218,7 @@ void addEmployer::init(QSqlRecord &record)
         }
     }
 
-    QSqlRelationalTableModel* scheduleModel = Schedule::create(model->database())->getModel();
-    int scheduleCount = scheduleModel->rowCount();
-    for(int i = 0; i < scheduleCount; i++) {
-        if (scheduleModel->record(i).value("id").toInt() == record.value("schedule_id").toInt()) {
-            ui->schedule->setCurrentIndex(i);
-            break;
-        }
-    }
+
 }
 
 /**
@@ -251,23 +281,48 @@ void addEmployer::populateData(QSqlRecord &record)
     record.setValue(record.indexOf("living_address_id"), QVariant(livingAddressId));
 
 
-    int departmentId = Department::create(model->database())
-                                        ->getModel()
-                                        ->record(ui->department->currentIndex())
-                                        .value("id").toInt();
-    record.setValue(record.indexOf("department_id"), QVariant(departmentId));
-
-
-    int positionId = Position::create(model->database())
-                                        ->getModel()
-                                        ->record(ui->position->currentIndex())
-                                        .value("id").toInt();
-    record.setValue(record.indexOf("position_id"), QVariant(positionId));
-
-
     int scheduleId = Schedule::create(model->database())
                                         ->getModel()
                                         ->record(ui->schedule->currentIndex())
                                         .value("id").toInt();
     record.setValue(record.indexOf("schedule_id"), QVariant(scheduleId));
+}
+
+
+/**
+ * This function is used to save employer_department_position record to tha database
+ *
+ * @brief addEmployer::employerDepartmentPositionSave
+ * @param rowNumber
+ */
+void addEmployer::employerDepartmentPositionSave(int rowNumber)
+{
+    int employerId = Employer::create(model->database())
+                                        ->getModel()
+                                        ->record(rowNumber)
+                                        .value("id").toInt();
+
+    int departmentId = Department::create(model->database())
+                                        ->getModel()
+                                        ->record(ui->department->currentIndex())
+                                        .value("id").toInt();
+
+    int positionId = departmentPositions->record(ui->position->currentIndex())
+                                        .value("id").toInt();
+
+    QSqlRelationalTableModel *dep_position =  Department_Position::create(model->database())->getModel();
+    dep_position->setFilter("department_id = " + QString::number(departmentId) +
+                            " AND position_id = " + QString::number(positionId));
+    dep_position->select();
+
+    if (dep_position->rowCount() == 1){
+        int departmentPositionId = dep_position->record(0).value("id").toInt();
+
+        QSqlRelationalTableModel *employer_depPosition = Employer_DepPosition::create(model->database())->getModel();
+        QSqlRecord employer_depPositionRecord = employer_depPosition->record();
+        employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("employer_id"), QVariant(employerId));
+        employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("dep_positions_id"), QVariant(departmentPositionId));
+        employer_depPosition->insertRecord(-1, employer_depPositionRecord);
+        employer_depPosition->select();
+    }
 }

@@ -18,9 +18,10 @@ public:
     ~addEmployer();
 
 private:
-    Ui::addEmployer *ui;
-    QMap<QString, QComboBox*> addInComboMap;
-    QComboBox* relationComboBox;
+    Ui::addEmployer           *ui;
+    QMap<QString, QComboBox*>  addInComboMap;
+    QComboBox                 *relationComboBox;
+    QSqlQueryModel            *departmentPositions;
 
     int livingAddress;
     int registerAddress;
@@ -29,10 +30,14 @@ private:
     virtual void clear();
     virtual void populateData(QSqlRecord &record);
 
+
 private slots:
     void selectCreated(int rowNumber);
     void rejectAddition();
     void initAddition();
+
+    void populateDepartmentPositions(int departmentRow);
+    void employerDepartmentPositionSave(int);
 };
 
 #endif // ADDEMPLOYER_H
