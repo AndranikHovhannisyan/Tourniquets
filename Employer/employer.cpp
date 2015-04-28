@@ -295,7 +295,7 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         livingAddressFrame->setObjectName("living_address_frame");
         livingAddressFrame->setStyleSheet("#living_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
 
-        mainLayout->addWidget(livingAddressFrame, 7, 16, 5, 5);
+        mainLayout->addWidget(livingAddressFrame, 6, 16, 5, 5);
 
         QDataWidgetMapper *living_mapper = new QDataWidgetMapper();
         living_mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
@@ -337,8 +337,6 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         phone_numbers->setColumnWidth(1, 70);
         phone_numbers->setColumnWidth(2, 70);
         phone_numbers->setColumnWidth(3, 140);
-
-//        phone_numbers->setFixedSize(QSize(305, 120));
         phone_numbers->setFixedHeight(120);
 
         phone_numbers->verticalScrollBar()->setStyleSheet(
@@ -383,8 +381,6 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
 
         department_positions = department_positions ? department_positions : new QTableView;
         department_positions->setModel(employerDepartmentPosition);
-
-//        department_positions->setFixedSize(QSize(425, 120));
         department_positions->setFixedHeight(120);
 
         department_positions->verticalScrollBar()->setStyleSheet(
@@ -393,8 +389,8 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         department_positions_label = department_positions_label ? department_positions_label : new QLabel("<b>Պաշտոններ</b>");
         department_positions_label->setAlignment(Qt::AlignCenter);
 
-        mainLayout->addWidget(department_positions_label, 17, 4, 1, 7);
-        mainLayout->addWidget(department_positions, 18, 4, 2, 7);
+        mainLayout->addWidget(department_positions_label, 17, 5, 1, 7);
+        mainLayout->addWidget(department_positions, 18, 5, 2, 7);
     }
     else {
         delete department_positions;
@@ -426,17 +422,15 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
 
         employer_ids = employer_ids ? employer_ids : new QTableView;
         employer_ids->setModel(employerEmployerId);
-//        employer_ids->setFixedSize(QSize(425, 120));
         employer_ids->setFixedHeight(120);
-
         employer_ids->verticalScrollBar()->setStyleSheet(
             "QScrollBar:vertical { width: 1px; }");
 
         employer_ids_label = employer_ids_label ? employer_ids_label : new QLabel("<b>Իդենտիֆիկացիոն համարներ</b>");
         employer_ids_label->setAlignment(Qt::AlignCenter);
 
-        mainLayout->addWidget(employer_ids_label, 17, 12, 1, 7);
-        mainLayout->addWidget(employer_ids, 18, 12, 2, 7);
+        mainLayout->addWidget(employer_ids_label, 17, 13, 1, 7);
+        mainLayout->addWidget(employer_ids, 18, 13, 2, 7);
     }
     else {
         delete employer_ids;
