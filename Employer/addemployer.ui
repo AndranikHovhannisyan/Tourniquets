@@ -237,14 +237,14 @@
      <widget class="QComboBox" name="position"/>
     </item>
     <item row="7" column="3">
-     <widget class="QLabel" name="label_id">
+     <widget class="QLabel" name="label_employerId">
       <property name="text">
        <string>ID</string>
       </property>
      </widget>
     </item>
     <item row="7" column="4">
-     <widget class="QComboBox" name="id"/>
+     <widget class="QComboBox" name="employerId"/>
     </item>
     <item row="0" column="6">
      <widget class="QCheckBox" name="isConscript">
@@ -282,7 +282,7 @@
      </widget>
     </item>
     <item row="7" column="5" colspan="2">
-     <widget class="QPushButton" name="add_id">
+     <widget class="QPushButton" name="add_employerId">
       <property name="text">
        <string>Add</string>
       </property>
