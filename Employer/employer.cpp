@@ -335,7 +335,7 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         phone_numbers->setColumnWidth(1, 70);
         phone_numbers->setColumnWidth(2, 70);
         phone_numbers->setColumnWidth(3, 140);
-        phone_numbers->setFixedSize(QSize(305, 87));
+        phone_numbers->setFixedSize(QSize(305, 120));
 
         phone_numbers->verticalScrollBar()->setStyleSheet(
             "QScrollBar:vertical { width: 1px; }");
@@ -376,14 +376,19 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         department_positions = department_positions ? department_positions : new QTableView;
         department_positions->setModel(employerDepartmentPosition);
 
+//        department_positions->setColumnWidth(1, 70);
+//        department_positions->setColumnWidth(2, 70);
+//        department_positions->setColumnWidth(3, 140);
+        department_positions->setFixedSize(QSize(425, 120));
+
         department_positions->verticalScrollBar()->setStyleSheet(
             "QScrollBar:vertical { width: 1px; }");
 
         department_positions_label = department_positions_label ? department_positions_label : new QLabel("<b>Պաշտոններ</b>");
         department_positions_label->setAlignment(Qt::AlignCenter);
 
-        mainLayout->addWidget(department_positions_label, 17, 7, 1, 7);
-        mainLayout->addWidget(department_positions, 18, 8, 2, 7);
+        mainLayout->addWidget(department_positions_label, 17, 5, 1, 7);
+        mainLayout->addWidget(department_positions, 18, 5, 2, 7);
     }
     else {
         delete department_positions;
