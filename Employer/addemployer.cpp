@@ -424,9 +424,9 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
 
     QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
 
-    lastEmployerIdModel->setQuery("SELECT eei.id FROM employer_employer_id as eei " \
+    lastEmployerIdModel->setQuery("SELECT eei.id FROM employer_employer_ids as eei " \
                          " WHERE eei.employer_id = " + QString::number(employerId) +
-                         " AND eei.to IS NULL AND eei.emp_number = " + employerNumber);
+                         " AND eei.to IS NULL AND eei.emp_number = '" + employerNumber + "'");
 
     if (lastEmployerIdModel->rowCount() == 0)
     {
@@ -435,7 +435,7 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
                                                         ->record(ui->employerId->currentIndex())
                                                         .value("id_type").toInt();
 
-        lastEmployerIdModel->setQuery("UPDATE employer_employer_id as eei " \
+        lastEmployerIdModel->setQuery("UPDATE employer_employer_ids as eei " \
                              " JOIN employer_ids as ei ON eei.emp_number = ei.emp_number "\
                              " SET eei.to = '" +  QDate::currentDate().toString("yyyy-M-d") + "'"\
                              " WHERE eei.employer_id = " + QString::number(employerId) +
