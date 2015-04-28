@@ -367,7 +367,7 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
                                          "FROM employer_dep_positions as edp "\
                                          "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id "\
                                          "JOIN department as d ON dp.department_id = d.id "\
-                                         "JOIN position as p ON dp.position_id as p.id");
+                                         "JOIN position as p ON dp.position_id = p.id");
 
     if (employerDepartmentPosition->rowCount())
     {
