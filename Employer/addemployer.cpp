@@ -111,21 +111,53 @@ void addEmployer::populateDepartmentPositions(int departmentRow)
  */
 void addEmployer::selectCreated(int rowNumber)
 {
-    if (livingAddress >= 0){
-        ui->livingAddress->setCurrentIndex(livingAddress);
-    }
+    addDialog* add_dialog = dynamic_cast<addDialog*>(sender());
+    if (add_dialog != NULL) {
+        if (add_dialog->objectName() == "addPosition"){
+            int positionId = Position::create(model->database())->getModel()
+                                                                ->record(rowNumber)
+                                                                .value("id").toInt();
 
-    if (registerAddress >= 0) {
-        ui->registerAddress->setCurrentIndex(registerAddress);
-    }
+            int departmentId = Department::create(model->database())->getModel()
+                                                                ->record(ui->department->currentIndex())
+                                                                .value("id").toInt();
 
-    if (relationComboBox) {
-        relationComboBox->setCurrentIndex(rowNumber);
-        relationComboBox = NULL;
-    }
 
-    livingAddress   = -1;
-    registerAddress = -1;
+            QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
+            QSqlRecord r = depPositionModel->record(-1);
+            r.setValue(1, QVariant(QString::number(departmentId)));
+            r.setValue(2, QVariant(QString::number(positionId)));
+            depPositionModel->insertRecord(-1, r);
+            depPositionModel->select();
+
+            populateDepartmentPositions(ui->department->currentIndex());
+
+            int positionCount = departmentPositions->rowCount();
+            for(int i = 0; i < positionCount; i++) {
+                if (departmentPositions->record(i).value("id").toInt() == positionId) {
+                    ui->position->setCurrentIndex(i);
+                    break;
+                }
+            }
+        }
+        else {
+            if (livingAddress >= 0){
+                ui->livingAddress->setCurrentIndex(livingAddress);
+            }
+
+            if (registerAddress >= 0) {
+                ui->registerAddress->setCurrentIndex(registerAddress);
+            }
+
+            if (relationComboBox) {
+                relationComboBox->setCurrentIndex(rowNumber);
+                relationComboBox = NULL;
+            }
+
+            livingAddress   = -1;
+            registerAddress = -1;
+        }
+    }
 }
 
 /**
