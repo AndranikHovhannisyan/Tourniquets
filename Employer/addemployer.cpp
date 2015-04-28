@@ -40,7 +40,7 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
 
     ui->department->setModel(Department::create(model->database())->getModel());
     connect(ui->department, SIGNAL(currentIndexChanged(int)), this, SLOT(populateDepartmentPositions(int)));
-    connect(this, SIGNAL(ready(int)), this, SLOT(employerDepartmentPositionSave(int)));
+    connect(this, SIGNAL(ready(int)), this, SLOT(employerDepartmentPositionEmployerIdSave(int)));
 
     ui->registerAddress->setModelColumn(3);
     ui->livingAddress->setModelColumn(3);
@@ -356,15 +356,18 @@ void addEmployer::populateData(QSqlRecord &record)
 /**
  * This function is used to save employer_department_position record to tha database
  *
- * @brief addEmployer::employerDepartmentPositionSave
+ * @brief addEmployer::employerDepartmentPositionEmployerIdSave
  * @param rowNumber
  */
-void addEmployer::employerDepartmentPositionSave(int rowNumber)
+void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
 {
     int employerId = Employer::create(model->database())
                                         ->getModel()
                                         ->record(rowNumber)
                                         .value("id").toInt();
+
+
+    //==================================== Department Position ======================================
 
     int departmentId = Department::create(model->database())
                                         ->getModel()
@@ -409,4 +412,24 @@ void addEmployer::employerDepartmentPositionSave(int rowNumber)
             employer_depPosition->select();
         }
     }
+
+    //======================================== Employer ID ==========================================
+
+
+    QString employerNumber = EmployerId::create(model->database())
+                                                    ->getModel()
+                                                    ->record(ui->employerId->currentIndex())
+                                                    .value("emp_number").toInt();
+
+    QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
+
+
+    lastEmployerIdModel->setQuery("SELECT eei.id FROM employer_employer_id as eei " \
+                         " WHERE eei.employer_id = " + QString::number(employerId) +
+                         " AND eei.to IS NULL AND eei.emp_number = " + employerNumber);
+
+    if (lastEmployerIdModel->rowCount() == 0) {
+
+    }
+
 }

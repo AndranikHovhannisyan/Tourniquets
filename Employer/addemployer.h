@@ -37,7 +37,7 @@ private slots:
     void initAddition();
 
     void populateDepartmentPositions(int departmentRow);
-    void employerDepartmentPositionSave(int);
+    void employerDepartmentPositionEmployerIdSave(int);
 };
 
 #endif // ADDEMPLOYER_H
