@@ -15,6 +15,7 @@
 #include "Employer_DepPosition/employer_depposition.h"
 #include "Employer/employer.h"
 #include "EmployerId/employerid.h"
+#include "Employer_EmployerId/employer_employerid.h"
 
 
 addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) :
@@ -419,17 +420,34 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
     QString employerNumber = EmployerId::create(model->database())
                                                     ->getModel()
                                                     ->record(ui->employerId->currentIndex())
-                                                    .value("emp_number").toInt();
+                                                    .value("emp_number").toString();
 
     QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
-
 
     lastEmployerIdModel->setQuery("SELECT eei.id FROM employer_employer_id as eei " \
                          " WHERE eei.employer_id = " + QString::number(employerId) +
                          " AND eei.to IS NULL AND eei.emp_number = " + employerNumber);
 
-    if (lastEmployerIdModel->rowCount() == 0) {
+    if (lastEmployerIdModel->rowCount() == 0)
+    {
+        int employerIdType = EmployerId::create(model->database())
+                                                        ->getModel()
+                                                        ->record(ui->employerId->currentIndex())
+                                                        .value("id_type").toInt();
 
+        lastEmployerIdModel->setQuery("UPDATE employer_employer_id as eei " \
+                             " JOIN employer_ids as ei ON eei.emp_number = ei.emp_number "\
+                             " SET eei.to = '" +  QDate::currentDate().toString("yyyy-M-d") + "'"\
+                             " WHERE eei.employer_id = " + QString::number(employerId) +
+                             " AND eei.to IS NULL AND ei.id_type = " + QString::number(employerIdType));
+
+
+        QSqlRelationalTableModel *employer_employerId = Employer_EmployerId::create(model->database())->getModel();
+        QSqlRecord employer_employerIdRecord = employer_employerId->record();
+        employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("employer_id"), QVariant(employerId));
+        employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("emp_number"), QVariant(employerNumber));
+        employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("from"), QVariant(QDate::currentDate().toString("yyyy-M-d")));
+        employer_employerId->insertRecord(-1, employer_employerIdRecord);
+        employer_employerId->select();
     }
-
 }

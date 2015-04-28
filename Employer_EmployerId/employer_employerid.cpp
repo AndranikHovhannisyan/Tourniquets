@@ -17,7 +17,7 @@ Employer_EmployerId* Employer_EmployerId::create(QSqlDatabase dbConnection)
         employer_employerId = new Employer_EmployerId(dbConnection);
     }
 
-    return employer_depposition;
+    return employer_employerId;
 }
 
 /**
