@@ -317,12 +317,13 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     //============================================================
 
 
+    int employer_id = getModel()->record(modelIndex.row()).value("id").toInt();
+
     //============================================================
     //======================== Phone Number ======================
     //============================================================
 
     QSqlRelationalTableModel* phoneModel = Phone::create(model->database())->getModel();
-    int employer_id = getModel()->record(modelIndex.row()).value("id").toInt();
     phoneModel->setFilter("employer_id = " + QString::number(employer_id));
     phoneModel->select();
 
@@ -367,7 +368,8 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
                                          "FROM employer_dep_positions as edp "\
                                          "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id "\
                                          "JOIN department as d ON dp.department_id = d.id "\
-                                         "JOIN position as p ON dp.position_id = p.id");
+                                         "JOIN position as p ON dp.position_id = p.id "\
+                                         "WHERE edp.employer_id = " + QString::number(employer_id));
 
     if (employerDepartmentPosition->rowCount())
     {
@@ -378,10 +380,10 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
             "QScrollBar:vertical { width: 1px; }");
 
         department_positions_label = department_positions_label ? department_positions_label : new QLabel("<b>Պաշտոններ</b>");
-        phone_number_label->setAlignment(Qt::AlignCenter);
+        department_positions_label->setAlignment(Qt::AlignCenter);
 
-        mainLayout->addWidget(department_positions_label, 17, 8, 1, 10);
-        mainLayout->addWidget(department_positions, 18, 8, 2, 10);
+        mainLayout->addWidget(department_positions_label, 17, 7, 1, 7);
+        mainLayout->addWidget(department_positions, 18, 8, 2, 7);
     }
     else {
         delete department_positions;
