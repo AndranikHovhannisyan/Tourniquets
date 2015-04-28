@@ -353,6 +353,30 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     //============================================================
     //===================== End Phone Number =====================
     //============================================================
+
+
+    //============================================================
+    //==================== Department Position ===================
+    //============================================================
+
+    QSqlQueryModel* employerDepartmentPosition = new QSqlQueryModel;
+    employerDepartmentPosition->setQuery("SELECT d.name, p.name, edp.from, edp.to "\
+                                         "FROM employer_dep_positions as edp "\
+                                         "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id "\
+                                         "JOIN department as d ON dp.department_id = d.id "\
+                                         "JOIN position as p ON dp.position_id as p.id");
+
+    if (employerDepartmentPosition->rowCount())
+    {
+
+    }
+    else {
+
+    }
+
+    //============================================================
+    //================= End Department Position ==================
+    //============================================================
 }
 
 /**

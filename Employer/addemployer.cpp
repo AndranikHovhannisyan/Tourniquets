@@ -329,6 +329,7 @@ void addEmployer::employerDepartmentPositionSave(int rowNumber)
 
         QSqlQueryModel *lastEmployerDepPositionModel = new QSqlQueryModel;
 
+        //Check if this position is new create it
         lastEmployerDepPositionModel->setQuery("SELECT edp.id FROM employer_dep_positions as edp " \
                              " JOIN dep_positions as dp ON edp.dep_positions_id = dp.id"\
                              " WHERE edp.employer_id = " + QString::number(employerId) +
