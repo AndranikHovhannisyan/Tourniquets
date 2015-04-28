@@ -11,6 +11,7 @@
 #include <QSqlDatabase>
 #include "adddepartment.h"
 #include "entity.h"
+#include <QLabel>
 
 class Department : public Entity
 {
@@ -21,15 +22,20 @@ private:
 
     static Department* department;
 
+    QLabel *errorLabel;
+
     addDepartment *add_department;
     QSqlRelationalTableModel *model;
     QSqlDatabase db;
 
     QMainWindow *parent;
     QTableView  *tableView;
-    QPushButton *addButton;
     QGridLayout *mainLayout;
     QString      tableName;
+
+    QPushButton *addButton;
+    QPushButton *editButton;
+    QPushButton *removeButton;
 
 public:
 
@@ -44,6 +50,10 @@ public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
     void destroy();
+
+    void selectRow(const QModelIndex &modelIndex);
+    void edit();
+    void remove();
 };
 
 #endif // DEPARTMENT_H
