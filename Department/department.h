@@ -22,8 +22,6 @@ private:
 
     static Department* department;
 
-    QLabel *errorLabel;
-
     addDepartment *add_department;
     QSqlRelationalTableModel *model;
     QSqlDatabase db;

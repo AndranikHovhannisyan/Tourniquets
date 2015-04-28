@@ -3,10 +3,15 @@
 
 #include <QWidget>
 #include <QMainWindow>
+#include <QLabel>
 
 class Entity : public QWidget
 {
     Q_OBJECT
+
+protected:
+    QLabel *errorLabel;
+
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     virtual void select(QMainWindow *mainWindow = NULL) = 0;

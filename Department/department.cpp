@@ -3,6 +3,8 @@
 #include <QException>
 #include <QMessageBox>
 #include <QComboBox>
+#include <QDebug>
+#include <QSqlError>
 
 Department* Department::department = NULL;
 
@@ -59,10 +61,11 @@ void Department::select(QMainWindow *mainWindow)
 
     //Create widgets
     tableView    = tableView    ? tableView    : new QTableView();
+    mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
+
     addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել Բաժին");
     editButton   = editButton   ? editButton   : new QPushButton("Խմբագրել");
     removeButton = removeButton ? removeButton : new QPushButton("Հեռացնել");
-    mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
 
     //Arrange widgets on window
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
@@ -118,8 +121,6 @@ void Department::edit()
 
     add_department->initByRowNumber(selectedRows.at(0).row());
 }
-#include <QDebug>
-#include <QSqlError>
 
 /**
  * @brief Department::remove
