@@ -4,6 +4,7 @@
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
 
@@ -351,8 +352,6 @@ void addEmployer::populateData(QSqlRecord &record)
     record.setValue(record.indexOf("schedule_id"), QVariant(scheduleId));
 }
 
-
-#include <QSqlQuery>
 
 /**
  * This function is used to save employer_department_position record to tha database

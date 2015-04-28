@@ -2,7 +2,11 @@
 #include <QException>
 #include <QSqlRelation>
 #include <QObject>
-
+#include <QDataWidgetMapper>
+#include <QSqlRelationalDelegate>
+#include "Address/address.h"
+#include "Phone/phone.h"
+#include <QScrollBar>
 
 #include <QModelIndexList>
 #include <QMessageBox>
@@ -40,11 +44,15 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     setNullRegisterAddressFields();
     setNullLivingAddressFields();
 
-    phone_numbers      = NULL;
-    phone_number_label = NULL;
+    phone_numbers              = NULL;
+    phone_number_label         = NULL;
 
     department_positions       = NULL;
     department_positions_label = NULL;
+
+
+    employer_ids               = NULL;
+    employer_ids_label         = NULL;
 }
 
 /**
@@ -158,12 +166,6 @@ void Employer::select(QMainWindow *mainWindow)
     QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
-
-#include <QDataWidgetMapper>
-#include <QSqlRelationalDelegate>
-#include "Address/address.h"
-#include "Phone/phone.h"
-#include <QScrollBar>
 
 /**
  * @brief Employer::selectRow
@@ -398,6 +400,47 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
 
     //============================================================
     //================= End Department Position ==================
+    //============================================================
+
+
+    //============================================================
+    //======================== Employer ID =======================
+    //============================================================
+
+    QSqlQueryModel* employerEmployerId = new QSqlQueryModel;
+    employerEmployerId->setQuery("SELECT ei.emp_number, ei.id_type, eei.from, eei.to "\
+                                 "FROM employer_employer_ids as eei "\
+                                 "JOIN employer_ids as ei ON eei.emp_number = ei.emp_number"\
+                                 "WHERE eei.employer_id = " + QString::number(employer_id) + " "\
+                                 "ORDER BY eei.id");
+
+    if (employerEmployerId->rowCount())
+    {
+        employerEmployerId->setHeaderData(0,  Qt::Horizontal, "ԻԴ համար");
+        employerEmployerId->setHeaderData(1,  Qt::Horizontal, "ԻԴ֊ի տեսակը");
+
+        employer_ids = employer_ids ? employer_ids : new QTableView;
+        employer_ids->setModel(employerEmployerId);
+//        employer_ids->setFixedSize(QSize(425, 120));
+
+        employer_ids->verticalScrollBar()->setStyleSheet(
+            "QScrollBar:vertical { width: 1px; }");
+
+        employer_ids_label = employer_ids_label ? employer_ids_label : new QLabel("<b>Իդենտիֆիկացիոն համարներ</b>");
+        employer_ids_label->setAlignment(Qt::AlignCenter);
+
+        mainLayout->addWidget(employer_ids_label, 17, 12, 1, 7);
+        mainLayout->addWidget(employer_ids, 18, 45, 2, 7);
+    }
+    else {
+        delete employer_ids;
+        delete employer_ids_label;
+        employer_ids       = NULL;
+        employer_ids_label = NULL;
+    }
+
+    //============================================================
+    //====================== End Employer ID =====================
     //============================================================
 }
 

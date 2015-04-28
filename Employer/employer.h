@@ -85,6 +85,10 @@ private:
     QTableView  *department_positions;
     QLabel      *department_positions_label;
 
+    //======================= Employer ID ========================
+
+    QTableView  *employer_ids;
+    QLabel      *employer_ids_label;
 
 public:
 
