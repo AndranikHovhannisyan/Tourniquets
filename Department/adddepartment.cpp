@@ -119,6 +119,7 @@ void addDepartment::init(QSqlRecord &record)
     ui->add_position->show();
     ui->position->show();
     ui->label_position->show();
+    ui->remove_depPosition->show();
     this->setFixedHeight(350);
 
     //******************************************************************************************************
@@ -156,6 +157,7 @@ void addDepartment::clear() {
     ui->add_position->hide();
     ui->position->hide();
     ui->label_position->hide();
+    ui->remove_depPosition->hide();
     this->setFixedHeight(170);
 }
 

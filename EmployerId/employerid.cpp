@@ -46,7 +46,7 @@ void EmployerId::select(QMainWindow *mainWindow)
 
     //Create widgets
     tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել Բաժին");
+    addButton   = new QPushButton("Ավելացնել աշխատակցի իդենտիֆիկատոր");
     mainLayout  = new QGridLayout;
 
     //Arrange widgets on window
