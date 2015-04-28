@@ -336,7 +336,6 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
         phone_numbers->setColumnWidth(2, 70);
         phone_numbers->setColumnWidth(3, 140);
         phone_numbers->setFixedSize(QSize(305, 120));
-
         phone_numbers->verticalScrollBar()->setStyleSheet(
             "QScrollBar:vertical { width: 1px; }");
 
@@ -369,16 +368,16 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
                                          "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id "\
                                          "JOIN department as d ON dp.department_id = d.id "\
                                          "JOIN position as p ON dp.position_id = p.id "\
-                                         "WHERE edp.employer_id = " + QString::number(employer_id));
+                                         "WHERE edp.employer_id = " + QString::number(employer_id) + " "\
+                                         "ORDER BY edp.id");
 
     if (employerDepartmentPosition->rowCount())
     {
+        employerDepartmentPosition->setHeaderData(0,  Qt::Horizontal, "Բաժին");
+        employerDepartmentPosition->setHeaderData(1,  Qt::Horizontal, "Պաշտոն");
+
         department_positions = department_positions ? department_positions : new QTableView;
         department_positions->setModel(employerDepartmentPosition);
-
-//        department_positions->setColumnWidth(1, 70);
-//        department_positions->setColumnWidth(2, 70);
-//        department_positions->setColumnWidth(3, 140);
         department_positions->setFixedSize(QSize(425, 120));
 
         department_positions->verticalScrollBar()->setStyleSheet(
