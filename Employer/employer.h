@@ -80,6 +80,12 @@ private:
     QLabel      *phone_number_label;
 
 
+    //=================== Department Position ====================
+
+    QTableView  *department_positions;
+    QLabel      *department_positions_label;
+
+
 public:
 
     void setNullRegisterAddressFields();

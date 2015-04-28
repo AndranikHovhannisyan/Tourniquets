@@ -42,6 +42,9 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
 
     phone_numbers      = NULL;
     phone_number_label = NULL;
+
+    department_positions       = NULL;
+    department_positions_label = NULL;
 }
 
 /**
@@ -368,10 +371,23 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
 
     if (employerDepartmentPosition->rowCount())
     {
+        department_positions = department_positions ? department_positions : new QTableView;
+        department_positions->setModel(employerDepartmentPosition);
 
+        department_positions->verticalScrollBar()->setStyleSheet(
+            "QScrollBar:vertical { width: 1px; }");
+
+        department_positions_label = department_positions_label ? department_positions_label : new QLabel("<b>Պաշտոններ</b>");
+        phone_number_label->setAlignment(Qt::AlignCenter);
+
+        mainLayout->addWidget(department_positions_label, 17, 8, 1, 10);
+        mainLayout->addWidget(department_positions, 18, 8, 2, 10);
     }
     else {
-
+        delete department_positions;
+        delete department_positions_label;
+        department_positions       = NULL;
+        department_positions_label = NULL;
     }
 
     //============================================================
