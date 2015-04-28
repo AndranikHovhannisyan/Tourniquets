@@ -26,7 +26,7 @@ Employer_EmployerId* Employer_EmployerId::create(QSqlDatabase dbConnection)
 Employer_EmployerId::Employer_EmployerId(QSqlDatabase dbConnection) {
     model       = NULL;
     db          = dbConnection;
-    tableName   = "employer_employer_id";
+    tableName   = "employer_employer_ids";
 }
 
 /**
