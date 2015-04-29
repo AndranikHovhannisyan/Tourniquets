@@ -88,7 +88,6 @@ void Position::select(QMainWindow *mainWindow)
     QObject::connect(tableView,    SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
     QObject::connect(tableView,    SIGNAL(doubleClicked(QModelIndex)), add_position, SLOT(initialize(QModelIndex)));
 
-    //Connect mainWindow destroy with removeWidgets to remove dynamic objects
     QObject::connect(parent,       SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 

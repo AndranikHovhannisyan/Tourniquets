@@ -27,9 +27,13 @@ private:
 
     QMainWindow *parent;
     QTableView  *tableView;
-    QPushButton *addButton;
     QGridLayout *mainLayout;
     QString      tableName;
+
+
+    QPushButton *addButton;
+    QPushButton *editButton;
+    QPushButton *removeButton;
 
 public:
 
@@ -44,6 +48,10 @@ public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);
     void destroy();
+
+    void selectRow(const QModelIndex &modelIndex);
+    void edit();
+    void remove();
 };
 
 #endif // SCHEDULE_H

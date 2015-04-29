@@ -62,7 +62,7 @@ void ScheduleType::select(QMainWindow *mainWindow)
     tableView    = tableView    ? tableView    : new QTableView();
     mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
 
-    addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել Գրաֆիկ");
+    addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել Ռեժիմ");
     editButton   = editButton   ? editButton   : new QPushButton("Խմբագրել");
     removeButton = removeButton ? removeButton : new QPushButton("Հեռացնել");
 
