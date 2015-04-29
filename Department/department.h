@@ -46,6 +46,11 @@ public:
 
     addDepartment* getAddDepartment();
 
+    //======================= Positions ========================
+
+    QTableView  *positions;
+    QLabel      *positions_label;
+
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     void select(QMainWindow *mainWindow = NULL);

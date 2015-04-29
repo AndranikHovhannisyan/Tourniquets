@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QDebug>
 #include <QSqlError>
+#include <QScrollBar>
 
 Department* Department::department = NULL;
 
@@ -29,20 +30,23 @@ Department* Department::create(QSqlDatabase dbConnection, QMainWindow *mainWindo
  * @brief Department::Department
  */
 Department::Department(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
-    model       = NULL;
-    viewModel   = NULL;
-    db          = dbConnection;
-    parent      = mainWindow;
-    tableName   = "department";
+    model           = NULL;
+    viewModel       = NULL;
+    db              = dbConnection;
+    parent          = mainWindow;
+    tableName       = "department";
 
-    errorLabel     = NULL;
+    errorLabel      = NULL;
 
-    tableView      = NULL;
-    addButton      = NULL;
-    editButton     = NULL;
-    removeButton   = NULL;
-    mainLayout     = NULL;
-    add_department = NULL;
+    tableView       = NULL;
+    addButton       = NULL;
+    editButton      = NULL;
+    removeButton    = NULL;
+    mainLayout      = NULL;
+    add_department  = NULL;
+
+    positions       = NULL;
+    positions_label = NULL;
 }
 
 /**
@@ -62,6 +66,7 @@ void Department::select(QMainWindow *mainWindow)
     //Create widgets
     errorLabel   = errorLabel   ? errorLabel   : new QLabel;
     tableView    = tableView    ? tableView    : new QTableView();
+    tableView->setFixedWidth(520);
     mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
 
     addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել Բաժին");
@@ -73,9 +78,8 @@ void Department::select(QMainWindow *mainWindow)
     mainLayout->addWidget(editButton, 0, 2, 1, 2);
     mainLayout->addWidget(removeButton, 0, 4, 1, 2);
     mainLayout->addWidget(errorLabel, 0, 7, 1, 8);
-    mainLayout->addWidget(tableView, 1, 0, 15, 15);
+    mainLayout->addWidget(tableView, 1, 0, 15, 6);
     parent->centralWidget()->setLayout(mainLayout);
-
 
     //Set tableView content
     tableView->setModel(getViewModel());
@@ -96,7 +100,6 @@ void Department::select(QMainWindow *mainWindow)
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
     QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 
-
     QObject::connect(getModel(), SIGNAL(primeInsert(int,QSqlRecord&)), this, SLOT(updateView(int,QSqlRecord&)));
     QObject::connect(getModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateView(QModelIndex,QModelIndex)));
 }
@@ -107,6 +110,47 @@ void Department::select(QMainWindow *mainWindow)
  */
 void Department::selectRow(const QModelIndex &modelIndex) {
     tableView->selectRow(modelIndex.row());
+
+    int department_id = getModel()->record(modelIndex.row()).value("id").toInt();
+
+    //============================================================
+    //========================= Positions ========================
+    //============================================================
+
+    QSqlQueryModel *positionModel = new QSqlQueryModel;
+    positionModel->setQuery("SELECT p.id, p.name FROM dep_positions as dp " \
+                            "JOIN position as p ON p.id = dp.position_id "\
+                            "WHERE dp.department_id = " + QString::number(department_id));
+
+    if (positionModel->rowCount())
+    {
+        positions = positions ? positions : new QTableView;
+        positions->setModel(positionModel);
+        positions->setColumnWidth(0, 70);
+        positions->setColumnWidth(1, 150);
+        positions->setFixedWidth(250);
+
+        positions->verticalScrollBar()->setStyleSheet(
+            "QScrollBar:vertical { width: 1px; }");
+
+        positions_label = positions_label ? positions_label : new QLabel("<b>Պաշտոններ</b>");
+        positions_label->setAlignment(Qt::AlignCenter);
+        positions_label->setFixedWidth(250);
+
+        mainLayout->addWidget(positions_label, 1, 8, 1, 2);
+        mainLayout->addWidget(positions, 2, 8, 10, 2);
+    }
+    else {
+        delete positions;
+        delete positions_label;
+        positions       = NULL;
+        positions_label = NULL;
+    }
+
+    //============================================================
+    //======================== End Positions =====================
+    //============================================================
+
 }
 
 /**
