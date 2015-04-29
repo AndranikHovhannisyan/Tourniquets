@@ -6,7 +6,7 @@
 
 class ViewChangableEntity : public EditableEntity
 {
-private:
+protected:
     ViewChangableEntity(QSqlDatabase dbConnection, QMainWindow *mainWindow);
     ViewChangableEntity(const ViewChangableEntity &);
     ViewChangableEntity& operator=(const ViewChangableEntity&);
@@ -18,6 +18,7 @@ public:
     virtual QSqlRelationalTableModel* getModel();
     virtual QSqlQueryModel* getViewModel();
     virtual void setTableViewModel();
+    virtual void setSignalSlotConnections();
 
 public slots:
 

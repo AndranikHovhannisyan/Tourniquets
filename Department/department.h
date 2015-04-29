@@ -1,19 +1,11 @@
 #ifndef DEPARTMENT_H
 #define DEPARTMENT_H
 
-#include <QSqlRelationalTableModel>
-#include <QMainWindow>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QString>
-#include <QMainWindow>
-#include <QSqlDatabase>
 #include "adddepartment.h"
-#include "entity.h"
 #include <QLabel>
+#include "viewchangableentity.h"
 
-class Department : public Entity
+class Department : public ViewChangableEntity
 {
 private:
     Department(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -23,44 +15,24 @@ private:
     static Department* department;
 
     addDepartment            *add_department;
-    QSqlRelationalTableModel *model;
-    QSqlQueryModel           *viewModel;
-    QSqlDatabase db;
 
-    QMainWindow *parent;
-    QTableView  *tableView;
-    QGridLayout *mainLayout;
-    QString      tableName;
-
-    QPushButton *addButton;
-    QPushButton *editButton;
-    QPushButton *removeButton;
+    //======================= Positions ========================
+    QTableView  *positions;
+    QLabel      *positions_label;
 
 public:
 
     static Department* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
-    //This function is used to return coressponding model
-    QSqlRelationalTableModel* getModel();
-    QSqlQueryModel* getViewModel();
+    addDialog* getAddDialog();
+    void createWidgets();
+    void setTableViewModel();
 
-    addDepartment* getAddDepartment();
-
-    //======================= Positions ========================
-
-    QTableView  *positions;
-    QLabel      *positions_label;
 
 public slots:
-    //This function will draw all neccessary fields on the passed QMainWindow
-    void select(QMainWindow *mainWindow = NULL);
-    void destroy();
-
     void selectRow(const QModelIndex &modelIndex);
-    void edit();
-    void remove();
-
     void updateViewModel();
+    void destroy();
 };
 
 #endif // DEPARTMENT_H

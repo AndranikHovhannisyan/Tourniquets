@@ -17,14 +17,27 @@ ViewChangableEntity::ViewChangableEntity(QSqlDatabase dbConnection, QMainWindow 
     viewModel = NULL;
 }
 
-
+/**
+ * @brief ViewChangableEntity::setTableViewModel
+ */
 void ViewChangableEntity::setTableViewModel()
 {
+    EditableEntity::setTableViewModel();
+
     //Set tableView content
     tableView->setModel(getViewModel());
-    tableView->resizeColumnsToContents();
 }
 
+/**
+ * @brief ViewChangableEntity::setSignalSlotConnections
+ */
+void ViewChangableEntity::setSignalSlotConnections()
+{
+    EditableEntity::setSignalSlotConnections();
+
+    QObject::connect(getModel(), SIGNAL(primeInsert(int,QSqlRecord&)), this, SLOT(updateView(int,QSqlRecord&)));
+    QObject::connect(getModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateView(QModelIndex,QModelIndex)));
+}
 
 
 /**
