@@ -34,6 +34,7 @@ Position::Position(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
 
     add_position = NULL;
 
+    errorLabel   = NULL;
     tableView    = NULL;
     mainLayout   = NULL;
 
@@ -41,6 +42,8 @@ Position::Position(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     editButton   = NULL;
     removeButton = NULL;
 }
+
+#include <QDebug>
 
 /**
  * @brief Position::select
@@ -60,7 +63,7 @@ void Position::select(QMainWindow *mainWindow)
     tableView   = tableView  ? tableView  : new QTableView();
     mainLayout  = mainLayout ? mainLayout : new QGridLayout;
 
-    addButton   = addButton  ? addButton  : new QPushButton("Ավելացնել Պաշտոն");
+    addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել Պաշտոն");
     editButton   = editButton   ? editButton   : new QPushButton("Խմբագրել");
     removeButton = removeButton ? removeButton : new QPushButton("Հեռացնել");
 
@@ -79,7 +82,7 @@ void Position::select(QMainWindow *mainWindow)
     getAddPosition();
 
     //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton, SIGNAL(clicked()), add_position, SLOT(initialize()));
+    QObject::connect(addButton,    SIGNAL(clicked()), add_position, SLOT(initialize()));
     QObject::connect(editButton,   SIGNAL(clicked()), this, SLOT(edit()));
     QObject::connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
 
