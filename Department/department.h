@@ -22,8 +22,9 @@ private:
 
     static Department* department;
 
-    addDepartment *add_department;
+    addDepartment            *add_department;
     QSqlRelationalTableModel *model;
+    QSqlQueryModel           *viewModel;
     QSqlDatabase db;
 
     QMainWindow *parent;
@@ -41,6 +42,7 @@ public:
 
     //This function is used to return coressponding model
     QSqlRelationalTableModel* getModel();
+    QSqlQueryModel* getViewModel();
 
     addDepartment* getAddDepartment();
 
@@ -52,6 +54,8 @@ public slots:
     void selectRow(const QModelIndex &modelIndex);
     void edit();
     void remove();
+
+    void updateViewModel();
 };
 
 #endif // DEPARTMENT_H

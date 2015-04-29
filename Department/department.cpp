@@ -30,6 +30,7 @@ Department* Department::create(QSqlDatabase dbConnection, QMainWindow *mainWindo
  */
 Department::Department(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
+    viewModel   = NULL;
     db          = dbConnection;
     parent      = mainWindow;
     tableName   = "department";
@@ -77,7 +78,7 @@ void Department::select(QMainWindow *mainWindow)
 
 
     //Set tableView content
-    tableView->setModel(getModel());
+    tableView->setModel(getViewModel());
 
     //Create addDepartment instance
     getAddDepartment();
@@ -93,6 +94,10 @@ void Department::select(QMainWindow *mainWindow)
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
     QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+
+
+    QObject::connect(getModel(), SIGNAL(primeInsert(int,QSqlRecord&)), this, SLOT(updateView(int,QSqlRecord&)));
+    QObject::connect(getModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateView(QModelIndex,QModelIndex)));
 }
 
 /**
@@ -151,9 +156,25 @@ QSqlRelationalTableModel* Department::getModel()
         model = new QSqlRelationalTableModel(parent, db);
         model->setTable(tableName);
         model->select();
+
+        viewModel = new QSqlQueryModel;
+        updateViewModel();
     }
 
     return model;
+}
+
+/**
+ * @brief Department::getViewModel
+ * @return
+ */
+QSqlQueryModel* Department::getViewModel()
+{
+    if (!viewModel){
+        getModel();
+    }
+
+    return viewModel;
 }
 
 /**
@@ -187,5 +208,16 @@ addDepartment* Department::getAddDepartment()
 {
     add_department = add_department ? add_department : new addDepartment(getModel());
     return add_department;
+}
+
+/**
+ * @brief updateViewModel
+ */
+void Department::updateViewModel()
+{
+    viewModel->setQuery("SELECT d.id, d.name, CONCAT(e.firstname, ' ', e.lastname), d.schedule_id "\
+                        "FROM department as d "\
+                        "JOIN employer as e ON e.id = d.manager_id");
+    qDebug() << viewModel->lastError();
 }
 
