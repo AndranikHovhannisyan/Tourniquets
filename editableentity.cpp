@@ -38,6 +38,31 @@ void EditableEntity::select(QMainWindow *mainWindow)
     }
 
     //Create widgets
+    createWidgets();
+
+    //Arrange widgets on window
+    setWidgetsInLayout();
+
+    parent->centralWidget()->setLayout(mainLayout);
+
+    //Set tableView content
+    setTableViewModel();
+
+    //Create addDialog instance
+    getAddDialog();
+
+    //Connect add new and edit SIGNAL / SLOTS
+    setSignalSlotConnections();
+}
+
+
+//************************************ Select parts ***************************************
+
+/**
+ * @brief EditableEntity::createWidgets
+ */
+void EditableEntity::createWidgets()
+{
     errorLabel   = errorLabel   ? errorLabel   : new QLabel;
     tableView    = tableView    ? tableView    : new QTableView();
     mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
@@ -45,32 +70,46 @@ void EditableEntity::select(QMainWindow *mainWindow)
     addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել");
     editButton   = editButton   ? editButton   : new QPushButton("Խմբագրել");
     removeButton = removeButton ? removeButton : new QPushButton("Հեռացնել");
+}
 
-    //Arrange widgets on window
+/**
+ * @brief EditableEntity::setWidgetsInLayout
+ */
+void EditableEntity::setWidgetsInLayout()
+{
     mainLayout->addWidget(addButton, 0, 0, 1, 2);
     mainLayout->addWidget(editButton, 0, 2, 1, 2);
     mainLayout->addWidget(removeButton, 0, 4, 1, 2);
     mainLayout->addWidget(errorLabel, 0, 7, 1, 8);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    parent->centralWidget()->setLayout(mainLayout);
+}
 
-    //Set tableView content
+/**
+ * @brief EditableEntity::setTableViewModel
+ */
+void EditableEntity::setTableViewModel()
+{
     tableView->setModel(getModel());
+}
 
-    //Create addPosition instance
-    getAddDialog();
+/**
+ * @brief EditableEntity::setSignalSlotConnections
+ */
+void EditableEntity::setSignalSlotConnections()
+{
+    QObject::connect(addButton,    SIGNAL(clicked()),                  getAddDialog(), SLOT(initialize()));
+    QObject::connect(editButton,   SIGNAL(clicked()),                  this,           SLOT(edit()));
+    QObject::connect(removeButton, SIGNAL(clicked()),                  this,           SLOT(remove()));
 
-    //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton,    SIGNAL(clicked()), getAddDialog(), SLOT(initialize()));
-    QObject::connect(editButton,   SIGNAL(clicked()), this, SLOT(edit()));
-    QObject::connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
-
-    QObject::connect(tableView,    SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
-    QObject::connect(tableView,    SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+    QObject::connect(tableView,    SIGNAL(pressed(QModelIndex)),       this,           SLOT(selectRow(QModelIndex)));
+    QObject::connect(tableView,    SIGNAL(clicked(QModelIndex)),       this,           SLOT(selectRow(QModelIndex)));
     QObject::connect(tableView,    SIGNAL(doubleClicked(QModelIndex)), getAddDialog(), SLOT(initialize(QModelIndex)));
 
-    QObject::connect(parent,       SIGNAL(destroyed()), this,  SLOT(destroy()));
+    QObject::connect(parent,       SIGNAL(destroyed()),                this,           SLOT(destroy()));
 }
+
+
+//**************************** Create/edit/delete button slots ****************************
 
 /**
  * @brief EditableEntity::selectRow

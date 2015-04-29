@@ -38,6 +38,12 @@ public:
     virtual QSqlRelationalTableModel* getModel();
 
     virtual addDialog* getAddDialog() = 0;
+
+    virtual void createWidgets();
+    virtual void setWidgetsInLayout();
+    virtual void setTableViewModel();
+    virtual void setSignalSlotConnections();
+
 public slots:
     //This function will draw all neccessary fields on the passed QMainWindow
     virtual void select(QMainWindow *mainWindow = NULL);

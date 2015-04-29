@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     Department_Position/department_position.cpp \
     Employer_DepPosition/employer_depposition.cpp \
     Employer_EmployerId/employer_employerid.cpp \
-    editableentity.cpp
+    editableentity.cpp \
+    viewchangableentity.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -64,7 +65,8 @@ HEADERS  += mainwindow.h \
     Department_Position/department_position.h \
     Employer_DepPosition/employer_depposition.h \
     Employer_EmployerId/employer_employerid.h \
-    editableentity.h
+    editableentity.h \
+    viewchangableentity.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \
