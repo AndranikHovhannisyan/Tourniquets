@@ -223,6 +223,7 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
 
         registerAddressFrame->setObjectName("register_address_frame");
         registerAddressFrame->setStyleSheet("#register_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
+        registerAddressFrame->setFixedHeight(170);
 
         mainLayout->addWidget(registerAddressFrame, 1, 16, 5, 5);
 
@@ -294,6 +295,7 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
 
         livingAddressFrame->setObjectName("living_address_frame");
         livingAddressFrame->setStyleSheet("#living_address_frame { border: 1px solid black; border-radius: 4px; padding: 2px; }");
+        livingAddressFrame->setFixedHeight(170);
 
         mainLayout->addWidget(livingAddressFrame, 6, 16, 5, 5);
 
