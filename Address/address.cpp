@@ -32,7 +32,6 @@ Address::Address(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     tableName   = "address";
 
     errorLabel   = NULL;
-
     tableView    = NULL;
     mainLayout   = NULL;
     add_address  = NULL;
@@ -157,8 +156,12 @@ QSqlRelationalTableModel* Address::getModel()
 void Address::destroy()
 {
     delete tableView;
-    delete addButton;
     delete mainLayout;
+    delete errorLabel;
+
+    delete addButton;
+    delete editButton;
+    delete removeButton;
 
     tableView    = NULL;
     mainLayout   = NULL;

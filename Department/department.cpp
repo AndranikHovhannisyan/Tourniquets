@@ -34,13 +34,13 @@ Department::Department(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     parent      = mainWindow;
     tableName   = "department";
 
-    errorLabel= NULL;
+    errorLabel     = NULL;
 
-    tableView    = NULL;
-    addButton    = NULL;
-    editButton   = NULL;
-    removeButton = NULL;
-    mainLayout   = NULL;
+    tableView      = NULL;
+    addButton      = NULL;
+    editButton     = NULL;
+    removeButton   = NULL;
+    mainLayout     = NULL;
     add_department = NULL;
 }
 
@@ -57,9 +57,9 @@ void Department::select(QMainWindow *mainWindow)
         throw new QException();
     }
 
-    errorLabel = errorLabel ? errorLabel : new QLabel;
 
     //Create widgets
+    errorLabel   = errorLabel   ? errorLabel   : new QLabel;
     tableView    = tableView    ? tableView    : new QTableView();
     mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
 
@@ -162,11 +162,12 @@ QSqlRelationalTableModel* Department::getModel()
 void Department::destroy()
 {
     delete tableView;
+    delete mainLayout;
+    delete errorLabel;
+
     delete addButton;
     delete editButton;
     delete removeButton;
-    delete mainLayout;
-    delete errorLabel;
 
     errorLabel     = NULL;
     tableView      = NULL;
@@ -174,7 +175,6 @@ void Department::destroy()
     editButton     = NULL;
     removeButton   = NULL;
     mainLayout     = NULL;
-    add_department = NULL;
 
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
