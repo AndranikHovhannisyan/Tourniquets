@@ -79,6 +79,7 @@ void Department::select(QMainWindow *mainWindow)
 
     //Set tableView content
     tableView->setModel(getViewModel());
+    tableView->resizeColumnsToContents();
 
     //Create addDepartment instance
     getAddDepartment();
@@ -218,6 +219,10 @@ void Department::updateViewModel()
     viewModel->setQuery("SELECT d.id, d.name, CONCAT(e.firstname, ' ', e.lastname), d.schedule_id "\
                         "FROM department as d "\
                         "JOIN employer as e ON e.id = d.manager_id");
-    qDebug() << viewModel->lastError();
+
+    viewModel->setHeaderData(0,  Qt::Horizontal, "ID");
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Անվանում");
+    viewModel->setHeaderData(2,  Qt::Horizontal, "Անուն Ազգանուն");
+    viewModel->setHeaderData(3,  Qt::Horizontal, "Գրաֆիկի ID");
 }
 
