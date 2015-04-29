@@ -43,8 +43,6 @@ Position::Position(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     removeButton = NULL;
 }
 
-#include <QDebug>
-
 /**
  * @brief Position::select
  * @param mainWindow
@@ -59,9 +57,9 @@ void Position::select(QMainWindow *mainWindow)
     }
 
     //Create widgets
-    errorLabel  = errorLabel ? errorLabel : new QLabel;
-    tableView   = tableView  ? tableView  : new QTableView();
-    mainLayout  = mainLayout ? mainLayout : new QGridLayout;
+    errorLabel   = errorLabel   ? errorLabel   : new QLabel;
+    tableView    = tableView    ? tableView    : new QTableView();
+    mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
 
     addButton    = addButton    ? addButton    : new QPushButton("Ավելացնել Պաշտոն");
     editButton   = editButton   ? editButton   : new QPushButton("Խմբագրել");
@@ -86,12 +84,12 @@ void Position::select(QMainWindow *mainWindow)
     QObject::connect(editButton,   SIGNAL(clicked()), this, SLOT(edit()));
     QObject::connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
 
-    QObject::connect(tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
-    QObject::connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
-    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_position, SLOT(initialize(QModelIndex)));
+    QObject::connect(tableView,    SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+    QObject::connect(tableView,    SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
+    QObject::connect(tableView,    SIGNAL(doubleClicked(QModelIndex)), add_position, SLOT(initialize(QModelIndex)));
 
     //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+    QObject::connect(parent,       SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 /**
