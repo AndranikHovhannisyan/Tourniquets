@@ -235,12 +235,18 @@ void Department::destroy()
     delete editButton;
     delete removeButton;
 
-    errorLabel     = NULL;
-    tableView      = NULL;
-    addButton      = NULL;
-    editButton     = NULL;
-    removeButton   = NULL;
-    mainLayout     = NULL;
+    errorLabel      = NULL;
+    tableView       = NULL;
+    addButton       = NULL;
+    editButton      = NULL;
+    removeButton    = NULL;
+    mainLayout      = NULL;
+
+    delete positions;
+    delete positions_label;
+
+    positions       = NULL;
+    positions_label = NULL;
 
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }

@@ -512,5 +512,26 @@ void Employer::destroy()
     editButton   = NULL;
     removeButton = NULL;
 
+    delete phone_numbers;
+    delete phone_number_label;
+    phone_numbers      = NULL;
+    phone_number_label = NULL;
+
+    delete department_positions;
+    delete department_positions_label;
+    department_positions       = NULL;
+    department_positions_label = NULL;
+
+    delete employer_ids;
+    delete employer_ids_label;
+    employer_ids       = NULL;
+    employer_ids_label = NULL;
+
+    delete registerAddressFrame;
+    delete livingAddressFrame;
+
+    setNullRegisterAddressFields();
+    setNullLivingAddressFields();
+
     QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
