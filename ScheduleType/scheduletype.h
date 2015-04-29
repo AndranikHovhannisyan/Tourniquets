@@ -10,9 +10,9 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addscheduletype.h"
-#include "entity.h"
+#include "editableentity.h"
 
-class ScheduleType : public Entity
+class ScheduleType : public EditableEntity
 {
 private:
     ScheduleType(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -22,33 +22,12 @@ private:
     static ScheduleType* scheduleType;
 
     addScheduleType *add_scheduleType;
-    QSqlRelationalTableModel *model;
-    QSqlDatabase db;
-
-    QMainWindow *parent;
-    QTableView  *tableView;
-    QGridLayout *mainLayout;
-    QString      tableName;
-
-    QPushButton *addButton;
-    QPushButton *editButton;
-    QPushButton *removeButton;
-
+    addDialog* getAddDialog();
 public:
 
     static ScheduleType* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
-    //This function is used to return coressponding model
-    QSqlRelationalTableModel* getModel();
-
 public slots:
-    //This function will draw all neccessary fields on the passed QMainWindow
-    void select(QMainWindow *mainWindow = NULL);
-    void destroy();
-
-    void selectRow(const QModelIndex &modelIndex);
-    void edit();
-    void remove();
 };
 
 #endif // SCHEDULETYPE_H

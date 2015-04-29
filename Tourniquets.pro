@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     Tourniquet/tourniquet.cpp \
     Department_Position/department_position.cpp \
     Employer_DepPosition/employer_depposition.cpp \
-    Employer_EmployerId/employer_employerid.cpp
+    Employer_EmployerId/employer_employerid.cpp \
+    editableentity.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     entity.h \
     Department_Position/department_position.h \
     Employer_DepPosition/employer_depposition.h \
-    Employer_EmployerId/employer_employerid.h
+    Employer_EmployerId/employer_employerid.h \
+    editableentity.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \
