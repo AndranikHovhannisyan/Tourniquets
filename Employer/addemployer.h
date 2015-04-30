@@ -24,6 +24,8 @@ private:
     QSqlQueryModel            *departmentPositions;
     QSqlQueryModel            *employerIdModel;
 
+    int currentEmployerId;
+
     int livingAddress;
     int registerAddress;
 
