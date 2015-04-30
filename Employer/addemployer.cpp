@@ -37,7 +37,9 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     ui->registerAddress->setModel(Address::create(model->database())->getModel());
     ui->livingAddress->setModel(Address::create(model->database())->getModel());
     ui->schedule->setModel(Schedule::create(model->database())->getModel());
-    ui->employerId->setModel(EmployerId::create(model->database())->getModel());
+
+    employerIdModel = new QSqlQueryModel();
+    ui->employerId->setModel(employerIdModel);
 
 
     ui->department->setModel(Department::create(model->database())->getModel());
@@ -67,12 +69,14 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     connect(Department::create(model->database())->getAddDialog(), SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
     connect(Position::create(model->database())->getAddDialog(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
     connect(Schedule::create(model->database())->getAddDialog(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
+    connect(EmployerId::create(model->database())->getAddDialog(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
 
     //Connect add dialogs rejected with rejectAddition
     connect(Address::create(model->database())->getAddDialog(),       SIGNAL(rejected()), this, SLOT(rejectAddition()));
     connect(Department::create(model->database())->getAddDialog(), SIGNAL(rejected()), this, SLOT(rejectAddition()));
     connect(Position::create(model->database())->getAddDialog(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
     connect(Schedule::create(model->database())->getAddDialog(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
+    connect(EmployerId::create(model->database())->getAddDialog(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
 
     //Populate addInComboMap for combobox selection after addition
     addInComboMap["add_living_address"]   = ui->livingAddress;
@@ -89,6 +93,9 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
 
+/**
+ * @brief addEmployer::~addEmployer
+ */
 addEmployer::~addEmployer()
 {
     delete ui;
@@ -117,6 +124,7 @@ void addEmployer::selectCreated(int rowNumber)
 {
     addDialog* add_dialog = dynamic_cast<addDialog*>(sender());
     if (add_dialog != NULL) {
+
         if (add_dialog->objectName() == "addPosition"){
             //If click add position in add employer window then if will be added to the correspondinf dep_positions table
             int positionId = Position::create(model->database())->getModel()
@@ -126,7 +134,6 @@ void addEmployer::selectCreated(int rowNumber)
             int departmentId = Department::create(model->database())->getModel()
                                                                 ->record(ui->department->currentIndex())
                                                                 .value("id").toInt();
-
 
             QSqlRelationalTableModel* depPositionModel = Department_Position::create(model->database())->getModel();
             QSqlRecord r = depPositionModel->record(-1);
@@ -236,6 +243,7 @@ void addEmployer::init(QSqlRecord &record)
 
 
     int employerId = record.value("id").toInt();
+    findFreeEmployerIds(employerId);
 
 
     QSqlQueryModel *employerIdQueryModel = new QSqlQueryModel;
@@ -244,7 +252,6 @@ void addEmployer::init(QSqlRecord &record)
                          " AND eei.to IS NULL");
 
     QString employerNumber = employerIdQueryModel->record(0).value("emp_number").toString();
-    QSqlRelationalTableModel* employerIdModel = EmployerId::create(model->database())->getModel();
     int employerIdCount = employerIdModel->rowCount();
     for(int i = 0; i < employerIdCount; i++) {
         if (employerIdModel->record(i).value("emp_number").toString() == employerNumber) {
@@ -307,6 +314,8 @@ void addEmployer::clear() {
     ui->position->setCurrentIndex(-1);
     ui->employerId->setCurrentIndex(-1);
     ui->schedule->setCurrentIndex(-1);
+
+    findFreeEmployerIds();
 }
 
 /**
@@ -416,10 +425,9 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
     //======================================== Employer ID ==========================================
 
 
-    QString employerNumber = EmployerId::create(model->database())
-                                                    ->getModel()
-                                                    ->record(ui->employerId->currentIndex())
-                                                    .value("emp_number").toString();
+    QString employerNumber = employerIdModel
+                                        ->record(ui->employerId->currentIndex())
+                                        .value("emp_number").toString();
 
     QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
 
@@ -429,10 +437,9 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
 
     if (lastEmployerIdModel->rowCount() == 0)
     {
-        int employerIdType = EmployerId::create(model->database())
-                                                        ->getModel()
-                                                        ->record(ui->employerId->currentIndex())
-                                                        .value("id_type").toInt();
+        int employerIdType = employerIdModel
+                                        ->record(ui->employerId->currentIndex())
+                                        .value("id_type").toInt();
 
         lastEmployerIdModel->setQuery("UPDATE employer_employer_ids as eei " \
                              " JOIN employer_ids as ei ON eei.emp_number = ei.emp_number "\
@@ -450,3 +457,21 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
         employer_employerId->select();
     }
 }
+
+/**
+ * @brief addEmployer::findFreeEmployerIds
+ */
+void addEmployer::findFreeEmployerIds(int employerId)
+{
+    QString additionalCondition = "";
+    if (employerId) {
+        additionalCondition = "AND eei1.employer_id != " + QString::number(employerId);
+    }
+    employerIdModel->setQuery("SELECT ei.emp_number " \
+                              "FROM employer_ids as ei "
+                              "LEFT JOIN employer_employer_ids as eei ON eei.emp_number = ei.emp_number "\
+                              "WHERE NOT EXISTS (SELECT * FROM employer_employer_ids as eei1 "\
+                                                "WHERE eei1.emp_number = eei.emp_number "\
+                                                "AND eei1.to IS NULL " + additionalCondition + ")");
+}
+

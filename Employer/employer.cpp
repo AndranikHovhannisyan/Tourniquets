@@ -369,6 +369,8 @@ void Employer::selectRow(const QModelIndex &modelIndex)
  */
 void Employer::destroy()
 {
+    ViewChangableEntity::destroy();
+
     delete phone_numbers;
     delete phone_number_label;
     phone_numbers      = NULL;

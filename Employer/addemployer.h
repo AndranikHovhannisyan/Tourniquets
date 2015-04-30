@@ -22,6 +22,7 @@ private:
     QMap<QString, QComboBox*>  addInComboMap;
     QComboBox                 *relationComboBox;
     QSqlQueryModel            *departmentPositions;
+    QSqlQueryModel            *employerIdModel;
 
     int livingAddress;
     int registerAddress;
@@ -36,6 +37,7 @@ private slots:
     void rejectAddition();
     void initAddition();
 
+    void findFreeEmployerIds(int employerId = 0);
     void populateDepartmentPositions(int departmentRow);
     void employerDepartmentPositionEmployerIdSave(int);
 };
