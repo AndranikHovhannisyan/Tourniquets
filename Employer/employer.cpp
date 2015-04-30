@@ -34,12 +34,11 @@ Employer* Employer::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 /**
  * @brief Employer::Employer
  */
-Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
-    model       = NULL;
-    db          = dbConnection;
-    parent      = mainWindow;
-    tableName   = "employer";
-
+Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow):
+    ViewChangableEntity(dbConnection, mainWindow)
+{
+    tableName    = "employer";
+    add_employer = NULL;
 
     setNullRegisterAddressFields();
     setNullLivingAddressFields();
@@ -50,84 +49,17 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     department_positions       = NULL;
     department_positions_label = NULL;
 
-
     employer_ids               = NULL;
     employer_ids_label         = NULL;
 }
 
 /**
- * @brief Employer::setNullRegisterAddressFields
+ * @brief Employer::setTableViewModel
  */
-void Employer::setNullRegisterAddressFields()
+void Employer::setTableViewModel()
 {
-    registerAddressFrame  = NULL;
-    registerAddressLayout = NULL;
-    reg_title_label       = NULL;
-
-    label_reg_country     = NULL;
-    label_reg_city        = NULL;
-    label_reg_street      = NULL;
-    label_reg_hNumber     = NULL;
-
-    reg_country           = NULL;
-    reg_city              = NULL;
-    reg_street            = NULL;
-    reg_hNumber           = NULL;
-}
-
-
-/**
- * @brief Employer::setNullLivingAddressFields
- */
-void Employer::setNullLivingAddressFields()
-{
-    livingAddressFrame    = NULL;
-    livingAddressLayout   = NULL;
-    living_title_label    = NULL;
-
-    label_living_country  = NULL;
-    label_living_city     = NULL;
-    label_living_street   = NULL;
-    label_living_hNumber  = NULL;
-
-    living_country        = NULL;
-    living_city           = NULL;
-    living_street         = NULL;
-    living_hNumber        = NULL;
-}
-
-
-/**
- * @brief Employer::select
- * @param mainWindow
- */
-void Employer::select(QMainWindow *mainWindow)
-{
-    if (mainWindow) {
-        parent = mainWindow;
-    }
-    if (!parent) {
-        throw new QException();
-    }
-
-    //Create widgets
-    tableView    = new QTableView(mainWindow);
-    addButton    = new QPushButton("Ավելացնել");
-    editButton   = new QPushButton("Խմբագրել");
-    removeButton = new QPushButton("Հեռացնել");
-    mainLayout   = new QGridLayout;
-
-    //Arrange widgets on window
-    mainLayout->addWidget(addButton, 0, 0, 1, 2);
-    mainLayout->addWidget(editButton, 0, 2, 1, 2);
-    mainLayout->addWidget(removeButton, 0, 4, 1, 2);
-    mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    parent->centralWidget()->setLayout(mainLayout);
-
-    //Set tableView content
-    tableView->setModel(getModel());
+    ViewChangableEntity::setTableViewModel();
     tableView->resizeColumnsToContents();
-
 
     getModel()->setHeaderData(1,  Qt::Horizontal, "Անուն");
     getModel()->setHeaderData(2,  Qt::Horizontal, "Ազգանուն");
@@ -148,22 +80,6 @@ void Employer::select(QMainWindow *mainWindow)
     tableView->hideColumn(0);  //Hide Id
     tableView->hideColumn(14); //Hide register address id
     tableView->hideColumn(15); //Hide living address id
-
-
-    //Create addEmployer instance
-    add_employer = new addEmployer(getModel());
-
-    //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton,    SIGNAL(clicked()), add_employer, SLOT(initialize()));
-    QObject::connect(editButton,   SIGNAL(clicked()), this, SLOT(edit()));
-    QObject::connect(removeButton, SIGNAL(clicked()), this, SLOT(remove()));
-
-    QObject::connect(tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
-    QObject::connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
-    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_employer, SLOT(initialize(QModelIndex)));
-
-    //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
 }
 
 
@@ -171,8 +87,9 @@ void Employer::select(QMainWindow *mainWindow)
  * @brief Employer::selectRow
  * @param modelIndex
  */
-void Employer::selectRow(const QModelIndex &modelIndex) {
-    tableView->selectRow(modelIndex.row());
+void Employer::selectRow(const QModelIndex &modelIndex)
+{
+    ViewChangableEntity::selectRow(modelIndex);
 
 
     QSqlRelationalTableModel* addressModel = Address::create(model->database())->getModel();
@@ -446,72 +363,12 @@ void Employer::selectRow(const QModelIndex &modelIndex) {
     //============================================================
 }
 
-/**
- * @brief Employer::edit
- */
-void Employer::edit()
-{
-    QModelIndexList selectedRows = tableView->selectionModel()->selectedRows();
-    if (selectedRows.count() == 0) {
-        QMessageBox::warning(NULL, "Error", "Ոչ մի տող նշված չէ");
-        return;
-    }
-
-    if (selectedRows.count() > 1) {
-        QMessageBox::warning(NULL, "Error", "Խմբագրման համար անհրաժեշտ է նշել ճիշտ մեկ տող");
-        return;
-    }
-
-    add_employer->initByRowNumber(selectedRows.at(0).row());
-}
-
-/**
- * @brief Employer::remove
- */
-void Employer::remove()
-{
-    QModelIndexList selectedRows = tableView->selectionModel()->selectedRows();
-    for( int i = 0; i < selectedRows.count(); i++) {
-        getModel()->removeRow(selectedRows.at(i).row());
-    }
-
-    getModel()->select();
-}
-
-/**
- * @brief Employer::getModel
- * @return
- */
-QSqlRelationalTableModel* Employer::getModel()
-{
-    //Check if model isn't created create it
-    if (!model) {
-        model = new QSqlRelationalTableModel(parent, db);
-        model->setTable(tableName);
-        model->setFilter("");
-        model->select();
-    }
-
-    return model;
-}
 
 /**
  * @brief Employer::destroy
  */
 void Employer::destroy()
 {
-    delete tableView;
-    delete addButton;
-    delete mainLayout;
-    delete editButton;
-    delete removeButton;
-
-    tableView    = NULL;
-    addButton    = NULL;
-    mainLayout   = NULL;
-    editButton   = NULL;
-    removeButton = NULL;
-
     delete phone_numbers;
     delete phone_number_label;
     phone_numbers      = NULL;
@@ -532,6 +389,64 @@ void Employer::destroy()
 
     setNullRegisterAddressFields();
     setNullLivingAddressFields();
+}
 
-    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+/**
+ * @brief Employer::setNullRegisterAddressFields
+ */
+void Employer::setNullRegisterAddressFields()
+{
+    registerAddressFrame  = NULL;
+    registerAddressLayout = NULL;
+    reg_title_label       = NULL;
+
+    label_reg_country     = NULL;
+    label_reg_city        = NULL;
+    label_reg_street      = NULL;
+    label_reg_hNumber     = NULL;
+
+    reg_country           = NULL;
+    reg_city              = NULL;
+    reg_street            = NULL;
+    reg_hNumber           = NULL;
+}
+
+
+/**
+ * @brief Employer::setNullLivingAddressFields
+ */
+void Employer::setNullLivingAddressFields()
+{
+    livingAddressFrame    = NULL;
+    livingAddressLayout   = NULL;
+    living_title_label    = NULL;
+
+    label_living_country  = NULL;
+    label_living_city     = NULL;
+    label_living_street   = NULL;
+    label_living_hNumber  = NULL;
+
+    living_country        = NULL;
+    living_city           = NULL;
+    living_street         = NULL;
+    living_hNumber        = NULL;
+}
+
+/**
+ * @brief Employer::updateViewModel
+ */
+void Employer::updateViewModel()
+{
+    viewModel->setQuery("SELECT * "\
+                        "FROM employer as e");
+}
+
+/**
+ * @brief getAddDialog
+ * @return
+ */
+addDialog* Employer::getAddDialog()
+{
+    add_employer = add_employer ? add_employer : new addEmployer(getModel());
+    return add_employer ;
 }

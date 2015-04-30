@@ -1,23 +1,14 @@
 #ifndef EMPLOYER_H
 #define EMPLOYER_H
 
-#include <QSqlRelationalTableModel>
-#include <QMainWindow>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QString>
-#include <QMainWindow>
-#include <QSqlDatabase>
-
 #include <QLineEdit>
 #include <QLabel>
 #include <QFrame>
 
 #include "addemployer.h"
-#include "entity.h"
+#include "viewchangableentity.h"
 
-class Employer : public Entity
+class Employer : public ViewChangableEntity
 {
 private:
     Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -25,20 +16,8 @@ private:
     Employer& operator=(const Employer&);
 
     static Employer* employer;
-
     addEmployer *add_employer;
-    QSqlRelationalTableModel *model;
-    QSqlDatabase db;
 
-    QMainWindow *parent;
-    QTableView  *tableView;
-
-    QPushButton *addButton;
-    QPushButton *editButton;
-    QPushButton *removeButton;
-
-    QGridLayout *mainLayout;
-    QString      tableName;
 
     //====================== Register Address ====================
 
@@ -96,18 +75,13 @@ public:
     void setNullLivingAddressFields();
 
     static Employer* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
-
-    //This function is used to return coressponding model
-    QSqlRelationalTableModel* getModel();
+    void setTableViewModel();
+    addDialog* getAddDialog();
 
 public slots:
-    //This function will draw all neccessary fields on the passed QMainWindow
-    void select(QMainWindow *mainWindow = NULL);
     void destroy();
-
     void selectRow(const QModelIndex &modelIndex);
-    void edit();
-    void remove();
+    void updateViewModel();
 };
 
 #endif // EMPLOYER_H
