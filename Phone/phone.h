@@ -10,9 +10,9 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addphone.h"
-#include "entity.h"
+#include "viewchangableentity.h"
 
-class Phone : public Entity
+class Phone : public ViewChangableEntity
 {
 private:
     Phone(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -20,28 +20,16 @@ private:
     Phone& operator=(const Phone&);
 
     static Phone* phone;
-
     addPhone *add_phone;
-    QSqlRelationalTableModel *model;
-    QSqlDatabase db;
-
-    QMainWindow *parent;
-    QTableView  *tableView;
-    QPushButton *addButton;
-    QGridLayout *mainLayout;
-    QString      tableName;
 
 public:
 
     static Phone* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
-    //This function is used to return coressponding model
-    QSqlRelationalTableModel* getModel();
+    addDialog * getAddDialog();
 
 public slots:
-    //This function will draw all neccessary fields on the passed QMainWindow
-    void select(QMainWindow *mainWindow = NULL);
-    void destroy();
+    void updateViewModel();
 };
 
 #endif // PHONE_H

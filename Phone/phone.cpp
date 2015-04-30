@@ -25,80 +25,32 @@ Phone* Phone::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 /**
  * @brief Phone::Phone
  */
-Phone::Phone(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
-    model       = NULL;
-    db          = dbConnection;
-    parent      = mainWindow;
-    tableName   = "employer_phone_number";
-}
-
-/**
- * @brief Phone::select
- * @param mainWindow
- */
-void Phone::select(QMainWindow *mainWindow)
+Phone::Phone(QSqlDatabase dbConnection, QMainWindow *mainWindow):
+    ViewChangableEntity(dbConnection, mainWindow)
 {
-    if (mainWindow) {
-        parent = mainWindow;
-    }
-    if (!parent) {
-        throw new QException();
-    }
-
-    //Create widgets
-    tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել Բաժին");
-    mainLayout  = new QGridLayout;
-
-    //Arrange widgets on window
-    mainLayout->addWidget(addButton, 0, 0, 1, 2);
-    mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    parent->centralWidget()->setLayout(mainLayout);
-
-    //Set tableView content
-    tableView->setModel(getModel());
-
-    //Create addPhone instance
-    add_phone = new addPhone(getModel());
-
-    //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton, SIGNAL(clicked()), add_phone, SLOT(initialize()));
-    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_phone, SLOT(initialize(QModelIndex)));
-
-    //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+    tableName = "employer_phone_number";
+    add_phone = NULL;
 }
 
 /**
- * @brief Phone::getModel
+ * @brief Phone::getAddDialog
  * @return
  */
-QSqlRelationalTableModel* Phone::getModel()
+addDialog* Phone::getAddDialog()
 {
-    //Check if model isn't created create it
-    if (!model) {
-        model = new QSqlRelationalTableModel(parent, db);
-        model->setTable(tableName);
-    }
-
-    model->setFilter("");
-    model->select();
-
-    return model;
+    add_phone = add_phone ? add_phone : new addPhone(getModel());
+    return add_phone;
 }
 
 /**
- * @brief Phone::destroy
+ * @brief Phone::updateViewModel
  */
-void Phone::destroy()
+void Phone::updateViewModel()
 {
-    delete tableView;
-    delete addButton;
-    delete mainLayout;
+    viewModel->setQuery("SELECT CONCAT(e.firstname, ' ', e.lastname) as employer, epn.phone_number, epn.from, epn.to "\
+                        "FROM employer_phone_number as epn "\
+                        "JOIN employer as e ON e.id = epn.employer_id");
 
-    tableView  = NULL;
-    addButton  = NULL;
-    mainLayout = NULL;
-
-    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+    viewModel->setHeaderData(0,  Qt::Horizontal, "Աշխատակից");
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Հեռախոսահամար");
 }

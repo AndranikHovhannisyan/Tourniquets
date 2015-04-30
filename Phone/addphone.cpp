@@ -18,6 +18,7 @@ addPhone::addPhone(QSqlRelationalTableModel *tableModel, QWidget *parent) :
     this->setWindowTitle("Ավելացնել հեռախոսահամար");
 
     ui->employer->setModel(Employer::create(model->database())->getModel());
+    ui->employer->setModelColumn(1);
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }
