@@ -3,6 +3,7 @@
 #include <QException>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QScrollBar>
 
 EmployerId* EmployerId::employerId = NULL;
 
@@ -29,8 +30,31 @@ EmployerId* EmployerId::create(QSqlDatabase dbConnection, QMainWindow *mainWindo
 EmployerId::EmployerId(QSqlDatabase dbConnection, QMainWindow *mainWindow):
     ViewChangableEntity(dbConnection, mainWindow)
 {
-    tableName   = "employer_ids";
-    add_employerId = NULL;
+    tableName       = "employer_ids";
+    add_employerId  = NULL;
+    employers       = NULL;
+    employers_label = NULL;
+}
+
+
+/**
+ * @brief EmployerId::createWidgets
+ */
+void EmployerId::createWidgets()
+{
+    ViewChangableEntity::createWidgets();
+
+    tableView->setFixedWidth(520);
+}
+
+/**
+ * @brief EmployerId::setTableViewModel
+ */
+void EmployerId::setTableViewModel()
+{
+    ViewChangableEntity::setTableViewModel();
+
+    tableView->resizeColumnsToContents();
 }
 
 
@@ -41,6 +65,45 @@ EmployerId::EmployerId(QSqlDatabase dbConnection, QMainWindow *mainWindow):
 void EmployerId::selectRow(const QModelIndex &modelIndex)
 {
     ViewChangableEntity::selectRow(modelIndex);
+
+    QString employerID_empNumber = getModel()->record(modelIndex.row()).value("emp_number").toString();
+
+    //============================================================
+    //========================= Employers ========================
+    //============================================================
+
+    QSqlQueryModel *employerModel = new QSqlQueryModel;
+    employerModel->setQuery("SELECT eei.id, CONCAT(e.firstname, ' ', lastname), eei.from, eei.to "\
+                            "FROM employer_employer_ids as eei " \
+                            "JOIN employer as e ON e.id = eei.employer_id "\
+                            "WHERE eei.emp_number = '" + employerID_empNumber + "'");
+
+    if (employerModel->rowCount())
+    {
+        employers = employers ? employers : new QTableView;
+        employers->setModel(employerModel);
+        employers->setFixedWidth(430);
+
+        employers->verticalScrollBar()->setStyleSheet(
+            "QScrollBar:vertical { width: 1px; }");
+
+        employers_label = employers_label ? employers_label : new QLabel("<b>Աշխատակիցներ</b>");
+        employers_label->setAlignment(Qt::AlignCenter);
+        employers_label->setFixedWidth(350);
+
+        mainLayout->addWidget(employers_label, 1, 7, 1, 7);
+        mainLayout->addWidget(employers, 2, 7, 5, 7);
+    }
+    else {
+        delete employers;
+        delete employers_label;
+        employers       = NULL;
+        employers_label = NULL;
+    }
+
+    //============================================================
+    //======================== End Positions =====================
+    //============================================================
 }
 
 
