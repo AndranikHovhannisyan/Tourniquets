@@ -1,14 +1,6 @@
 #ifndef ADDRESS_H
 #define ADDRESS_H
 
-#include <QSqlRelationalTableModel>
-#include <QMainWindow>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QString>
-#include <QMainWindow>
-#include <QSqlDatabase>
 #include "addaddress.h"
 #include "editableentity.h"
 

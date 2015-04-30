@@ -15,6 +15,7 @@ addSchedule::addSchedule(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     this->setWindowTitle("Ավելացնել Գրաֆիկ");
 
     ui->scheduleType->setModel(ScheduleType::create(model->database())->getModel());
+    ui->scheduleType->setModelColumn(1);
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(save()));
 }

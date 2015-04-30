@@ -1,14 +1,6 @@
 #ifndef SCHEDULETYPE_H
 #define SCHEDULETYPE_H
 
-#include <QSqlRelationalTableModel>
-#include <QMainWindow>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QString>
-#include <QMainWindow>
-#include <QSqlDatabase>
 #include "addscheduletype.h"
 #include "editableentity.h"
 

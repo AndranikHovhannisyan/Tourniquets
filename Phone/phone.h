@@ -1,14 +1,6 @@
 #ifndef PHONE_H
 #define PHONE_H
 
-#include <QSqlRelationalTableModel>
-#include <QMainWindow>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QString>
-#include <QMainWindow>
-#include <QSqlDatabase>
 #include "addphone.h"
 #include "viewchangableentity.h"
 

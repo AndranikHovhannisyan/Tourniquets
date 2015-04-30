@@ -53,7 +53,7 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     connect(ui->add_register_address, SIGNAL(clicked()), Address::create(model->database())->getAddDialog(),       SLOT(initialize()));
     connect(ui->add_department,       SIGNAL(clicked()), Department::create(model->database())->getAddDialog(), SLOT(initialize()));
     connect(ui->add_position,         SIGNAL(clicked()), Position::create(model->database())->getAddDialog(),     SLOT(initialize()));
-    connect(ui->add_schedule,         SIGNAL(clicked()), Schedule::create(model->database())->getAddSchedule(),     SLOT(initialize()));
+    connect(ui->add_schedule,         SIGNAL(clicked()), Schedule::create(model->database())->getAddDialog(),     SLOT(initialize()));
 
     //Connect add buttons with add initAddition
     connect(ui->add_living_address,   SIGNAL(clicked()), this, SLOT(initAddition()));
@@ -66,13 +66,13 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
     connect(Address::create(model->database())->getAddDialog(),       SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
     connect(Department::create(model->database())->getAddDialog(), SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
     connect(Position::create(model->database())->getAddDialog(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
-    connect(Schedule::create(model->database())->getAddSchedule(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
+    connect(Schedule::create(model->database())->getAddDialog(),     SIGNAL(ready(int)), this, SLOT(selectCreated(int)));
 
     //Connect add dialogs rejected with rejectAddition
     connect(Address::create(model->database())->getAddDialog(),       SIGNAL(rejected()), this, SLOT(rejectAddition()));
     connect(Department::create(model->database())->getAddDialog(), SIGNAL(rejected()), this, SLOT(rejectAddition()));
     connect(Position::create(model->database())->getAddDialog(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
-    connect(Schedule::create(model->database())->getAddSchedule(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
+    connect(Schedule::create(model->database())->getAddDialog(),     SIGNAL(rejected()), this, SLOT(rejectAddition()));
 
     //Populate addInComboMap for combobox selection after addition
     addInComboMap["add_living_address"]   = ui->livingAddress;

@@ -1,8 +1,8 @@
 #ifndef DEPARTMENT_H
 #define DEPARTMENT_H
 
-#include "adddepartment.h"
 #include <QLabel>
+#include "adddepartment.h"
 #include "viewchangableentity.h"
 
 class Department : public ViewChangableEntity

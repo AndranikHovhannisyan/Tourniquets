@@ -1,17 +1,8 @@
 #ifndef EMPLOYERID_H
 #define EMPLOYERID_H
 
-#include <QSqlRelationalTableModel>
-#include <QMainWindow>
-#include <QTableView>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QString>
-#include <QMainWindow>
-#include <QSqlDatabase>
-#include "addemployerid.h"
-#include "entity.h"
 
+#include "addemployerid.h"
 #include "viewchangableentity.h"
 
 class EmployerId : public ViewChangableEntity
