@@ -12,8 +12,9 @@
 #include "addemployerid.h"
 #include "entity.h"
 
+#include "viewchangableentity.h"
 
-class EmployerId : public Entity
+class EmployerId : public ViewChangableEntity
 {
 private:
     EmployerId(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -23,33 +24,18 @@ private:
     static EmployerId* employerId;
 
     addEmployerId *add_employerId;
-    QSqlRelationalTableModel *model;
-    QSqlDatabase db;
 
-    QMainWindow *parent;
-    QTableView  *tableView;
-    QGridLayout *mainLayout;
-    QString      tableName;
-
-    QPushButton *addButton;
-    QPushButton *editButton;
-    QPushButton *removeButton;
 
 public:
 
     static EmployerId* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
-    //This function is used to return coressponding model
-    QSqlRelationalTableModel* getModel();
+    addDialog* getAddDialog();
 
 public slots:
-    //This function will draw all neccessary fields on the passed QMainWindow
-    void select(QMainWindow *mainWindow = NULL);
     void destroy();
-
     void selectRow(const QModelIndex &modelIndex);
-    void edit();
-    void remove();
+    void updateViewModel();
 };
 
 #endif // EMPLOYERID_H

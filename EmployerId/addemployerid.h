@@ -16,10 +16,11 @@ public:
     explicit addEmployerId(QSqlRelationalTableModel *tableModel, QWidget *parent = 0);
     ~addEmployerId();
 
+    QMap<int, QString> idTypes;
+
 private:
     Ui::addEmployerId *ui;
     QMap<int, int> comboIndexEmployerId;
-    QMap<int, QString> idTypes;
 
     virtual void init(QSqlRecord &);
     virtual void clear();
