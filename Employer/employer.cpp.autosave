@@ -434,7 +434,6 @@ void Employer::setNullLivingAddressFields()
     living_hNumber        = NULL;
 }
 
-#include <QDebug>
 /**
  * @brief Employer::updateViewModel
  */
@@ -442,8 +441,6 @@ void Employer::updateViewModel()
 {
     viewModel->setQuery("SELECT * "\
                         "FROM employer as e");
-
-    qDebug() << "updateVIew";
 }
 
 /**

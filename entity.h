@@ -25,6 +25,13 @@ public slots:
     virtual void updateView(int,QSqlRecord&){}
     virtual void updateView(QModelIndex,QModelIndex){}
     virtual void updateViewModel(){}
+
+    virtual void reselect(QModelIndex, QModelIndex){}
+
+signals:
+    //After QSqlTableModel data changes need to run selectRow
+    //But because parameter count don't match then we use intermediate signal/slot
+    void reselect(QModelIndex);
 };
 
 #endif // ENTITY_H

@@ -123,14 +123,11 @@ void EditableEntity::reselect(QModelIndex a, QModelIndex b)
 
 //**************************** Create/edit/delete button slots ****************************
 
-#include <QDebug>
-
 /**
  * @brief EditableEntity::selectRow
  * @param modelIndex
  */
 void EditableEntity::selectRow(const QModelIndex &modelIndex) {
-    qDebug() << "selectRow";
     tableView->selectRow(modelIndex.row());
 }
 
