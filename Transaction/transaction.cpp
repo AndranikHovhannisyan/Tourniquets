@@ -65,7 +65,7 @@ void Transaction::setWidgetsInLayout()
 {
     ViewChangableEntity::setWidgetsInLayout();
 
-    mainLayout->addWidget(importButton, 0, 9, 1, 2);
+    mainLayout->addWidget(importButton, 0, 6, 1, 2);
 }
 
 /**
@@ -137,10 +137,11 @@ void Transaction::updateViewModel()
 
                         "tt.date_time "\
                         "FROM tourniquet_transaction as tt "\
-                        "JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number AND eei.to IS NULL "\
-                        "JOIN employer_ids as ei ON ei.emp_number = tt.emp_number "\
-                        "JOIN employer as e ON e.id = eei.employer_id "\
-                        "JOIN tourniquet as t ON t.number = tt.tourniquet_number ");
+                        "LEFT JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number AND eei.to IS NULL "\
+                        "LEFT JOIN employer_ids as ei ON ei.emp_number = tt.emp_number "\
+                        "LEFT JOIN employer as e ON e.id = eei.employer_id "\
+                        "LEFT JOIN tourniquet as t ON t.number = tt.tourniquet_number "\
+                        "ORDER BY tt.id");
 }
 
 /*
