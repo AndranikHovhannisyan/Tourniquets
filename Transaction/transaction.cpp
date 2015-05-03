@@ -92,6 +92,10 @@ void Transaction::importData()
             return;
         }
 
+        QSqlRelationalTableModel *originalTransactionModel = new QSqlRelationalTableModel(parent, db);
+        originalTransactionModel->setTable("original_tourniquet_transaction");
+        originalTransactionModel->select();
+
 
         //Read from file and write in view edit
         QTextStream in(&file);
@@ -102,11 +106,11 @@ void Transaction::importData()
             lineStr = in.readLine();
             lineList = lineStr.split('\t');
 
-            QSqlRecord record = getModel()->record(-1);
+            QSqlRecord record = originalTransactionModel->record(-1);
             record.setValue(record.indexOf("tourniquet_number"), QVariant(lineList.at(1)));
             record.setValue(record.indexOf("emp_number"), QVariant(lineList.at(2)));
             record.setValue(record.indexOf("date_time"), QVariant(QDateTime::fromString(lineList.at(6), "d/M/yyyy hh:mm:ss")));
-            getModel()->insertRecord(-1, record);
+            originalTransactionModel->insertRecord(-1, record);
         }
 
         file.close();
@@ -137,3 +141,18 @@ void Transaction::updateViewModel()
                         "JOIN tourniquet as t ON t.number = tt.tourniquet_number "\
                         "WHERE eei.to IS NULL");
 }
+
+
+/*
+
+DELIMITER $$
+CREATE TRIGGER aftre_transaction_import
+AFTER INSERT ON original_tourniquet_transaction
+FOR EACH ROW
+BEGIN
+    INSERT INTO tourniquet_transaction (date_time, tourniquet_number, emp_number)
+           VALUES (NEW.date_time, NEW.tourniquet_number, NEW.emp_number);
+END; $$
+DELIMITER ;
+
+*/
