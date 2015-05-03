@@ -30,6 +30,7 @@ addTransaction::~addTransaction()
     delete ui;
 }
 
+#include <QDebug>
 
 /**
  * @brief addTransaction::init
@@ -37,7 +38,8 @@ addTransaction::~addTransaction()
  */
 void addTransaction::init(QSqlRecord &record)
 {
-    ui->date_time->setDate(record.value("date_time").toDate());
+    qDebug() << record.value("date_time").toDateTime();
+    ui->date_time->setDateTime(record.value("date_time").toDateTime());
 
     QSqlRelationalTableModel* employerIdModel = EmployerId::create(model->database())->getModel();
     int employerIdCount = employerIdModel->rowCount();
@@ -72,7 +74,7 @@ void addTransaction::clear() {
  */
 void addTransaction::populateData(QSqlRecord &record)
 {
-    record.setValue(record.indexOf("date_time"), QVariant(ui->date_time->date()));
+    record.setValue(record.indexOf("date_time"), QVariant(ui->date_time->dateTime()));
 
 
     QString employerNumber = EmployerId::create(model->database())
@@ -82,9 +84,10 @@ void addTransaction::populateData(QSqlRecord &record)
     record.setValue(record.indexOf("emp_number"), QVariant(employerNumber));
 
 
-    int tourniquetNumber= Tourniquet::create(model->database())
+    int tourniquetNumber = Tourniquet::create(model->database())
                                         ->getModel()
-                                        ->record(ui->employerID->currentIndex())
+                                        ->record(ui->tourniquet->currentIndex())
                                         .value("number").toInt();
     record.setValue(record.indexOf("tourniquet_number"), QVariant(tourniquetNumber));
+
 }

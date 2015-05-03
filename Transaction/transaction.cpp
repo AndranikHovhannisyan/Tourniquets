@@ -127,7 +127,7 @@ void Transaction::importData()
  */
 void Transaction::updateViewModel()
 {
-    viewModel->setQuery("SELECT CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, "\
+    viewModel->setQuery("SELECT tt.id, CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, "\
 
                         "CASE "\
                         "WHEN t.type = 0 "\
@@ -137,13 +137,11 @@ void Transaction::updateViewModel()
 
                         "tt.date_time "\
                         "FROM tourniquet_transaction as tt "\
-                        "JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number "\
+                        "JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number AND eei.to IS NULL "\
                         "JOIN employer_ids as ei ON ei.emp_number = tt.emp_number "\
                         "JOIN employer as e ON e.id = eei.employer_id "\
-                        "JOIN tourniquet as t ON t.number = tt.tourniquet_number "\
-                        "WHERE eei.to IS NULL");
+                        "JOIN tourniquet as t ON t.number = tt.tourniquet_number ");
 }
-
 
 /*
 

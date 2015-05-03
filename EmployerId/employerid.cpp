@@ -114,6 +114,11 @@ void EmployerId::selectRow(const QModelIndex &modelIndex)
 void EmployerId::destroy()
 {
     ViewChangableEntity::destroy();
+
+    delete employers;
+    delete employers_label;
+    employers       = NULL;
+    employers_label = NULL;
 }
 
 /**

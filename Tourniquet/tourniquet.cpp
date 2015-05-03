@@ -56,6 +56,6 @@ void Tourniquet::updateViewModel()
                         "THEN 'Մուտք' "\
                         "ELSE 'Ելք' "\
                         "END as type "\
-                        "FROM tourniquet as t");
+                        "FROM tourniquet as t ");
 }
 

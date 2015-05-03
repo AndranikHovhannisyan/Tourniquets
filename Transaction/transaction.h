@@ -24,6 +24,7 @@ private:
 public:
     static Transaction* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
+
     void createWidgets();
     void setWidgetsInLayout();
     void setSignalSlotConnections();
