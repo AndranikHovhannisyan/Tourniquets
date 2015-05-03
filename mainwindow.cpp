@@ -20,6 +20,8 @@
 #include "Employer/employer.h"
 #include "Phone/phone.h"
 
+#include "Transaction/transaction.h"
+
 /**
  * @brief MainWindow::MainWindow
  * @param parent
@@ -35,13 +37,15 @@ MainWindow::MainWindow(QWidget *parent) :
     entities["department"]      = Department::create(db, this);
     entities["position"]        = Position::create(db, this);
     entities["address"]         = Address::create(db, this);
-
     entities["schedule"]        = Schedule::create(db, this);
     entities["schedule_type"]   = ScheduleType::create(db, this);
     entities["tourniquet"]      = Tourniquet::create(db, this);
     entities["employer_ids"]    = EmployerId::create(db, this);
     entities["employer"]        = Employer::create(db, this);
     entities["phone_number"]    = Phone::create(db, this);
+
+    entities["transaction"]     = Transaction::create(db, this);
+
 
     connect(ui->department,     SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->position,       SIGNAL(triggered()), this, SLOT(infoWindow()));
@@ -52,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->employer_ids,   SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->employer,       SIGNAL(triggered()), this, SLOT(infoWindow()));
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
+
+    connect(ui->transaction,    SIGNAL(triggered()), this, SLOT(infoWindow()));
 
     //Create a database connection
     db = QSqlDatabase::addDatabase("QMYSQL");

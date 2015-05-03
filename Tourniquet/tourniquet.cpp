@@ -29,7 +29,7 @@ Tourniquet::Tourniquet(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
     model       = NULL;
     db          = dbConnection;
     parent      = mainWindow;
-    tableName   = "turnicet";
+    tableName   = "tourniquet";
 }
 
 /**

@@ -27,6 +27,7 @@
     <property name="title">
      <string>Գործողություն</string>
     </property>
+    <addaction name="transaction"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -97,6 +98,11 @@
   <action name="phone_number">
    <property name="text">
     <string>Հեռախոս</string>
+   </property>
+  </action>
+  <action name="transaction">
+   <property name="text">
+    <string>Transactions</string>
    </property>
   </action>
  </widget>
