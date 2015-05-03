@@ -17,18 +17,21 @@ private:
 
     static Transaction* transaction;
 
+    QPushButton *importButton;
+
 public:
     static Transaction* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
-    virtual void createWidgets();
-    virtual void setWidgetsInLayout();
-    virtual void setTableViewModel();
-    virtual void setSignalSlotConnections();
+    void createWidgets();
+    void setWidgetsInLayout();
+    void setTableViewModel();
+    void setSignalSlotConnections();
 
-    virtual addDialog* getAddDialog() {}
+    addDialog* getAddDialog() {}
 
 public slots:
 
+    void importData();
 };
 
 #endif // TRANSACTION_H

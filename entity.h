@@ -28,6 +28,8 @@ public slots:
 
     virtual void reselect(QModelIndex, QModelIndex){}
 
+    virtual void importData(){}
+
 signals:
     //After QSqlTableModel data changes need to run selectRow
     //But because parameter count don't match then we use intermediate signal/slot
