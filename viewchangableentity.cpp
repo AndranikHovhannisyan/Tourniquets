@@ -72,13 +72,3 @@ QSqlQueryModel* ViewChangableEntity::getViewModel()
     return viewModel;
 }
 
-/**
- * @brief ViewChangableEntity::updateViewModel
- */
-void ViewChangableEntity::updateViewModel()
-{
-    errorLabel->setText(getModel()->lastError().text());
-    errorLabel->setStyleSheet("QLabel { color: red; font: 8pt; }");
-    errorLabel->setWordWrap(true);
-}
-

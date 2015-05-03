@@ -46,8 +46,6 @@ addDialog* Schedule::getAddDialog()
  */
 void Schedule::updateViewModel()
 {
-    ViewChangableEntity::updateViewModel();
-
     viewModel->setQuery("SELECT *, st.name "\
                         "FROM schedule as s "\
                         "JOIN schedule_type as st ON st.id = s.schedule_type_id");

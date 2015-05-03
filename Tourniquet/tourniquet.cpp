@@ -42,13 +42,14 @@ addDialog* Tourniquet::getAddDialog()
     return add_tourniquet;
 }
 
+#include <QDebug>
+#include <QSqlError>
+
 /**
  * @brief Tourniquet::updateViewModel
  */
 void Tourniquet::updateViewModel()
 {
-    ViewChangableEntity::updateViewModel();
-
     viewModel->setQuery("SELECT t.number, "\
                         "CASE "\
                         "WHEN t.type = 0 "\

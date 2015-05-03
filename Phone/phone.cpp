@@ -47,8 +47,6 @@ addDialog* Phone::getAddDialog()
  */
 void Phone::updateViewModel()
 {
-    ViewChangableEntity::updateViewModel();
-
     viewModel->setQuery("SELECT CONCAT(e.firstname, ' ', e.lastname) as employer, epn.phone_number, epn.from, epn.to "\
                         "FROM employer_phone_number as epn "\
                         "JOIN employer as e ON e.id = epn.employer_id");

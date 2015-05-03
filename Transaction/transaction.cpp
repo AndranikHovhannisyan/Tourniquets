@@ -76,7 +76,6 @@ void Transaction::setSignalSlotConnections()
     QObject::connect(this, SIGNAL(reselect(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
 }
 
-
 /**
  * @brief Transaction::importData
  */
@@ -112,6 +111,7 @@ void Transaction::importData()
 
         file.close();
         getModel()->select();
+        updateViewModel();
     }
 }
 
@@ -121,9 +121,15 @@ void Transaction::importData()
  */
 void Transaction::updateViewModel()
 {
-    ViewChangableEntity::updateViewModel();
+    viewModel->setQuery("SELECT CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, "\
 
-    viewModel->setQuery("SELECT CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, t.type, tt.date_time "\
+                        "CASE "\
+                        "WHEN t.type = 0 "\
+                        "THEN 'Մուտք' "\
+                        "ELSE 'Ելք' "\
+                        "END as type, "\
+
+                        "tt.date_time "\
                         "FROM tourniquet_transaction as tt "\
                         "JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number "\
                         "JOIN employer_ids as ei ON ei.emp_number = tt.emp_number "\

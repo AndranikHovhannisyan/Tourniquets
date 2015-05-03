@@ -139,8 +139,6 @@ addDialog *Department::getAddDialog()
  */
 void Department::updateViewModel()
 {
-    ViewChangableEntity::updateViewModel();
-
     viewModel->setQuery("SELECT d.id, d.name, CONCAT(e.firstname, ' ', e.lastname), d.schedule_id "\
                         "FROM department as d "\
                         "JOIN employer as e ON e.id = d.manager_id");
