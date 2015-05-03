@@ -4,6 +4,7 @@
 #include <QSqlRelationalTableModel>
 #include <QTableView>
 #include <QGridLayout>
+#include "addtransaction.h"
 
 #include "viewchangableentity.h"
 
@@ -17,6 +18,7 @@ private:
 
     static Transaction* transaction;
 
+    addTransaction *add_transaction;
     QPushButton *importButton;
 
 public:
@@ -28,7 +30,7 @@ public:
 
     void updateViewModel();
 
-    addDialog* getAddDialog() {}
+    addDialog* getAddDialog();
 
 public slots:
 

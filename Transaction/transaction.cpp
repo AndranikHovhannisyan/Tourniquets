@@ -32,9 +32,10 @@ Transaction* Transaction::create(QSqlDatabase dbConnection, QMainWindow *mainWin
 Transaction::Transaction(QSqlDatabase dbConnection, QMainWindow *mainWindow):
     ViewChangableEntity(dbConnection, mainWindow)
 {
-    tableName   = "tourniquet_transaction";
+    tableName       = "tourniquet_transaction";
 
-    importButton = NULL;
+    add_transaction = NULL;
+    importButton    = NULL;
 }
 
 /**
@@ -42,11 +43,19 @@ Transaction::Transaction(QSqlDatabase dbConnection, QMainWindow *mainWindow):
  */
 void Transaction::createWidgets()
 {
-    errorLabel   = errorLabel   ? errorLabel   : new QLabel;
-    tableView    = tableView    ? tableView    : new QTableView();
-    mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
+    ViewChangableEntity::createWidgets();
 
     importButton = importButton ? importButton : new QPushButton("Ներմուծել");
+}
+
+/**
+ * @brief Transaction::getAddDialog
+ * @return
+ */
+addDialog* Transaction::getAddDialog()
+{
+    add_transaction = add_transaction ? add_transaction : new addTransaction(getModel());
+    return add_transaction;
 }
 
 /**
@@ -54,9 +63,9 @@ void Transaction::createWidgets()
  */
 void Transaction::setWidgetsInLayout()
 {
-    mainLayout->addWidget(importButton, 0, 0, 1, 2);
-    mainLayout->addWidget(errorLabel, 0, 7, 1, 8);
-    mainLayout->addWidget(tableView, 1, 0, 15, 15);
+    ViewChangableEntity::setWidgetsInLayout();
+
+    mainLayout->addWidget(importButton, 0, 9, 1, 2);
 }
 
 /**
@@ -64,16 +73,9 @@ void Transaction::setWidgetsInLayout()
  */
 void Transaction::setSignalSlotConnections()
 {
-    QObject::connect(tableView,    SIGNAL(pressed(QModelIndex)),       this,           SLOT(selectRow(QModelIndex)));
-    QObject::connect(tableView,    SIGNAL(clicked(QModelIndex)),       this,           SLOT(selectRow(QModelIndex)));
-
-    QObject::connect(parent,       SIGNAL(destroyed()),                this,           SLOT(destroy()));
-
+    ViewChangableEntity::setSignalSlotConnections();
 
     QObject::connect(importButton, SIGNAL(clicked()), this, SLOT(importData()));
-
-    QObject::connect(getModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(reselect(QModelIndex,QModelIndex)));
-    QObject::connect(this, SIGNAL(reselect(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
 }
 
 /**

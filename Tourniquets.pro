@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     Employer_EmployerId/employer_employerid.cpp \
     editableentity.cpp \
     viewchangableentity.cpp \
-    Transaction/transaction.cpp
+    Transaction/transaction.cpp \
+    Transaction/addtransaction.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -68,7 +69,8 @@ HEADERS  += mainwindow.h \
     Employer_EmployerId/employer_employerid.h \
     editableentity.h \
     viewchangableentity.h \
-    Transaction/transaction.h
+    Transaction/transaction.h \
+    Transaction/addtransaction.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \
@@ -79,4 +81,5 @@ FORMS    += mainwindow.ui \
     Schedule/addschedule.ui \
     ScheduleType/addscheduletype.ui \
     Tourniquet/addtourniquet.ui \
-    Address/addaddress.ui
+    Address/addaddress.ui \
+    Transaction/addtransaction.ui
