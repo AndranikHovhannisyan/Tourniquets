@@ -25,78 +25,28 @@ Tourniquet* Tourniquet::create(QSqlDatabase dbConnection, QMainWindow *mainWindo
 /**
  * @brief Tourniquet::Tourniquet
  */
-Tourniquet::Tourniquet(QSqlDatabase dbConnection, QMainWindow *mainWindow) {
-    model       = NULL;
-    db          = dbConnection;
-    parent      = mainWindow;
-    tableName   = "tourniquet";
-}
-
-/**
- * @brief Tourniquet::select
- * @param mainWindow
- */
-void Tourniquet::select(QMainWindow *mainWindow)
+Tourniquet::Tourniquet(QSqlDatabase dbConnection, QMainWindow *mainWindow):
+    ViewChangableEntity(dbConnection, mainWindow)
 {
-    if (mainWindow) {
-        parent = mainWindow;
-    }
-    if (!parent) {
-        throw new QException();
-    }
-
-    //Create widgets
-    tableView   = new QTableView(mainWindow);
-    addButton   = new QPushButton("Ավելացնել Գրաֆիկ");
-    mainLayout  = new QGridLayout;
-
-    //Arrange widgets on window
-    mainLayout->addWidget(addButton, 0, 0, 1, 2);
-    mainLayout->addWidget(tableView, 1, 0, 15, 15);
-    parent->centralWidget()->setLayout(mainLayout);
-
-    //Set tableView content
-    tableView->setModel(getModel());
-
-    //Create addTourniquet instance
-    add_tourniquet = new addTourniquet(getModel());
-
-    //Connect add new and edit SIGNAL / SLOTS
-    QObject::connect(addButton, SIGNAL(clicked()), add_tourniquet, SLOT(initialize()));
-    QObject::connect(tableView, SIGNAL(doubleClicked(QModelIndex)), add_tourniquet, SLOT(initialize(QModelIndex)));
-
-    //Connect mainWindow destroy with removeWidgets to remove dynamic objects
-    QObject::connect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+    tableName   = "tourniquet";
+    add_tourniquet = NULL;
 }
 
 /**
- * @brief Tourniquet::getModel
+ * @brief Tourniquet::getAddDialog
  * @return
  */
-QSqlRelationalTableModel* Tourniquet::getModel()
+addDialog* Tourniquet::getAddDialog()
 {
-    //Check if model isn't created create it
-    if (!model) {
-        model = new QSqlRelationalTableModel(parent, db);
-        model->setTable(tableName);
-        model->select();
-    }
-
-    return model;
+    add_tourniquet = add_tourniquet ? add_tourniquet : new addTourniquet(getModel());
+    return add_tourniquet;
 }
 
 /**
- * @brief Tourniquet::destroy
+ * @brief Tourniquet::updateViewModel
  */
-void Tourniquet::destroy()
+void Tourniquet::updateViewModel()
 {
-    delete tableView;
-    delete addButton;
-    delete mainLayout;
-
-    tableView  = NULL;
-    addButton  = NULL;
-    mainLayout = NULL;
-
-    QObject::disconnect(parent, SIGNAL(destroyed()), this,  SLOT(destroy()));
+    viewModel->setQuery("SELECT * FROM tourniquet as t");
 }
+

@@ -10,9 +10,9 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "addtourniquet.h"
-#include "entity.h"
+#include "viewchangableentity.h"
 
-class Tourniquet : public Entity
+class Tourniquet : public ViewChangableEntity
 {
 private:
     Tourniquet(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -22,26 +22,15 @@ private:
     static Tourniquet* tourniquet;
 
     addTourniquet *add_tourniquet;
-    QSqlRelationalTableModel *model;
-    QSqlDatabase db;
-
-    QMainWindow *parent;
-    QTableView  *tableView;
-    QPushButton *addButton;
-    QGridLayout *mainLayout;
-    QString      tableName;
 
 public:
 
     static Tourniquet* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
-    //This function is used to return coressponding model
-    QSqlRelationalTableModel* getModel();
+    addDialog* getAddDialog();
+    void updateViewModel();
 
 public slots:
-    //This function will draw all neccessary fields on the passed QMainWindow
-    void select(QMainWindow *mainWindow = NULL);
-    void destroy();
 };
 
 #endif // TOURNIQUET_H

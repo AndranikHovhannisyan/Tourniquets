@@ -5,10 +5,10 @@
 #include <QTableView>
 #include <QGridLayout>
 
-#include "editableentity.h"
+#include "viewchangableentity.h"
 
 
-class Transaction : public EditableEntity
+class Transaction : public ViewChangableEntity
 {
 private:
     Transaction(QSqlDatabase dbConnection, QMainWindow *mainWindow);
@@ -24,8 +24,9 @@ public:
 
     void createWidgets();
     void setWidgetsInLayout();
-    void setTableViewModel();
     void setSignalSlotConnections();
+
+    void updateViewModel();
 
     addDialog* getAddDialog() {}
 
