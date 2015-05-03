@@ -47,6 +47,14 @@ addDialog* Tourniquet::getAddDialog()
  */
 void Tourniquet::updateViewModel()
 {
-    viewModel->setQuery("SELECT * FROM tourniquet as t");
+    ViewChangableEntity::updateViewModel();
+
+    viewModel->setQuery("SELECT t.number, "\
+                        "CASE "\
+                        "WHEN t.type = 0 "\
+                        "THEN 'Մուտք' "\
+                        "ELSE 'Ելք' "\
+                        "END as type "\
+                        "FROM tourniquet as t");
 }
 

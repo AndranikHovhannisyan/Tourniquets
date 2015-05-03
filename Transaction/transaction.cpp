@@ -115,11 +115,14 @@ void Transaction::importData()
     }
 }
 
+
 /**
  * @brief Transaction::updateViewModel
  */
 void Transaction::updateViewModel()
 {
+    ViewChangableEntity::updateViewModel();
+
     viewModel->setQuery("SELECT CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, t.type, tt.date_time "\
                         "FROM tourniquet_transaction as tt "\
                         "JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number "\

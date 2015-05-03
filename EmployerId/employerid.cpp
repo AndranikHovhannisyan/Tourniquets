@@ -121,6 +121,8 @@ void EmployerId::destroy()
  */
 void EmployerId::updateViewModel()
 {
+    ViewChangableEntity::updateViewModel();
+
     viewModel->setQuery("SELECT ei.emp_number, "\
                         "CASE "\
                         "WHEN ei.id_type = 0 "\

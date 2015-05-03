@@ -439,6 +439,8 @@ void Employer::setNullLivingAddressFields()
  */
 void Employer::updateViewModel()
 {
+    ViewChangableEntity::updateViewModel();
+
     viewModel->setQuery("SELECT * "\
                         "FROM employer as e");
 }

@@ -66,7 +66,5 @@ void addDialog::save()
 
     qDebug() << model->lastError();
     model->select();
-
-    qDebug() << rowNumber;
     emit ready(rowNumber);
 }
