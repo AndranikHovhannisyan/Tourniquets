@@ -26,7 +26,6 @@ public:
 
     addDialog* getAddDialog();
     void createWidgets();
-    void setTableViewModel();
 
 
 public slots:

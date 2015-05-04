@@ -84,12 +84,16 @@ void EditableEntity::setWidgetsInLayout()
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
 }
 
+#include <QScrollBar>
+#include <QDebug>
+
 /**
  * @brief EditableEntity::setTableViewModel
  */
 void EditableEntity::setTableViewModel()
 {
     tableView->setModel(getModel());
+    tableView->resizeColumnsToContents();
 }
 
 /**

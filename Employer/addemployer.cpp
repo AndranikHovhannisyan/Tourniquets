@@ -285,29 +285,31 @@ void addEmployer::init(QSqlRecord &record)
 
 
 
-    QSqlQueryModel *employerDepPositionModel = new QSqlQueryModel;
-    employerDepPositionModel->setQuery("SELECT dp.department_id, dp.position_id FROM employer_dep_positions as edp " \
-                         "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id " \
-                         "WHERE edp.employer_id = " + QString::number(employerId) +
-                         " AND edp.to IS NULL");
+    if (departmentPositions){
+        QSqlQueryModel *employerDepPositionModel = new QSqlQueryModel;
+        employerDepPositionModel->setQuery("SELECT dp.department_id, dp.position_id FROM employer_dep_positions as edp " \
+                             "JOIN dep_positions as dp ON edp.dep_positions_id = dp.id " \
+                             "WHERE edp.employer_id = " + QString::number(employerId) +
+                             " AND edp.to IS NULL");
 
-    int department_id = employerDepPositionModel->record(0).value("department_id").toInt();
-    int position_id = employerDepPositionModel->record(0).value("position_id").toInt();
+        int department_id = employerDepPositionModel->record(0).value("department_id").toInt();
+        int position_id = employerDepPositionModel->record(0).value("position_id").toInt();
 
-    QSqlRelationalTableModel* departmentModel = Department::create(model->database())->getModel();
-    int departmentCount = departmentModel->rowCount();
-    for(int i = 0; i < departmentCount; i++) {
-        if (departmentModel->record(i).value("id").toInt() == department_id) {
-            ui->department->setCurrentIndex(i);
-            break;
+        QSqlRelationalTableModel* departmentModel = Department::create(model->database())->getModel();
+        int departmentCount = departmentModel->rowCount();
+        for(int i = 0; i < departmentCount; i++) {
+            if (departmentModel->record(i).value("id").toInt() == department_id) {
+                ui->department->setCurrentIndex(i);
+                break;
+            }
         }
-    }
 
-    int positionCount = departmentPositions->rowCount();
-    for(int i = 0; i < positionCount; i++) {
-        if (departmentPositions->record(i).value("id").toInt() == position_id) {
-            ui->position->setCurrentIndex(i);
-            break;
+        int positionCount = departmentPositions->rowCount();
+        for(int i = 0; i < positionCount; i++) {
+            if (departmentPositions->record(i).value("id").toInt() == position_id) {
+                ui->position->setCurrentIndex(i);
+                break;
+            }
         }
     }
 }
@@ -400,83 +402,87 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
 
     //==================================== Department Position ======================================
 
-    int departmentId = Department::create(model->database())
-                                        ->getModel()
-                                        ->record(ui->department->currentIndex())
-                                        .value("id").toInt();
+    if (ui->department->currentIndex() >= 0 && ui->position->currentIndex() >= 0){
+        int departmentId = Department::create(model->database())
+                                            ->getModel()
+                                            ->record(ui->department->currentIndex())
+                                            .value("id").toInt();
 
-    int positionId = departmentPositions->record(ui->position->currentIndex())
-                                        .value("id").toInt();
+        int positionId = departmentPositions->record(ui->position->currentIndex())
+                                            .value("id").toInt();
 
-    QSqlRelationalTableModel *dep_position =  Department_Position::create(model->database())->getModel();
-    dep_position->setFilter("department_id = " + QString::number(departmentId) +
-                            " AND position_id = " + QString::number(positionId));
-    dep_position->select();
+        QSqlRelationalTableModel *dep_position =  Department_Position::create(model->database())->getModel();
+        dep_position->setFilter("department_id = " + QString::number(departmentId) +
+                                " AND position_id = " + QString::number(positionId));
+        dep_position->select();
 
-    if (dep_position->rowCount() == 1){
-        int departmentPositionId = dep_position->record(0).value("id").toInt();
+        if (dep_position->rowCount() == 1){
+            int departmentPositionId = dep_position->record(0).value("id").toInt();
 
-        QSqlQueryModel *lastEmployerDepPositionModel = new QSqlQueryModel;
+            QSqlQueryModel *lastEmployerDepPositionModel = new QSqlQueryModel;
 
-        //Check if this position is new create it
-        lastEmployerDepPositionModel->setQuery("SELECT edp.id FROM employer_dep_positions as edp " \
-                             " JOIN dep_positions as dp ON edp.dep_positions_id = dp.id"\
-                             " WHERE edp.employer_id = " + QString::number(employerId) +
-                             " AND edp.to IS NULL AND dp.id = " + QString::number(departmentPositionId));
-
-        if (lastEmployerDepPositionModel->rowCount() == 0)
-        {
-
-
-            lastEmployerDepPositionModel->setQuery("UPDATE employer_dep_positions as edp " \
-                                 " SET edp.to = '" +  QDate::currentDate().toString("yyyy-M-d") + "'"\
+            //Check if this position is new create it
+            lastEmployerDepPositionModel->setQuery("SELECT edp.id FROM employer_dep_positions as edp " \
+                                 " JOIN dep_positions as dp ON edp.dep_positions_id = dp.id"\
                                  " WHERE edp.employer_id = " + QString::number(employerId) +
-                                 " AND edp.to IS NULL");
+                                 " AND edp.to IS NULL AND dp.id = " + QString::number(departmentPositionId));
+
+            if (lastEmployerDepPositionModel->rowCount() == 0)
+            {
 
 
-            QSqlRelationalTableModel *employer_depPosition = Employer_DepPosition::create(model->database())->getModel();
-            QSqlRecord employer_depPositionRecord = employer_depPosition->record();
-            employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("employer_id"), QVariant(employerId));
-            employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("dep_positions_id"), QVariant(departmentPositionId));
-            employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("from"), QVariant(QDate::currentDate().toString("yyyy-M-d")));
-            employer_depPosition->insertRecord(-1, employer_depPositionRecord);
-            employer_depPosition->select();
+                lastEmployerDepPositionModel->setQuery("UPDATE employer_dep_positions as edp " \
+                                     " SET edp.to = '" +  QDate::currentDate().toString("yyyy-M-d") + "'"\
+                                     " WHERE edp.employer_id = " + QString::number(employerId) +
+                                     " AND edp.to IS NULL");
+
+
+                QSqlRelationalTableModel *employer_depPosition = Employer_DepPosition::create(model->database())->getModel();
+                QSqlRecord employer_depPositionRecord = employer_depPosition->record();
+                employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("employer_id"), QVariant(employerId));
+                employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("dep_positions_id"), QVariant(departmentPositionId));
+                employer_depPositionRecord.setValue(employer_depPositionRecord.indexOf("from"), QVariant(QDate::currentDate().toString("yyyy-M-d")));
+                employer_depPosition->insertRecord(-1, employer_depPositionRecord);
+                employer_depPosition->select();
+            }
         }
     }
 
     //======================================== Employer ID ==========================================
 
 
-    QString employerNumber = employerIdModel
-                                        ->record(ui->employerId->currentIndex())
-                                        .value("emp_number").toString();
+    if (ui->employerId->currentIndex() >= 0){
+        QString employerNumber = employerIdModel
+                                            ->record(ui->employerId->currentIndex())
+                                            .value("emp_number").toString();
 
-    QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
+        QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
 
-    lastEmployerIdModel->setQuery("SELECT eei.id FROM employer_employer_ids as eei " \
-                         " WHERE eei.employer_id = " + QString::number(employerId) +
-                         " AND eei.to IS NULL AND eei.emp_number = '" + employerNumber + "'");
-
-    if (lastEmployerIdModel->rowCount() == 0)
-    {
-        int employerIdType = employerIdModel
-                                        ->record(ui->employerId->currentIndex())
-                                        .value("id_type").toInt();
-
-        lastEmployerIdModel->setQuery("UPDATE employer_employer_ids as eei " \
-                             " JOIN employer_ids as ei ON eei.emp_number = ei.emp_number "\
-                             " SET eei.to = '" +  QDate::currentDate().toString("yyyy-M-d") + "'"\
+        lastEmployerIdModel->setQuery("SELECT eei.id FROM employer_employer_ids as eei " \
                              " WHERE eei.employer_id = " + QString::number(employerId) +
-                             " AND eei.to IS NULL AND ei.id_type = " + QString::number(employerIdType));
+                             " AND eei.to IS NULL AND eei.emp_number = '" + employerNumber + "'");
+
+        if (lastEmployerIdModel->rowCount() == 0)
+        {
+            int employerIdType = employerIdModel
+                                            ->record(ui->employerId->currentIndex())
+                                            .value("id_type").toInt();
+
+            lastEmployerIdModel->setQuery("UPDATE employer_employer_ids as eei " \
+                                 " JOIN employer_ids as ei ON eei.emp_number = ei.emp_number "\
+                                 " SET eei.to = '" +  QDate::currentDate().toString("yyyy-M-d") + "'"\
+                                 " WHERE eei.employer_id = " + QString::number(employerId) +
+                                 " AND eei.to IS NULL AND ei.id_type = " + QString::number(employerIdType));
 
 
-        QSqlRelationalTableModel *employer_employerId = Employer_EmployerId::create(model->database())->getModel();
-        QSqlRecord employer_employerIdRecord = employer_employerId->record();
-        employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("employer_id"), QVariant(employerId));
-        employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("emp_number"), QVariant(employerNumber));
-        employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("from"), QVariant(QDate::currentDate().toString("yyyy-M-d")));
-        employer_employerId->insertRecord(-1, employer_employerIdRecord);
-        employer_employerId->select();
+            QSqlRelationalTableModel *employer_employerId = Employer_EmployerId::create(model->database())->getModel();
+            QSqlRecord employer_employerIdRecord = employer_employerId->record();
+            employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("employer_id"), QVariant(employerId));
+            employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("emp_number"), QVariant(employerNumber));
+            employer_employerIdRecord.setValue(employer_employerIdRecord.indexOf("from"), QVariant(QDate::currentDate().toString("yyyy-M-d")));
+            employer_employerId->insertRecord(-1, employer_employerIdRecord);
+            employer_employerId->select();
+        }
     }
 }
 

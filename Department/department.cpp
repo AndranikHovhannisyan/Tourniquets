@@ -44,20 +44,7 @@ Department::Department(QSqlDatabase dbConnection, QMainWindow *mainWindow):
 void Department::createWidgets()
 {
     ViewChangableEntity::createWidgets();
-
-//    tableView->setFixedWidth(520);
 }
-
-/**
- * @brief Department::setTableViewModel
- */
-void Department::setTableViewModel()
-{
-    ViewChangableEntity::setTableViewModel();
-
-    tableView->resizeColumnsToContents();
-}
-
 
 /**
  * @brief Department::selectRow
@@ -93,8 +80,8 @@ void Department::selectRow(const QModelIndex &modelIndex) {
         positions_label->setAlignment(Qt::AlignCenter);
         positions_label->setFixedWidth(250);
 
-        mainLayout->addWidget(positions_label, 1, 8, 1, 2);
-        mainLayout->addWidget(positions, 2, 8, 10, 2);
+        mainLayout->addWidget(positions_label, 1, 16, 1, 3);
+        mainLayout->addWidget(positions, 2, 16, 10, 3);
     }
     else {
         delete positions;
