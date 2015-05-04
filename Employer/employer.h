@@ -75,7 +75,6 @@ public:
     void setNullLivingAddressFields();
 
     static Employer* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
-    void setTableViewModel();
     addDialog* getAddDialog();
 
 public slots:

@@ -54,36 +54,6 @@ Employer::Employer(QSqlDatabase dbConnection, QMainWindow *mainWindow):
 }
 
 /**
- * @brief Employer::setTableViewModel
- */
-void Employer::setTableViewModel()
-{
-    ViewChangableEntity::setTableViewModel();
-    tableView->resizeColumnsToContents();
-
-    getModel()->setHeaderData(1,  Qt::Horizontal, "Անուն");
-    getModel()->setHeaderData(2,  Qt::Horizontal, "Ազգանուն");
-    getModel()->setHeaderData(3,  Qt::Horizontal, "Հայրանուն");
-    getModel()->setHeaderData(4,  Qt::Horizontal, "Ծննդյան ամսաթիվ");
-    getModel()->setHeaderData(5,  Qt::Horizontal, "Անձնագրի սերիա");
-    getModel()->setHeaderData(6,  Qt::Horizontal, "Անձնագրի համար");
-    getModel()->setHeaderData(7,  Qt::Horizontal, "Տրման ամսաթիվ");
-    getModel()->setHeaderData(8,  Qt::Horizontal, "Ում կողմից");
-    getModel()->setHeaderData(9,  Qt::Horizontal, "Սեռը");
-    getModel()->setHeaderData(10, Qt::Horizontal, "Զինապարտություն");
-    getModel()->setHeaderData(11, Qt::Horizontal, "Ընտանեկան վիճակ");
-    getModel()->setHeaderData(12, Qt::Horizontal, "Երեխաների քանակ");
-    getModel()->setHeaderData(13, Qt::Horizontal, "Անչափահաս երեխաների քանակ");
-    getModel()->setHeaderData(16, Qt::Horizontal, "Գրաֆիկ");
-    getModel()->setHeaderData(17, Qt::Horizontal, "Բաժին");
-
-    tableView->hideColumn(0);  //Hide Id
-    tableView->hideColumn(14); //Hide register address id
-    tableView->hideColumn(15); //Hide living address id
-}
-
-
-/**
  * @brief Employer::selectRow
  * @param modelIndex
  */
@@ -413,14 +383,6 @@ void Employer::setNullLivingAddressFields()
     living_hNumber        = NULL;
 }
 
-/**
- * @brief Employer::updateViewModel
- */
-void Employer::updateViewModel()
-{
-    viewModel->setQuery("SELECT * "\
-                        "FROM employer as e");
-}
 
 /**
  * @brief getAddDialog
@@ -431,3 +393,51 @@ addDialog* Employer::getAddDialog()
     add_employer = add_employer ? add_employer : new addEmployer(getModel());
     return add_employer ;
 }
+
+/**
+ * @brief Employer::updateViewModel
+ */
+void Employer::updateViewModel()
+{
+    viewModel->setQuery("SELECT e.id, e.firstname, e.lastname, e.middlename, e.birth_date, "\
+                        "CONCAT(e.passport_series, ' ', e.passport_number), e.given_date, e.given_from, "\
+
+                        "CASE "\
+                        "WHEN e.gender = 0 "\
+                        "THEN 'Արական' "\
+                        "ELSE 'Իգական' "\
+                        "END as gender, "\
+
+                        "CASE "\
+                        "WHEN e.is_conscript = 0 "\
+                        "THEN 'Չծառայած' "\
+                        "ELSE 'Ծառայած' "\
+                        "END as conscript, "\
+
+                        "CASE "\
+                        "WHEN e.family_status = 0 "\
+                        "THEN 'Այրի' "\
+                        "WHEN e.family_status = 1 "\
+                        "THEN 'Ամուրի' "\
+                        "ELSE 'Ամուսնացած' "\
+                        "END as family_status, "\
+
+                        "e.children_num, e.minor_children_num "
+
+                        "FROM employer as e");
+
+
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Անուն");
+    viewModel->setHeaderData(2,  Qt::Horizontal, "Ազգանուն");
+    viewModel->setHeaderData(3,  Qt::Horizontal, "Հայրանուն");
+    viewModel->setHeaderData(4,  Qt::Horizontal, "Ծննդ․ ամս․");
+    viewModel->setHeaderData(5,  Qt::Horizontal, "Անձնագիր");
+    viewModel->setHeaderData(6,  Qt::Horizontal, "Տրման ամս․");
+    viewModel->setHeaderData(7,  Qt::Horizontal, "Ում կողմից");
+    viewModel->setHeaderData(8,  Qt::Horizontal, "Սեռը");
+    viewModel->setHeaderData(9,  Qt::Horizontal, "Զինապարտ․");
+    viewModel->setHeaderData(10, Qt::Horizontal, "Ընտ․ վիճակ");
+    viewModel->setHeaderData(11, Qt::Horizontal, "Երեխ․ քանակ");
+    viewModel->setHeaderData(12, Qt::Horizontal, "Անչափ․ երեխ․ ք․");
+}
+
