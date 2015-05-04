@@ -31,6 +31,7 @@ Schedule::Schedule(QSqlDatabase dbConnection, QMainWindow *mainWindow) :
     add_schedule = NULL;
 }
 
+
 /**
  * @brief Schedule::getAddDialog
  * @return
@@ -50,4 +51,9 @@ void Schedule::updateViewModel()
                         "FROM schedule as s "\
                         "JOIN schedule_type as st ON st.id = s.schedule_type_id "\
                         "ORDER BY s.id");
+
+    viewModel->setHeaderData(0,  Qt::Horizontal, "ID");
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Ստանդարտ մուտք");
+    viewModel->setHeaderData(2,  Qt::Horizontal, "Ստանդարտ ելք");
+    viewModel->setHeaderData(3,  Qt::Horizontal, "Ռեժիմ");
 }

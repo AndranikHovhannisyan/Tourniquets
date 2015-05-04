@@ -23,6 +23,21 @@ Address* Address::create(QSqlDatabase dbConnection, QMainWindow *mainWindow)
 }
 
 /**
+ * @brief Address::setTableViewModel
+ */
+void Address::setTableViewModel()
+{
+    EditableEntity::setTableViewModel();
+
+    getModel()->setHeaderData(0,  Qt::Horizontal, "ID");
+    getModel()->setHeaderData(1,  Qt::Horizontal, "Երկիր");
+    getModel()->setHeaderData(2,  Qt::Horizontal, "Քաղաք");
+    getModel()->setHeaderData(3,  Qt::Horizontal, "Փողոց");
+    getModel()->setHeaderData(4,  Qt::Horizontal, "Համար");
+}
+
+
+/**
  * @brief Address::Address
  */
 Address::Address(QSqlDatabase dbConnection, QMainWindow *mainWindow):

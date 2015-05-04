@@ -57,7 +57,7 @@ void addPhone::init(QSqlRecord &record)
  */
 void addPhone::clear() {
     ui->number->setText("");
-    ui->employer->setCurrentIndex(0);
+    ui->employer->setCurrentIndex(-1);
     ui->from_date->clear();
     ui->to_date->clear();
 }

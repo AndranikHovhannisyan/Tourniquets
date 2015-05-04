@@ -25,6 +25,19 @@ ScheduleType* ScheduleType::create(QSqlDatabase dbConnection, QMainWindow *mainW
 }
 
 /**
+ * @brief ScheduleType::setTableViewModel
+ */
+void ScheduleType::setTableViewModel()
+{
+    EditableEntity::setTableViewModel();
+
+    getModel()->setHeaderData(0,  Qt::Horizontal, "ID");
+    getModel()->setHeaderData(1,  Qt::Horizontal, "Անվանում");
+    getModel()->setHeaderData(2,  Qt::Horizontal, "Թույլատրելի ուշացում");
+    getModel()->setHeaderData(3,  Qt::Horizontal, "Անտեսվող շուտ եկած ժ․");
+}
+
+/**
  * @brief ScheduleType::ScheduleType
  */
 ScheduleType::ScheduleType(QSqlDatabase dbConnection, QMainWindow *mainWindow):

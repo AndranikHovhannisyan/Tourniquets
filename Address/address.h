@@ -19,6 +19,7 @@ public:
 
     static Address* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
     addDialog* getAddDialog();
+    void setTableViewModel();
 
 public slots:
 };

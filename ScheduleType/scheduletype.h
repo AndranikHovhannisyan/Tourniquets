@@ -15,6 +15,8 @@ private:
 
     addScheduleType *add_scheduleType;
     addDialog* getAddDialog();
+    void setTableViewModel();
+
 public:
 
     static ScheduleType* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);

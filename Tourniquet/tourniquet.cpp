@@ -57,5 +57,8 @@ void Tourniquet::updateViewModel()
                         "ELSE 'Ելք' "\
                         "END as type "\
                         "FROM tourniquet as t ");
+
+    viewModel->setHeaderData(0,  Qt::Horizontal, "Համարը");
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Տիպը");
 }
 
