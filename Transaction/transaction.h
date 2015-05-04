@@ -3,6 +3,7 @@
 
 #include <QSqlRelationalTableModel>
 #include <QTableView>
+#include <QCheckBox>
 #include <QGridLayout>
 #include "addtransaction.h"
 
@@ -21,6 +22,8 @@ private:
     addTransaction *add_transaction;
     QPushButton *importButton;
 
+    QCheckBox   *showOriginal;
+
 public:
     static Transaction* create(QSqlDatabase dbConnection, QMainWindow *mainWindow = NULL);
 
@@ -37,6 +40,8 @@ public slots:
 
     void importData();
     void destroy();
+
+    void changeModel(int);
 };
 
 #endif // TRANSACTION_H

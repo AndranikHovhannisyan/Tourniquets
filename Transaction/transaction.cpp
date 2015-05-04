@@ -36,6 +36,8 @@ Transaction::Transaction(QSqlDatabase dbConnection, QMainWindow *mainWindow):
 
     add_transaction = NULL;
     importButton    = NULL;
+
+    showOriginal    = NULL;
 }
 
 /**
@@ -46,6 +48,7 @@ void Transaction::createWidgets()
     ViewChangableEntity::createWidgets();
 
     importButton = importButton ? importButton : new QPushButton("Ներմուծել");
+    showOriginal = showOriginal ? showOriginal : new QCheckBox("Սկզբնականը");
 }
 
 /**
@@ -66,6 +69,7 @@ void Transaction::setWidgetsInLayout()
     ViewChangableEntity::setWidgetsInLayout();
 
     mainLayout->addWidget(importButton, 0, 6, 1, 2);
+    mainLayout->addWidget(showOriginal, 0, 8, 1, 2);
 }
 
 /**
@@ -76,6 +80,47 @@ void Transaction::setSignalSlotConnections()
     ViewChangableEntity::setSignalSlotConnections();
 
     QObject::connect(importButton, SIGNAL(clicked()), this, SLOT(importData()));
+    QObject::connect(showOriginal, SIGNAL(stateChanged(int)), this, SLOT(changeModel(int)));
+}
+
+#include <QDebug>
+
+/**
+ * @brief Transaction::changeModel
+ */
+void Transaction::changeModel(int isOriginal)
+{
+    //TODO:: need to change this solution
+    QString transactionTableName = "";
+    if (isOriginal){
+        transactionTableName = "original_tourniquet_transaction ";
+    }
+    else {
+        transactionTableName = "tourniquet_transaction ";
+
+    }
+
+    viewModel->setQuery("SELECT tt.id, CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, "\
+
+                        "CASE "\
+                        "WHEN t.type = 0 "\
+                        "THEN 'Մուտք' "\
+                        "ELSE 'Ելք' "\
+                        "END as type, "\
+
+                        "tt.date_time "\
+                        "FROM " + transactionTableName + " as tt "\
+                        "LEFT JOIN employer_employer_ids as eei ON eei.emp_number = tt.emp_number AND eei.to IS NULL "\
+                        "LEFT JOIN employer_ids as ei ON ei.emp_number = tt.emp_number "\
+                        "LEFT JOIN employer as e ON e.id = eei.employer_id "\
+                        "LEFT JOIN tourniquet as t ON t.number = tt.tourniquet_number "\
+                        "ORDER BY tt.id");
+
+    viewModel->setHeaderData(0,  Qt::Horizontal, "ID");
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Անունը");
+    viewModel->setHeaderData(2,  Qt::Horizontal, "Տուրնիկետը");
+    viewModel->setHeaderData(3,  Qt::Horizontal, "Մուտք/Ելք");
+    viewModel->setHeaderData(4,  Qt::Horizontal, "Անցման պահը");
 }
 
 /**
@@ -153,6 +198,12 @@ void Transaction::updateViewModel()
                         "LEFT JOIN employer as e ON e.id = eei.employer_id "\
                         "LEFT JOIN tourniquet as t ON t.number = tt.tourniquet_number "\
                         "ORDER BY tt.id");
+
+    viewModel->setHeaderData(0,  Qt::Horizontal, "ID");
+    viewModel->setHeaderData(1,  Qt::Horizontal, "Անունը");
+    viewModel->setHeaderData(2,  Qt::Horizontal, "Տուրնիկետը");
+    viewModel->setHeaderData(3,  Qt::Horizontal, "Մուտք/Ելք");
+    viewModel->setHeaderData(4,  Qt::Horizontal, "Անցման պահը");
 }
 
 /*

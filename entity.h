@@ -29,6 +29,7 @@ public slots:
     virtual void reselect(QModelIndex, QModelIndex){}
 
     virtual void importData(){}
+    virtual void changeModel(int){}
 
 signals:
     //After QSqlTableModel data changes need to run selectRow
