@@ -123,6 +123,17 @@ void Transaction::importData()
 
 
 /**
+ * @brief Transaction::destroy
+ */
+void Transaction::destroy()
+{
+    ViewChangableEntity::destroy();
+
+    delete importButton;
+    importButton = NULL;
+}
+
+/**
  * @brief Transaction::updateViewModel
  */
 void Transaction::updateViewModel()

@@ -248,32 +248,25 @@ void Employer::selectRow(const QModelIndex &modelIndex)
     phoneModel->setFilter("employer_id = " + QString::number(employer_id));
     phoneModel->select();
 
-    if (phoneModel->rowCount())
-    {
-        phone_numbers = phone_numbers ? phone_numbers : new QTableView;
-        phone_numbers->setModel(phoneModel);
-        phone_numbers->hideColumn(0);
-        phone_numbers->setColumnWidth(1, 70);
-        phone_numbers->setColumnWidth(2, 70);
-        phone_numbers->setColumnWidth(3, 140);
-        phone_numbers->setFixedHeight(120);
+    phone_numbers = phone_numbers ? phone_numbers : new QTableView;
+    phone_numbers->setModel(phoneModel);
+    phone_numbers->hideColumn(0);
+    phone_numbers->setColumnWidth(1, 70);
+    phone_numbers->setColumnWidth(2, 70);
+    phone_numbers->setColumnWidth(3, 140);
+    phone_numbers->setFixedHeight(120);
 
-        phone_numbers->verticalScrollBar()->setStyleSheet(
-            "QScrollBar:vertical { width: 1px; }");
+    phone_numbers->verticalScrollBar()->setStyleSheet(
+        "QScrollBar:vertical { width: 1px; }");
 
-        phone_number_label = phone_number_label ? phone_number_label : new QLabel("<b>Հեռախոսահամարներ</b>");
-        phone_number_label->setAlignment(Qt::AlignCenter);
-        phone_number_label->setFixedWidth(305);
+    phone_number_label = phone_number_label ? phone_number_label : new QLabel("<b>Հեռախոսահամարներ</b>");
+    phone_number_label->setAlignment(Qt::AlignCenter);
+    phone_number_label->setFixedWidth(305);
 
-        mainLayout->addWidget(phone_number_label, 17, 0, 1, 4);
-        mainLayout->addWidget(phone_numbers, 18, 0, 2, 4);
-    }
-    else {
-        delete phone_numbers;
-        delete phone_number_label;
-        phone_numbers      = NULL;
-        phone_number_label = NULL;
-    }
+    mainLayout->addWidget(phone_number_label, 17, 0, 1, 4);
+    mainLayout->addWidget(phone_numbers, 18, 0, 2, 4);
+
+
 
     //============================================================
     //===================== End Phone Number =====================
@@ -293,30 +286,23 @@ void Employer::selectRow(const QModelIndex &modelIndex)
                                          "WHERE edp.employer_id = " + QString::number(employer_id) + " "\
                                          "ORDER BY edp.id");
 
-    if (employerDepartmentPosition->rowCount())
-    {
-        employerDepartmentPosition->setHeaderData(0,  Qt::Horizontal, "Բաժին");
-        employerDepartmentPosition->setHeaderData(1,  Qt::Horizontal, "Պաշտոն");
 
-        department_positions = department_positions ? department_positions : new QTableView;
-        department_positions->setModel(employerDepartmentPosition);
-        department_positions->setFixedHeight(120);
+    employerDepartmentPosition->setHeaderData(0,  Qt::Horizontal, "Բաժին");
+    employerDepartmentPosition->setHeaderData(1,  Qt::Horizontal, "Պաշտոն");
 
-        department_positions->verticalScrollBar()->setStyleSheet(
-            "QScrollBar:vertical { width: 1px; }");
+    department_positions = department_positions ? department_positions : new QTableView;
+    department_positions->setModel(employerDepartmentPosition);
+    department_positions->setFixedHeight(120);
 
-        department_positions_label = department_positions_label ? department_positions_label : new QLabel("<b>Պաշտոններ</b>");
-        department_positions_label->setAlignment(Qt::AlignCenter);
+    department_positions->verticalScrollBar()->setStyleSheet(
+        "QScrollBar:vertical { width: 1px; }");
 
-        mainLayout->addWidget(department_positions_label, 17, 5, 1, 7);
-        mainLayout->addWidget(department_positions, 18, 5, 2, 7);
-    }
-    else {
-        delete department_positions;
-        delete department_positions_label;
-        department_positions       = NULL;
-        department_positions_label = NULL;
-    }
+    department_positions_label = department_positions_label ? department_positions_label : new QLabel("<b>Պաշտոններ</b>");
+    department_positions_label->setAlignment(Qt::AlignCenter);
+
+    mainLayout->addWidget(department_positions_label, 17, 4, 1, 8);
+    mainLayout->addWidget(department_positions, 18, 4, 2, 8);
+
 
     //============================================================
     //================= End Department Position ==================
@@ -334,29 +320,22 @@ void Employer::selectRow(const QModelIndex &modelIndex)
                                  "WHERE eei.employer_id = " + QString::number(employer_id) + " "\
                                  "ORDER BY eei.id");
 
-    if (employerEmployerId->rowCount())
-    {
-        employerEmployerId->setHeaderData(0,  Qt::Horizontal, "ԻԴ համար");
-        employerEmployerId->setHeaderData(1,  Qt::Horizontal, "ԻԴ֊ի տեսակը");
 
-        employer_ids = employer_ids ? employer_ids : new QTableView;
-        employer_ids->setModel(employerEmployerId);
-        employer_ids->setFixedHeight(120);
-        employer_ids->verticalScrollBar()->setStyleSheet(
-            "QScrollBar:vertical { width: 1px; }");
+    employerEmployerId->setHeaderData(0,  Qt::Horizontal, "ԻԴ համար");
+    employerEmployerId->setHeaderData(1,  Qt::Horizontal, "ԻԴ֊ի տեսակը");
 
-        employer_ids_label = employer_ids_label ? employer_ids_label : new QLabel("<b>Իդենտիֆիկացիոն համարներ</b>");
-        employer_ids_label->setAlignment(Qt::AlignCenter);
+    employer_ids = employer_ids ? employer_ids : new QTableView;
+    employer_ids->setModel(employerEmployerId);
+    employer_ids->setFixedHeight(120);
+    employer_ids->verticalScrollBar()->setStyleSheet(
+        "QScrollBar:vertical { width: 1px; }");
 
-        mainLayout->addWidget(employer_ids_label, 17, 13, 1, 7);
-        mainLayout->addWidget(employer_ids, 18, 13, 2, 7);
-    }
-    else {
-        delete employer_ids;
-        delete employer_ids_label;
-        employer_ids       = NULL;
-        employer_ids_label = NULL;
-    }
+    employer_ids_label = employer_ids_label ? employer_ids_label : new QLabel("<b>Իդենտիֆիկացիոն համարներ</b>");
+    employer_ids_label->setAlignment(Qt::AlignCenter);
+
+    mainLayout->addWidget(employer_ids_label, 17, 12, 1, 8);
+    mainLayout->addWidget(employer_ids, 18, 12, 2, 8);
+
 
     //============================================================
     //====================== End Employer ID =====================

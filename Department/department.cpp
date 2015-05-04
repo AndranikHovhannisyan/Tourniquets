@@ -45,7 +45,7 @@ void Department::createWidgets()
 {
     ViewChangableEntity::createWidgets();
 
-    tableView->setFixedWidth(520);
+//    tableView->setFixedWidth(520);
 }
 
 /**

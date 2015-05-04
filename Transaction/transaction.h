@@ -36,6 +36,7 @@ public:
 public slots:
 
     void importData();
+    void destroy();
 };
 
 #endif // TRANSACTION_H
