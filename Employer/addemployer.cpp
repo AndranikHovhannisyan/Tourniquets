@@ -33,6 +33,7 @@ addEmployer::addEmployer(QSqlRelationalTableModel *tableModel, QWidget *parent) 
 
     ui->familyStatus->insertItem(0, "Այրի");
     ui->familyStatus->insertItem(1, "Ամուրի");
+    ui->familyStatus->insertItem(2, "Ամուսնացած");
 
     ui->registerAddress->setModel(Address::create(model->database())->getModel());
     ui->livingAddress->setModel(Address::create(model->database())->getModel());

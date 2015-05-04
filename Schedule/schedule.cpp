@@ -46,7 +46,7 @@ addDialog* Schedule::getAddDialog()
  */
 void Schedule::updateViewModel()
 {
-    viewModel->setQuery("SELECT *, st.name "\
+    viewModel->setQuery("SELECT s.id, s.standart_in_time, s.standart_out_time, st.name "\
                         "FROM schedule as s "\
                         "JOIN schedule_type as st ON st.id = s.schedule_type_id "\
                         "ORDER BY s.id");

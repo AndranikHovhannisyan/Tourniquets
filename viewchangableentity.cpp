@@ -22,10 +22,9 @@ ViewChangableEntity::ViewChangableEntity(QSqlDatabase dbConnection, QMainWindow 
  */
 void ViewChangableEntity::setTableViewModel()
 {
-    EditableEntity::setTableViewModel();
-
     //Set tableView content
     tableView->setModel(getViewModel());
+    tableView->resizeColumnsToContents();
 }
 
 /**
