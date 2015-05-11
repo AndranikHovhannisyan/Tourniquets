@@ -453,9 +453,11 @@ void addEmployer::employerDepartmentPositionEmployerIdSave(int rowNumber)
 
 
     if (ui->employerId->currentIndex() >= 0){
+
         QString employerNumber = employerIdModel
                                             ->record(ui->employerId->currentIndex())
                                             .value("emp_number").toString();
+
 
         QSqlQueryModel *lastEmployerIdModel = new QSqlQueryModel;
 
@@ -496,7 +498,7 @@ void addEmployer::findFreeEmployerIds(int employerId)
     if (employerId) {
         additionalCondition = "AND eei1.employer_id != " + QString::number(employerId);
     }
-    employerIdModel->setQuery("SELECT DISTINCT ei.emp_number " \
+    employerIdModel->setQuery("SELECT DISTINCT ei.emp_number, ei.id_type " \
                               "FROM employer_ids as ei "
                               "LEFT JOIN employer_employer_ids as eei ON eei.emp_number = ei.emp_number "\
                               "WHERE NOT EXISTS (SELECT * FROM employer_employer_ids as eei1 "\
