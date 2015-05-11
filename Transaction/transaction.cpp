@@ -81,6 +81,8 @@ void Transaction::setSignalSlotConnections()
 
     QObject::connect(importButton, SIGNAL(clicked()), this, SLOT(importData()));
     QObject::connect(showOriginal, SIGNAL(stateChanged(int)), this, SLOT(changeModel(int)));
+
+    QObject::disconnect(tableView,    SIGNAL(doubleClicked(QModelIndex)), getAddDialog(), SLOT(initialize(QModelIndex)));
 }
 
 #include <QDebug>
@@ -94,10 +96,17 @@ void Transaction::changeModel(int isOriginal)
     QString transactionTableName = "";
     if (isOriginal){
         transactionTableName = "original_tourniquet_transaction ";
+
+        addButton->hide();
+        editButton->hide();
+        removeButton->hide();
     }
     else {
         transactionTableName = "tourniquet_transaction ";
 
+        addButton->show();
+        editButton->show();
+        removeButton->show();
     }
 
     viewModel->setQuery("SELECT tt.id, CONCAT(e.firstname, ' ', e.lastname), tt.tourniquet_number, "\
