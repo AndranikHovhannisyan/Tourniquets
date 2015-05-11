@@ -227,4 +227,115 @@ BEGIN
 END; $$
 DELIMITER ;
 
+
+
+***************************************************************************************
+
+
+
+DROP PROCEDURE IF EXISTS statistic;
+DELIMITER $$
+CREATE PROCEDURE statistic(department_id INT, employer_id INT, date_from DATE, date_to DATE)
+BEGIN
+
+
+SELECT d.name, CONCAT(e.firstname, ' ', e.lastname), DATE(tt1.date_time),
+
+CASE
+WHEN (TIMEDIFF(TIME(tt1.date_time), TIME(sh.standart_in_time)) < TIME(sh_ty.allow_lag)) AND
+     (TIMEDIFF(TIME(sh.standart_in_time), TIME(tt1.date_time)) < TIME(sh_ty.ignore_time))
+THEN TIME(sh.standart_in_time)
+ELSE TIME(tt1.date_time)
+END as in_time,
+
+CASE
+WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
+     (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
+THEN TIME(sh.standart_out_time)
+ELSE TIME(tt2.date_time)
+END as out_time,
+
+TIMEDIFF(
+    CASE
+    WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
+         (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
+    THEN TIME(sh.standart_out_time)
+    ELSE TIME(tt2.date_time)
+    END,
+
+    CASE
+    WHEN (TIMEDIFF(TIME(tt1.date_time), TIME(sh.standart_in_time)) < TIME(sh_ty.allow_lag)) AND
+         (TIMEDIFF(TIME(sh.standart_in_time), TIME(tt1.date_time)) < TIME(sh_ty.ignore_time))
+    THEN TIME(sh.standart_in_time)
+    ELSE TIME(tt1.date_time)
+    END
+) as workingTime,
+
+
+
+TIMEDIFF(
+    TIME(sh.standart_in_time),
+
+    CASE
+    WHEN (TIMEDIFF(TIME(tt1.date_time), TIME(sh.standart_in_time)) < TIME(sh_ty.allow_lag)) AND
+         (TIMEDIFF(TIME(sh.standart_in_time), TIME(tt1.date_time)) < TIME(sh_ty.ignore_time))
+    THEN TIME(sh.standart_in_time)
+    ELSE TIME(tt1.date_time)
+    END
+) as inViolation,
+
+TIMEDIFF(
+    CASE
+    WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
+         (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
+    THEN TIME(sh.standart_out_time)
+    ELSE TIME(tt2.date_time)
+    END,
+
+    TIME(sh.standart_out_time)
+
+) as outViolation
+
+
+FROM tourniquet_transaction as tt1
+
+JOIN employer_employer_ids as eei
+ON tt1.emp_number = eei.emp_number AND eei.to IS NULL
+
+JOIN employer as e
+ON eei.employer_id = e.id
+
+JOIN employer_dep_positions as edp
+ON e.id = edp.employer_id AND edp.to IS NULL
+
+JOIN dep_positions as dp
+ON edp.dep_positions_id = dp.id
+
+JOIN department as d
+ON dp.department_id = d.id
+
+JOIN tourniquet_transaction as tt2
+ON DATE(tt1.date_time) = DATE(tt1.date_time) AND tt1.emp_number = tt2.emp_number
+
+JOIN tourniquet as t1
+ON tt1.tourniquet_number = t1.number AND t1.type = 0
+
+JOIN tourniquet as t2
+ON tt2.tourniquet_number = t2.number AND t2.type = 1
+
+JOIN schedule as sh
+ON e.schedule_id = sh.id
+
+JOIN schedule_type as sh_ty
+ON sh.schedule_type_id = sh_ty.id
+
+WHERE (department_id = 0 OR d.id = department_id)
+AND (employer_id = 0 OR e.id = employer_id)
+AND (date_from IS NULL OR DATE(tt1.date_time) >= date_from)
+AND (date_to IS NULL OR DATE(tt1.date_time) <= date_to);
+
+END $$
+DELIMITER ;
+
+
 */
