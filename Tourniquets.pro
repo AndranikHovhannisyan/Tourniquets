@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     editableentity.cpp \
     viewchangableentity.cpp \
     Transaction/transaction.cpp \
-    Transaction/addtransaction.cpp
+    Transaction/addtransaction.cpp \
+    Report/report.cpp
 
 HEADERS  += mainwindow.h \
     constants.h \
@@ -70,7 +71,8 @@ HEADERS  += mainwindow.h \
     editableentity.h \
     viewchangableentity.h \
     Transaction/transaction.h \
-    Transaction/addtransaction.h
+    Transaction/addtransaction.h \
+    Report/report.h
 
 FORMS    += mainwindow.ui \
     Department/adddepartment.ui \
