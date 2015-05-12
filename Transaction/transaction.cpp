@@ -184,7 +184,10 @@ void Transaction::destroy()
     ViewChangableEntity::destroy();
 
     delete importButton;
+    delete showOriginal;
+
     importButton = NULL;
+    showOriginal = NULL;
 }
 
 /**
@@ -272,8 +275,9 @@ TIMEDIFF(
 ) as workingTime,
 
 
-
-TIMEDIFF(
+CASE
+WHEN
+(TIMEDIFF(
     TIME(sh.standart_in_time),
 
     CASE
@@ -282,19 +286,93 @@ TIMEDIFF(
     THEN TIME(sh.standart_in_time)
     ELSE TIME(tt1.date_time)
     END
-) as inViolation,
+) < 0)
+THEN (TIMEDIFF(
+    CASE
+    WHEN (TIMEDIFF(TIME(tt1.date_time), TIME(sh.standart_in_time)) < TIME(sh_ty.allow_lag)) AND
+         (TIMEDIFF(TIME(sh.standart_in_time), TIME(tt1.date_time)) < TIME(sh_ty.ignore_time))
+    THEN TIME(sh.standart_in_time)
+    ELSE TIME(tt1.date_time)
+    END,
 
-TIMEDIFF(
+    TIME(sh.standart_in_time)
+))
+ELSE null
+END as inLag,
+
+CASE
+WHEN
+(TIMEDIFF(
+    TIME(sh.standart_in_time),
+
+    CASE
+    WHEN (TIMEDIFF(TIME(tt1.date_time), TIME(sh.standart_in_time)) < TIME(sh_ty.allow_lag)) AND
+         (TIMEDIFF(TIME(sh.standart_in_time), TIME(tt1.date_time)) < TIME(sh_ty.ignore_time))
+    THEN TIME(sh.standart_in_time)
+    ELSE TIME(tt1.date_time)
+    END
+) > 0)
+THEN (TIMEDIFF(
+    TIME(sh.standart_in_time),
+
+    CASE
+    WHEN (TIMEDIFF(TIME(tt1.date_time), TIME(sh.standart_in_time)) < TIME(sh_ty.allow_lag)) AND
+         (TIMEDIFF(TIME(sh.standart_in_time), TIME(tt1.date_time)) < TIME(sh_ty.ignore_time))
+    THEN TIME(sh.standart_in_time)
+    ELSE TIME(tt1.date_time)
+    END
+))
+ELSE null
+END as inSoon,
+
+
+CASE
+WHEN
+(TIMEDIFF(
     CASE
     WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
          (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
     THEN TIME(sh.standart_out_time)
     ELSE TIME(tt2.date_time)
     END,
-
     TIME(sh.standart_out_time)
+) < 0)
+THEN (TIMEDIFF(
+    TIME(sh.standart_out_time),
 
-) as outViolation
+    CASE
+    WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
+         (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
+    THEN TIME(sh.standart_out_time)
+    ELSE TIME(tt2.date_time)
+    END
+))
+ELSE null
+END as outSoon,
+
+
+CASE
+WHEN
+(TIMEDIFF(
+    CASE
+    WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
+         (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
+    THEN TIME(sh.standart_out_time)
+    ELSE TIME(tt2.date_time)
+    END,
+    TIME(sh.standart_out_time)
+) > 0)
+THEN (TIMEDIFF(
+    CASE
+    WHEN (TIMEDIFF(TIME(tt2.date_time), TIME(sh.standart_out_time)) < TIME(sh_ty.ignore_time)) AND
+         (TIMEDIFF(TIME(sh.standart_out_time), TIME(tt2.date_time)) < TIME(sh_ty.allow_lag))
+    THEN TIME(sh.standart_out_time)
+    ELSE TIME(tt2.date_time)
+    END,
+    TIME(sh.standart_out_time)
+))
+ELSE null
+END as outLag
 
 
 FROM tourniquet_transaction as tt1

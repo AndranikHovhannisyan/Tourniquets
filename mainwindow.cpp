@@ -21,6 +21,7 @@
 #include "Phone/phone.h"
 
 #include "Transaction/transaction.h"
+#include "Report/report.h"
 
 /**
  * @brief MainWindow::MainWindow
@@ -45,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     entities["phone_number"]    = Phone::create(db, this);
 
     entities["transaction"]     = Transaction::create(db, this);
+    entities["report"]          = Report::create(db, this);
 
 
     connect(ui->department,     SIGNAL(triggered()), this, SLOT(infoWindow()));
@@ -58,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->phone_number,   SIGNAL(triggered()), this, SLOT(infoWindow()));
 
     connect(ui->transaction,    SIGNAL(triggered()), this, SLOT(infoWindow()));
+    connect(ui->report,         SIGNAL(triggered()), this, SLOT(infoWindow()));
 
     //Create a database connection
     db = QSqlDatabase::addDatabase("QMYSQL");
