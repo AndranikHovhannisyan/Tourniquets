@@ -31,6 +31,8 @@ public slots:
     virtual void importData(){}
     virtual void changeModel(int){}
 
+    virtual void setQuery(){}
+
 signals:
     //After QSqlTableModel data changes need to run selectRow
     //But because parameter count don't match then we use intermediate signal/slot

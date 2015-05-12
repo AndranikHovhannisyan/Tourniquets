@@ -87,10 +87,14 @@ void Report::select(QMainWindow *mainWindow)
 
     departments->setModel(Department::create(db)->getModel());
     departments->setModelColumn(1);
+    departments->setCurrentIndex(-1);
 
     employers->setModel(Employer::create(db)->getModel());
     employers->setModelColumn(1);
+    employers->setCurrentIndex(-1);
 
+
+    QObject::connect(filterButton, SIGNAL(clicked()), this, SLOT(setQuery()));
 
     QObject::connect(tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
     QObject::connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
@@ -138,7 +142,20 @@ void Report::selectRow(const QModelIndex &modelIndex) {
  * @brief Report::setModel
  */
 void Report::setQuery(){
-    model->setQuery("CALL statistic(0, 0, null, null)");
+
+    int departmentId = Department::create(db)->getModel()
+                                    ->record(departments->currentIndex())
+                                    .value("id").toInt();
+
+    int employerId = Employer::create(db)->getModel()
+                                    ->record(employers->currentIndex())
+                                    .value("id").toInt();
+
+    QDate from = dateFrom->date();
+    QDate to   = dateTo->date();
+
+    model->setQuery("CALL statistic(" + QString::number(departmentId) + ", " + QString::number(employerId) +
+                    ", '" + from.toString("yyyy-M-d") + "', '" + to.toString("yyyy-M-d") + "')");
 }
 
 /**
