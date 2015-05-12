@@ -42,6 +42,7 @@ Report::Report(QSqlDatabase dbConnection, QMainWindow *mainWindow)
     dateTo      = NULL;
 
     filterButton = NULL;
+    cancelFilterButton = NULL;
 }
 
 /**
@@ -58,7 +59,6 @@ void Report::select(QMainWindow *mainWindow)
     }
 
     //Create widgets
-    errorLabel   = errorLabel   ? errorLabel   : new QLabel;
     tableView    = tableView    ? tableView    : new QTableView();
     mainLayout   = mainLayout   ? mainLayout   : new QGridLayout;
 
@@ -68,7 +68,7 @@ void Report::select(QMainWindow *mainWindow)
     dateTo       = dateTo       ? dateTo       : new QDateEdit;
 
     filterButton = filterButton ? filterButton : new QPushButton("Ֆիլտրել");
-
+    cancelFilterButton = cancelFilterButton ? cancelFilterButton : new QPushButton("Չեղարկել");
 
     //Arrange widgets on window
     mainLayout->addWidget(departments, 0, 0, 1, 2);
@@ -76,25 +76,25 @@ void Report::select(QMainWindow *mainWindow)
     mainLayout->addWidget(dateFrom, 0, 4, 1, 2);
     mainLayout->addWidget(dateTo, 0, 6, 1, 2);
     mainLayout->addWidget(filterButton, 0, 8, 1, 2);
+    mainLayout->addWidget(cancelFilterButton, 0, 10, 1, 2);
 
-    mainLayout->addWidget(errorLabel, 0, 10, 1, 5);
     mainLayout->addWidget(tableView, 1, 0, 15, 15);
 
     parent->centralWidget()->setLayout(mainLayout);
 
-    tableView->setModel(getModel());
-    tableView->resizeColumnsToContents();
-
     departments->setModel(Department::create(db)->getModel());
     departments->setModelColumn(1);
-    departments->setCurrentIndex(-1);
 
     employers->setModel(Employer::create(db)->getModel());
     employers->setModelColumn(1);
-    employers->setCurrentIndex(-1);
 
+    cancelFilter();
 
-    QObject::connect(filterButton, SIGNAL(clicked()), this, SLOT(setQuery()));
+    tableView->setModel(getModel());
+    tableView->resizeColumnsToContents();
+
+    QObject::connect(filterButton, SIGNAL(clicked()), this, SLOT(filter()));
+    QObject::connect(cancelFilterButton, SIGNAL(clicked()), this, SLOT(cancelFilter()));
 
     QObject::connect(tableView, SIGNAL(pressed(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
     QObject::connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(selectRow(QModelIndex)));
@@ -106,7 +106,6 @@ void Report::select(QMainWindow *mainWindow)
  */
 void Report::destroy()
 {
-    delete errorLabel;
     delete tableView;
     delete mainLayout;
 
@@ -115,8 +114,8 @@ void Report::destroy()
     delete dateFrom;
     delete dateTo;
     delete filterButton;
+    delete cancelFilterButton;
 
-    errorLabel   = NULL;
     tableView    = NULL;
     mainLayout   = NULL;
 
@@ -125,6 +124,7 @@ void Report::destroy()
     dateFrom     = NULL;
     dateTo       = NULL;
     filterButton = NULL;
+    cancelFilterButton = NULL;
 }
 
 /**
@@ -141,7 +141,7 @@ void Report::selectRow(const QModelIndex &modelIndex) {
 /**
  * @brief Report::setModel
  */
-void Report::setQuery(){
+void Report::filter(){
 
     int departmentId = Department::create(db)->getModel()
                                     ->record(departments->currentIndex())
@@ -154,8 +154,22 @@ void Report::setQuery(){
     QDate from = dateFrom->date();
     QDate to   = dateTo->date();
 
-    model->setQuery("CALL statistic(" + QString::number(departmentId) + ", " + QString::number(employerId) +
+    getModel()->setQuery("CALL statistic(" + QString::number(departmentId) + ", " + QString::number(employerId) +
                     ", '" + from.toString("yyyy-M-d") + "', '" + to.toString("yyyy-M-d") + "')");
+}
+
+/**
+ * @brief Report::cancelFilter
+ */
+void Report::cancelFilter()
+{
+    QDate currentDate = QDate::currentDate();
+    departments->setCurrentIndex(-1);
+    employers->setCurrentIndex(-1);
+    dateFrom->setDate(QDate(currentDate.year(), 1, 1));
+    dateTo->setDate(QDate(currentDate.year() + 1, 1, 1));
+
+    filter();
 }
 
 /**
@@ -167,7 +181,7 @@ QSqlQueryModel* Report::getModel()
     //Check if model isn't created create it
     if (!model) {
         model = new QSqlQueryModel();
-        setQuery();
+        filter();
     }
 
     return model;

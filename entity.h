@@ -31,7 +31,8 @@ public slots:
     virtual void importData(){}
     virtual void changeModel(int){}
 
-    virtual void setQuery(){}
+    virtual void filter(){}
+    virtual void cancelFilter(){}
 
 signals:
     //After QSqlTableModel data changes need to run selectRow

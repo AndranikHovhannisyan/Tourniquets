@@ -33,6 +33,7 @@ private:
     QDateEdit   *dateTo;
 
     QPushButton *filterButton;
+    QPushButton *cancelFilterButton;
 
 
 public:
@@ -45,7 +46,8 @@ public slots:
     void select(QMainWindow *mainWindow = NULL);
     void destroy();
     void selectRow(const QModelIndex &modelIndex);
-    void setQuery();
+    void filter();
+    void cancelFilter();
 };
 
 
