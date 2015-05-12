@@ -156,6 +156,17 @@ void Report::filter(){
 
     getModel()->setQuery("CALL statistic(" + QString::number(departmentId) + ", " + QString::number(employerId) +
                     ", '" + from.toString("yyyy-M-d") + "', '" + to.toString("yyyy-M-d") + "')");
+
+    getModel()->setHeaderData(0,  Qt::Horizontal, "Բաժնի անունը");
+    getModel()->setHeaderData(1,  Qt::Horizontal, "Անուն ազգանուն");
+    getModel()->setHeaderData(2,  Qt::Horizontal, "Օրը");
+    getModel()->setHeaderData(3,  Qt::Horizontal, "Եկել է");
+    getModel()->setHeaderData(4,  Qt::Horizontal, "Գնացել է");
+    getModel()->setHeaderData(5,  Qt::Horizontal, "Աշխատած ժամանակը");
+    getModel()->setHeaderData(6,  Qt::Horizontal, "ՈՒշ է եկել");
+    getModel()->setHeaderData(7,  Qt::Horizontal, "Շուտ է եկել");
+    getModel()->setHeaderData(8,  Qt::Horizontal, "Շուտ է դուրս եկել");
+    getModel()->setHeaderData(9,  Qt::Horizontal, "Ուշ է դուրս եկել");
 }
 
 /**
@@ -163,11 +174,10 @@ void Report::filter(){
  */
 void Report::cancelFilter()
 {
-    QDate currentDate = QDate::currentDate();
     departments->setCurrentIndex(-1);
     employers->setCurrentIndex(-1);
-    dateFrom->setDate(QDate(currentDate.year(), 1, 1));
-    dateTo->setDate(QDate(currentDate.year() + 1, 1, 1));
+    dateFrom->setDate(QDate(QDate::currentDate().year(), 1, 1));
+    dateTo->setDate(QDate(QDate::currentDate().year() + 1, 1, 1));
 
     filter();
 }
