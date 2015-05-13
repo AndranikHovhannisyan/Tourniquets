@@ -393,7 +393,7 @@ JOIN department as d
 ON dp.department_id = d.id
 
 JOIN tourniquet_transaction as tt2
-ON DATE(tt1.date_time) = DATE(tt1.date_time) AND tt1.emp_number = tt2.emp_number
+ON DATE(tt1.date_time) = DATE(tt2.date_time) AND tt1.emp_number = tt2.emp_number
 
 JOIN tourniquet as t1
 ON tt1.tourniquet_number = t1.number AND t1.type = 0
